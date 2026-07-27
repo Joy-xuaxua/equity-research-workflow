@@ -2,7 +2,7 @@
 
 作者：[@rollingSirius](https://x.com/rollingSirius)
 
-英文文档：[README.en.md](README.en.md)
+英文文档：[README.en.md](README.en.md) ｜ 示例报告：[NVDA 英伟达](Example/EXAMPLE_NVDA.md) ｜ [GOOGL Alphabet](Example/EXAMPLE_GOOGL.md)
 
 **可能是最深度的 AI 投研报告 Skill。**
 

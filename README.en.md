@@ -2,7 +2,7 @@
 
 Author: [@rollingSirius](https://x.com/rollingSirius)
 
-中文文档：[README.md](README.md)
+中文文档：[README.md](README.md) ｜ Sample reports: [NVDA](Example/EXAMPLE_NVDA.md) ｜ [GOOGL](Example/EXAMPLE_GOOGL.md)
 
 **Possibly the deepest AI equity-research skill.**
 
