@@ -99,6 +99,18 @@ def detect_labels(text: str) -> List[str]:
             masked = masked.replace(label, "■" * len(label))
     return found
 
+
+def has_any(text: str, patterns: Sequence[str]) -> bool:
+    return any(pattern in text for pattern in patterns)
+
+
+def text_mentions_ai_capex(text: str) -> bool:
+    lower = text.lower()
+    return ("ai" in lower or "人工智能" in text or "cloud" in lower or "云" in text) and (
+        "capex" in lower or "资本开支" in text or "数据中心" in text
+    )
+
+
 def calibrate(price: float, lo: float, hi: float) -> str:
     if price < lo * 0.50:
         return "显著低估"
@@ -151,6 +163,62 @@ def check_report(path: str, assumptions: Optional[Dict], issues: List[Issue]) ->
         add(issues, "P2", "REPORT_NO_SCENARIO_VALUATION", "报告未发现情景估值或概率加权讨论。", file=path)
     if "epv" not in lower and "盈利能力价值" not in text and "三要素" not in text:
         add(issues, "P2", "REPORT_NO_EPV", "报告未发现 EPV/三要素估值交叉验证。", file=path)
+
+    has_decision_triad = all(
+        marker in text
+        for marker in ["内在价值判断", "未来 1–3 个月市场交易方向", "投资动作"]
+    )
+    if not has_decision_triad:
+        add(
+            issues,
+            "P2",
+            "REPORT_NO_DECISION_TRIAD",
+            "报告未发现决策三分法：内在价值判断 / 未来 1–3 个月市场交易方向 / 投资动作。",
+            file=path,
+        )
+
+    has_upside = has_any(text, ["上行证伪", "踏空", "上修证伪"])
+    has_downside = has_any(text, ["下行证伪", "下修证伪", "破坏本报告乐观"])
+    if "证伪信号" in text and not (has_upside and has_downside):
+        add(
+            issues,
+            "P2",
+            "REPORT_DISCONFIRMATION_DIRECTION_AMBIGUOUS",
+            "报告出现“证伪信号”，但未同时区分上行证伪与下行证伪。",
+            file=path,
+        )
+    if "观望" in text and not has_upside:
+        add(
+            issues,
+            "P2",
+            "REPORT_WAIT_NO_UPSIDE_DISCONFIRMATION",
+            "报告含“观望”动作，但未发现上行证伪/踏空条件。",
+            file=path,
+        )
+
+    if "未来 1–3 个月市场交易方向" in text and not has_any(text, ["市场最可能", "先交易", "再定价", "重定价"]):
+        add(
+            issues,
+            "P3",
+            "REPORT_MARKET_PATH_UNEXPLAINED",
+            "报告写了未来 1–3 个月市场交易方向，但未解释市场最可能先交易的变量。",
+            file=path,
+        )
+
+    if text_mentions_ai_capex(text) and not (
+        "维护性 capex" in lower
+        or "维护性资本开支" in text
+        or "成长性 capex" in lower
+        or "成长性资本开支" in text
+        or "维护性/成长" in text
+    ):
+        add(
+            issues,
+            "P2",
+            "REPORT_AI_CAPEX_NOT_SPLIT",
+            "报告讨论 AI/cloud/data center capex，但未拆分维护性 capex 与成长性 capex 或说明无法获取拆分。",
+            file=path,
+        )
 
     if assumptions:
         price = parse_number(assumptions.get("price"))
@@ -205,6 +273,7 @@ def check_assumptions(path: str, issues: List[Issue]) -> Dict:
         seen = set()
         for idx, sc in enumerate(scenarios):
             name = str(sc.get("name") or f"scenario_{idx}")
+            name_key = norm_key(name)
             if name in seen:
                 add(issues, "P2", "DCF_DUPLICATE_SCENARIO", "情景名称重复。", name, path)
             seen.add(name)
@@ -215,6 +284,20 @@ def check_assumptions(path: str, issues: List[Issue]) -> Dict:
                 prob_sum += prob
                 if prob < 0 or prob > 1:
                     add(issues, "P0", "DCF_SCENARIO_PROB_OUT_OF_RANGE", "情景概率必须在 0 到 1 之间。", f"{name}: prob={prob}", path)
+            evidence = str(sc.get("evidence_strength") or sc.get("evidence") or "").strip()
+            if not evidence:
+                add(issues, "P3", "DCF_SCENARIO_NO_EVIDENCE_STRENGTH", "情景未标注当前证据强度（弱/中/中强/强）。", name, path)
+            elif prob is not None and ("bull" in name_key or "bear" in name_key or "牛" in name or "熊" in name):
+                strong_evidence = evidence in {"中强", "强", "medium-high", "high", "strong"}
+                if strong_evidence and prob < 0.25:
+                    add(
+                        issues,
+                        "P2",
+                        "DCF_STRONG_EVIDENCE_LOW_PROBABILITY",
+                        "非基准情景已有中强/强证据，但概率仍低于 25%；需提高概率或解释为什么仍是尾部情景。",
+                        f"{name}: prob={prob}, evidence_strength={evidence}",
+                        path,
+                    )
             if "fcf" not in sc:
                 revenue = sc.get("revenue")
                 margin = sc.get("fcf_margin")
@@ -523,6 +606,8 @@ def write_demo_files(tmp: str) -> Tuple[str, str, str]:
         f.write(
             "# Demo 投资结论\n\n"
             "截至 2026-07-21，来源 Demo。我的判断：公司合理。\n\n"
+            "> 内在价值判断：合理｜未来 1–3 个月市场交易方向：中性｜投资动作：观望。\n"
+            "> 市场最可能先交易收入增速和 FCF 修复；上行证伪：增长显著加速；下行证伪：FCF 继续恶化。\n\n"
             "估值由 scripts/dcf.py 运行，包含反向 DCF、情景 DCF、EPV / 盈利能力价值。\n\n"
             "数据来源与时间戳：Demo 2026-07-21。未获取到：无。\n"
         )
@@ -537,9 +622,9 @@ def write_demo_files(tmp: str) -> Tuple[str, str, str]:
                 "range_low": 80.0,
                 "range_high": 110.0,
                 "scenarios": [
-                    {"name": "bear", "prob": 0.3, "revenue": [100, 105], "fcf_margin": [0.10, 0.11]},
-                    {"name": "base", "prob": 0.5, "revenue": [100, 115], "fcf_margin": [0.12, 0.14]},
-                    {"name": "bull", "prob": 0.2, "revenue": [100, 130], "fcf_margin": [0.15, 0.18]},
+                    {"name": "bear", "prob": 0.3, "evidence_strength": "中", "revenue": [100, 105], "fcf_margin": [0.10, 0.11]},
+                    {"name": "base", "prob": 0.5, "evidence_strength": "中", "revenue": [100, 115], "fcf_margin": [0.12, 0.14]},
+                    {"name": "bull", "prob": 0.2, "evidence_strength": "弱", "revenue": [100, 130], "fcf_margin": [0.15, 0.18]},
                 ],
                 "epv": {
                     "earnings_basis": "NOPAT",

@@ -120,7 +120,7 @@ SaaS 内在价值可以拆成：
 - R&D：高增长公司不能过早假设成熟利润率。若平台重构或 AI 产品投入期，研发杠杆应更慢释放。
 - G&A：可随规模下降，但上市公司合规成本、并购整合、国际化会设下限。
 - SBC：同时进入 diluted shares 和真实经济成本讨论；Non-GAAP margin 不能替代 FCF。
-- FCF：从经营现金流、capex、capitalized software、租赁和 deferred revenue 变化解释，不只贴一个 margin。
+- FCF：从经营现金流、capex、capitalized software、租赁和 deferred revenue 变化解释，不只贴一个 margin。AI 推理、模型训练、数据中心或平台迁移导致 capex/资本化软件上升时，必须拆分维护性 capex 与成长性 capex；维护性 FCF 和成长投入回报路径分开判断。
 
 ### 稳态假设边界
 
@@ -135,6 +135,7 @@ SaaS 内在价值可以拆成：
 1. **反向 DCF**：由现价倒推需要的稳态 ARR/revenue、FCF margin、增长年限和终局市场份额。用于回答“市场已经 price in 了什么”。
 2. **三情景 DCF**：bear/base/bull 分别设置收入增速、FCF margin、稀释率和终值；概率和为 1，并做不利概率压力测试。
 3. **相对估值**：EV/Revenue、EV/ARR、EV/FCF 或 P/FCF。高增长亏损期可用 EV/Revenue，但必须用 Rule of 40 和增长质量校正。
+4. **成长性 capex / AI 成本桥**：当 AI 相关基础设施、训练/推理成本或资本化软件投入显著时，给出维护性 FCF、成长性投入、单位推理成本趋势和新增 ARR/usage 的转化关系；不能只用短期 FCF margin 下滑否定增长质量。
 
 ### 可选
 
@@ -169,6 +170,7 @@ SaaS 内在价值可以拆成：
 | 指引 | revenue、operating margin、FCF、RPO 或 ARR 指引是否改变长期模型？ |
 | 电话会 | demand、pipeline、budget scrutiny、AI monetization、pricing、seat expansion、churn 的措辞是否变强或变弱？ |
 | 估值桥 | 新财报如何改变未来收入路径、稳态 FCF margin、稀释率、WACC 或情景概率？ |
+| 市场交易方向 | 未来 1–3 个月市场更可能交易 AI monetization、usage 增速、RPO/cRPO、利润率修复、还是 FCF/capex 压力？ |
 
 财报后价格反应要扣除市场和同业表现：若公司上涨 8%，但 SaaS peer basket 同日上涨 5%，公司特异反应约为 +3%。
 
