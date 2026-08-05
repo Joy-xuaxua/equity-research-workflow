@@ -190,7 +190,7 @@ git clone https://github.com/rollingSirius/equity-research-skill.git .claude/ski
 | Codex CLI | "先读 skills/equity-research/SKILL.md，再按它分析 NVDA"。 |
 | 其他 Agent | "先读取 skills/equity-research/SKILL.md 并严格按其流程执行，然后研究 <股票>"。 |
 
-未指明输出格式时，报告默认以 **PDF** 交付；可在请求中指明 `.md`、`.docx` 或 `.xlsx`（估值 workbook）。
+未指明输出格式时，报告默认以 **PDF** 交付；可在请求中指明 `.md`、`.docx` 或 `.xlsx`（估值 workbook）。报告语言默认跟随用户请求语言或当前常用沟通语言，也可显式指定“用中文输出”或“write the report in English”。
 
 ## 适合什么场景
 
@@ -205,7 +205,7 @@ git clone https://github.com/rollingSirius/equity-research-skill.git .claude/ski
 
 ## 输出物
 
-**交付给用户的只有一份报告，默认 PDF 格式**（可指明 .md/.docx/.xlsx）。报告本身包含：
+**交付给用户的只有一份报告，默认 PDF 格式**（可指明 .md/.docx/.xlsx；语言可自动判定或显式指定）。报告本身包含：
 
 - 结论框 + Tearsheet + 预期差对比表（报告头部三件套）。
 - 至少三种估值方法的交叉验证与估值区间对比图。

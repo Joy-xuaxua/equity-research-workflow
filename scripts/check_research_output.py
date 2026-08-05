@@ -23,6 +23,16 @@ from typing import Dict, Iterable, List, Optional, Sequence, Tuple
 
 SEVERITY_RANK = {"P0": 0, "P1": 1, "P2": 2, "P3": 3}
 LABELS = ["显著低估", "低估", "合理", "高估", "显著高估"]
+LABEL_ALIASES = {
+    "显著低估": ["显著低估", "significantly undervalued", "deeply undervalued"],
+    "低估": ["低估", "undervalued"],
+    "合理": ["合理", "fairly valued", "fair value", "fairly priced"],
+    "高估": ["高估", "overvalued"],
+    "显著高估": ["显著高估", "significantly overvalued", "deeply overvalued"],
+}
+MISSING_DATA_MARKERS = ["未获取到", "not obtained", "not available", "unavailable", "not disclosed", "not found"]
+JUDGMENT_MARKERS = ["我的判断", "my view", "my judgment", "my assessment", "assessment:"]
+SOURCE_MARKERS = ["数据来源", "来源", "sources and timestamps", "data sources", "sources", "source:"]
 
 
 @dataclass
@@ -65,7 +75,7 @@ def parse_number(value) -> Optional[float]:
             return None
         return float(value)
     s = str(value).strip()
-    if not s or s in {"-", "—", "N/A", "NA", "n/a", "未获取到"}:
+    if not s or s in {"-", "—", "N/A", "NA", "n/a", "未获取到", "not obtained", "not available"}:
         return None
     mult = 1.0
     if s.endswith("%"):
@@ -90,18 +100,23 @@ def close_enough(a: float, b: float, rel_tol: float = 0.015, abs_tol: float = 0.
 
 
 def detect_labels(text: str) -> List[str]:
-    """长标签优先匹配，避免“显著低估”被同时计为“低估”。"""
+    """长标签优先匹配，避免“显著低估”被同时计为“低估”；英文标签返回中文 canonical。"""
     found: List[str] = []
-    masked = text
-    for label in sorted(LABELS, key=len, reverse=True):
-        if label in masked:
-            found.append(label)
-            masked = masked.replace(label, "■" * len(label))
+    masked = text.lower()
+    aliases = []
+    for canonical, values in LABEL_ALIASES.items():
+        for alias in values:
+            aliases.append((canonical, alias.lower()))
+    for canonical, alias in sorted(aliases, key=lambda item: len(item[1]), reverse=True):
+        if alias in masked and canonical not in found:
+            found.append(canonical)
+            masked = masked.replace(alias, "■" * len(alias))
     return found
 
 
 def has_any(text: str, patterns: Sequence[str]) -> bool:
-    return any(pattern in text for pattern in patterns)
+    lower = text.lower()
+    return any(pattern.lower() in lower for pattern in patterns)
 
 
 def text_mentions_ai_capex(text: str) -> bool:
@@ -147,26 +162,27 @@ def check_report(path: str, assumptions: Optional[Dict], issues: List[Issue]) ->
     text = load_text(path)
     lower = text.lower()
 
-    if "数据来源" not in text and "来源" not in text:
+    if not has_any(text, SOURCE_MARKERS):
         add(issues, "P1", "REPORT_NO_SOURCE_SECTION", "报告未发现来源清单或来源说明。", file=path)
     if not re.search(r"20\d{2}[-年/.]\d{1,2}", text):
         add(issues, "P2", "REPORT_NO_TIMESTAMP", "报告未发现明确日期或时间戳。", file=path)
-    if "未获取到" not in text:
-        add(issues, "P3", "REPORT_NO_MISSING_DATA_MARKER", "报告未出现“未获取到”；若确无缺失数据可忽略。", file=path)
-    if "我的判断" not in text:
-        add(issues, "P2", "REPORT_NO_JUDGMENT_MARKER", "报告未显式标注“我的判断”，事实与判断可能混在一起。", file=path)
+    if not has_any(text, MISSING_DATA_MARKERS):
+        add(issues, "P3", "REPORT_NO_MISSING_DATA_MARKER", "报告未出现缺失数据标记（如“未获取到”或“Not obtained”）；若确无缺失数据可忽略。", file=path)
+    if not has_any(text, JUDGMENT_MARKERS):
+        add(issues, "P2", "REPORT_NO_JUDGMENT_MARKER", "报告未显式标注判断（如“我的判断”或“My view”），事实与判断可能混在一起。", file=path)
     if "scripts/dcf.py" not in text and "dcf.py" not in lower:
         add(issues, "P2", "REPORT_NO_DCF_SCRIPT_EVIDENCE", "报告未说明 DCF/EPV 由脚本执行。", file=path)
-    if "反向 dcf" not in lower and "反向DCF" not in text:
+    if "反向 dcf" not in lower and "反向DCF" not in text and "reverse dcf" not in lower:
         add(issues, "P2", "REPORT_NO_REVERSE_DCF", "报告未发现反向 DCF 框架。", file=path)
     if "情景" not in text and "scenario" not in lower:
         add(issues, "P2", "REPORT_NO_SCENARIO_VALUATION", "报告未发现情景估值或概率加权讨论。", file=path)
     if "epv" not in lower and "盈利能力价值" not in text and "三要素" not in text:
         add(issues, "P2", "REPORT_NO_EPV", "报告未发现 EPV/三要素估值交叉验证。", file=path)
 
-    has_decision_triad = all(
-        marker in text
-        for marker in ["内在价值判断", "未来 1–3 个月市场交易方向", "投资动作"]
+    has_decision_triad = (
+        has_any(text, ["内在价值判断", "intrinsic value view", "intrinsic value judgment"])
+        and has_any(text, ["未来 1–3 个月市场交易方向", "1-3 month market trading direction", "1–3 month market trading direction"])
+        and has_any(text, ["投资动作", "action:", "investment action"])
     )
     if not has_decision_triad:
         add(
@@ -177,9 +193,9 @@ def check_report(path: str, assumptions: Optional[Dict], issues: List[Issue]) ->
             file=path,
         )
 
-    has_upside = has_any(text, ["上行证伪", "踏空", "上修证伪"])
-    has_downside = has_any(text, ["下行证伪", "下修证伪", "破坏本报告乐观"])
-    if "证伪信号" in text and not (has_upside and has_downside):
+    has_upside = has_any(text, ["上行证伪", "踏空", "上修证伪", "upside invalidation", "upside disconfirmation", "upside risk"])
+    has_downside = has_any(text, ["下行证伪", "下修证伪", "破坏本报告乐观", "downside invalidation", "downside disconfirmation", "downside risk"])
+    if has_any(text, ["证伪信号", "invalidation signal", "disconfirmation signal"]) and not (has_upside and has_downside):
         add(
             issues,
             "P2",
@@ -187,7 +203,7 @@ def check_report(path: str, assumptions: Optional[Dict], issues: List[Issue]) ->
             "报告出现“证伪信号”，但未同时区分上行证伪与下行证伪。",
             file=path,
         )
-    if "观望" in text and not has_upside:
+    if has_any(text, ["观望", "wait and see", "hold off", "watch"]) and not has_upside:
         add(
             issues,
             "P2",
@@ -196,7 +212,7 @@ def check_report(path: str, assumptions: Optional[Dict], issues: List[Issue]) ->
             file=path,
         )
 
-    if "未来 1–3 个月市场交易方向" in text and not has_any(text, ["市场最可能", "先交易", "再定价", "重定价"]):
+    if has_any(text, ["未来 1–3 个月市场交易方向", "1-3 month market trading direction", "1–3 month market trading direction"]) and not has_any(text, ["市场最可能", "先交易", "再定价", "重定价", "market is most likely", "trade first", "repricing", "re-rating"]):
         add(
             issues,
             "P3",

@@ -1,8 +1,8 @@
 # 报告模板：九章结构（v2）
 
-严格按以下章节顺序输出。**撰写前先读 `references/output-format.md`**（结论框/Tearsheet/本章要点/数字规范/football field 画法均在其中）。没有的数据写"未获取到"，不要留空表头。
+严格按以下章节顺序输出。**撰写前先读 `references/output-format.md`**（结论框/Tearsheet/本章要点/数字规范/football field 画法均在其中）。没有的数据按报告语言写"未获取到"或"Not obtained"，不要留空表头。
 
-格式约定：标题 `# 公司名（代码）个股投资研究报告`，副标题标"撰写日期 / 数据截止日 / 报告币种"。A/H 标的第六章末附两地对比、第一/九章分市场结论。
+格式约定：标题按报告语言生成；中文用 `# 公司名（代码）个股投资研究报告`，英文用 `# Company (Ticker) Equity Research Report`。副标题标"撰写日期 / 数据截止日 / 报告币种"或英文等价 `"Report date / Data cutoff / Reporting currency"`。A/H 标的第六章末附两地对比、第一/九章分市场结论。
 
 ---
 
@@ -14,6 +14,8 @@
 2. **Tearsheet 快照表**：现价/市值/52周/关键倍数/护城河/可信度/催化剂 Top1/上行证伪 Top1/下行证伪 Top1（每行来源+时间戳）。
 3. **预期差 Gap 表**（本模板的分析主线，骨架见 `expectations-investing.md`）：市场隐含 vs 我的预期 vs base rate 分位，净预期差方向。
 4. 核心多空逻辑各 3 条（精炼、可证伪）。
+
+英文报告使用同一九章结构的英文标题：Executive Summary; Business Overview; Business and Competitive Analysis; Management, Governance, and Capital Allocation; Financial Analysis and Earnings Quality; Valuation; Analyst View Summary; Recent News and Catalysts; Investment Conclusion, Counter-Case, and Position Sizing. 表格字段、缺失数据标记和免责声明同步改为英文。
 
 ## 二、业务详情
 
@@ -99,3 +101,5 @@
 1. **数据来源与时间戳清单**：| 数据项 | 来源 | 时间 |
 2. **估值关键假设摘要**与 `check_research_output.py` 检查结果摘要（JSON 与脚本原始输出为内部留档文件，不随报告交付；用户索要时提供）。
 3. 免责声明：非持牌投顾、不构成投资建议。
+
+英文报告附录使用等价标题：**Sources and timestamps**、**Key valuation assumptions and checker summary**、**Disclaimer: not investment advice**。

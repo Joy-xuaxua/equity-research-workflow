@@ -6,6 +6,8 @@
 
 依次为：结论框 → Tearsheet → 预期差 Gap 表。读者 60 秒内应获得完整决策信息。
 
+**报告语言**：默认使用用户请求语言；若用户未明确，用当前对话中用户与 Agent 的常用沟通语言。用户显式指定语言时优先遵守。标题、章节名、缺失数据标记、事实/判断标记、免责声明和图表说明必须统一语言；英文报告使用 `My view` / `Not obtained` / `Sources and timestamps` 等等价标记。
+
 **结论框**（引用块，放标题之后第一屏）：
 
 > **内在价值判断：低估**｜**未来 1–3 个月市场交易方向：偏上**｜**投资动作：分批买入**
@@ -17,9 +19,17 @@
 
 **方向纪律**：内在价值判断回答"值多少钱"，市场交易方向回答"接下来 1–3 个月市场最可能先交易哪个变量"，投资动作回答"在当前赔率和不确定性下怎么做"。三者可以不同，但不能混写成一句结论。
 
+英文报告可用等价头部：
+
+> **Intrinsic value view: Undervalued** | **1-3 month market trading direction: Upward bias** | **Action: Accumulate in tranches**
+> (Valuation label from the calibration rule | Earnings credibility A | Confidence: Medium-high)
+> One-sentence thesis: The market prices X as Y, but evidence Z suggests...
+> Fair value range $L-$H (current price $P, implied upside +a% to +b%) | Upside invalidation: ... | Downside invalidation: ...
+
 ## 2. 章节写法
 
 - 每章第一行：**「本章要点：」+ ≤2 句结论**。先给答案再给论证，读者可只读要点扫完全文。
+- 英文报告每章第一行使用 **"Key takeaways:"**；中文报告使用 **"本章要点："**。
 - 段落 ≤5 行；超过就拆或改表格。连续 3 段没有数字的分析要警惕——多半是空话。
 - "事实"与"我的判断"用标记显式分离；判断句给出依据编号或数据。
 - 图表就近原则：表格紧跟引用它的论述，不集中堆在章末。
@@ -56,7 +66,7 @@ EVA/剩余收益          ▓▓▓▓▓▓▓ 160———205
 
 | 产物 | 角色 | 说明 |
 |---|---|---|
-| 九章报告 **PDF** | **交付物（默认）** | 用户未指明格式时一律交付 PDF；由 .md 源稿转换（pdf 技能或 md→PDF 工具链），确认中文字体与表格渲染 |
+| 九章报告 **PDF** | **交付物（默认）** | 用户未指明格式时一律交付 PDF；由 .md 源稿转换（pdf 技能或 md→PDF 工具链），确认报告语言对应字体与表格渲染 |
 | 报告 .md / .docx / .xlsx workbook | 交付物（仅用户指明时） | xlsx workbook 含假设/DCF/情景/输出四页（xlsx 技能） |
 | Tearsheet | 交付物（内嵌） | 报告头部内嵌，非独立文件 |
 | 估值假设 JSON | 内部留档 | dcf.py config，留在工作目录供复算；关键假设以摘要写入报告附录 |

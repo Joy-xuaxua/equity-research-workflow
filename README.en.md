@@ -190,7 +190,7 @@ You can also invoke the skill explicitly:
 | Codex CLI | "Read `skills/equity-research/SKILL.md` first, then analyze NVDA following it." |
 | Other agents | "Read `skills/equity-research/SKILL.md` and follow its workflow strictly, then research \<ticker\>." |
 
-When no output format is specified, the report is delivered as **PDF** by default; you can ask for `.md`, `.docx`, or `.xlsx` (valuation workbook) in the request.
+When no output format is specified, the report is delivered as **PDF** by default; you can ask for `.md`, `.docx`, or `.xlsx` (valuation workbook) in the request. The report language defaults to the user's request language or the current working conversation language, and can be explicitly set, e.g. "write the report in English" or "用中文输出".
 
 ## When it fits
 
@@ -205,7 +205,7 @@ When no output format is specified, the report is delivered as **PDF** by defaul
 
 ## Outputs
 
-**The user receives exactly one report, PDF by default** (`.md`/`.docx`/`.xlsx` on request). The report itself contains:
+**The user receives exactly one report, PDF by default** (`.md`/`.docx`/`.xlsx` on request; language can be auto-detected or explicitly specified). The report itself contains:
 
 - The verdict box, tearsheet, and expectations-gap table (the three-part report header).
 - Cross-validation across at least three valuation methods, plus a football-field chart.
