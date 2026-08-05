@@ -2,7 +2,7 @@
 
 Author: [@rollingSirius](https://x.com/rollingSirius)
 
-中文文档：[README.md](README.md) ｜ Sample reports: [NVDA](Example/EXAMPLE_NVDA.md) ｜ [GOOGL](Example/EXAMPLE_GOOGL.md)
+中文文档：[README.md](README.md) ｜ Sample reports: [NVDA 中文](Example/EXAMPLE_NVDA.md) / [English](Example/EXAMPLE_NVDA.en.md) ｜ [GOOGL 中文](Example/EXAMPLE_GOOGL.md) / [English](Example/EXAMPLE_GOOGL.en.md)
 
 **Possibly the deepest AI equity-research skill.**
 
@@ -237,10 +237,12 @@ equity-research-skill/
 │   └── check_research_output.py    # Financial/valuation consistency checker + earnings-quality review (accruals/M-Score/divergences)
 └── Example/
     ├── EXAMPLE_NVDA.md             # NVIDIA sample output, not part of skill execution
-    └── EXAMPLE_GOOGL.md            # Alphabet sample output (v2 full mode), not part of skill execution
+    ├── EXAMPLE_NVDA.en.md          # NVIDIA English sample output, not part of skill execution
+    ├── EXAMPLE_GOOGL.md            # Alphabet sample output (v2 full mode), not part of skill execution
+    └── EXAMPLE_GOOGL.en.md         # Alphabet English sample output, not part of skill execution
 ```
 
-[`Example/EXAMPLE_NVDA.md`](Example/EXAMPLE_NVDA.md) and [`Example/EXAMPLE_GOOGL.md`](Example/EXAMPLE_GOOGL.md) (a v2 full-mode example with the expectations-gap table, earnings-quality review, five valuation methods, and the counter-case) exist only to show what the final output looks like; `SKILL.md` never loads them automatically. The data sources used in the samples reflect the environment of that particular run and do not imply the same connectors are required to install or run the skill.
+[`Example/EXAMPLE_NVDA.md`](Example/EXAMPLE_NVDA.md) / [`Example/EXAMPLE_NVDA.en.md`](Example/EXAMPLE_NVDA.en.md) and [`Example/EXAMPLE_GOOGL.md`](Example/EXAMPLE_GOOGL.md) / [`Example/EXAMPLE_GOOGL.en.md`](Example/EXAMPLE_GOOGL.en.md) (v2 full-mode examples with the expectations-gap table, earnings-quality review, valuation methods, and the counter-case) exist only to show what the final output looks like; `SKILL.md` never loads them automatically. The data sources used in the samples reflect the environment of that particular run and do not imply the same connectors are required to install or run the skill.
 
 ## Dependencies
 

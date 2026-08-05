@@ -2,7 +2,7 @@
 
 作者：[@rollingSirius](https://x.com/rollingSirius)
 
-英文文档：[README.en.md](README.en.md) ｜ 示例报告：[NVDA 英伟达](Example/EXAMPLE_NVDA.md) ｜ [GOOGL Alphabet](Example/EXAMPLE_GOOGL.md)
+英文文档：[README.en.md](README.en.md) ｜ 示例报告：[NVDA 中文](Example/EXAMPLE_NVDA.md) / [English](Example/EXAMPLE_NVDA.en.md) ｜ [GOOGL 中文](Example/EXAMPLE_GOOGL.md) / [English](Example/EXAMPLE_GOOGL.en.md)
 
 **可能是最深度的 AI 投研报告 Skill。**
 
@@ -237,10 +237,12 @@ equity-research-skill/
 │   └── check_research_output.py    # 财务/估值一致性检查器 + 财报质量核查（应计/M-Score/背离）
 └── Example/
     ├── EXAMPLE_NVDA.md             # 英伟达示例产出，不参与技能执行
-    └── EXAMPLE_GOOGL.md            # Alphabet 示例产出（v2 完整模式），不参与技能执行
+    ├── EXAMPLE_NVDA.en.md          # NVIDIA 英文示例产出，不参与技能执行
+    ├── EXAMPLE_GOOGL.md            # Alphabet 示例产出（v2 完整模式），不参与技能执行
+    └── EXAMPLE_GOOGL.en.md         # Alphabet 英文示例产出，不参与技能执行
 ```
 
-[`Example/EXAMPLE_NVDA.md`](Example/EXAMPLE_NVDA.md) 与 [`Example/EXAMPLE_GOOGL.md`](Example/EXAMPLE_GOOGL.md)（v2 完整模式示例，含预期差对比表、财报质量核查、五法估值与反方论证）只用于展示最终产出，不会被 `SKILL.md` 自动加载。示例中使用的数据源反映当次运行环境，不代表安装或执行必须具备同一连接器。
+[`Example/EXAMPLE_NVDA.md`](Example/EXAMPLE_NVDA.md) / [`Example/EXAMPLE_NVDA.en.md`](Example/EXAMPLE_NVDA.en.md) 与 [`Example/EXAMPLE_GOOGL.md`](Example/EXAMPLE_GOOGL.md) / [`Example/EXAMPLE_GOOGL.en.md`](Example/EXAMPLE_GOOGL.en.md)（v2 完整模式示例，含预期差对比表、财报质量核查、五法估值与反方论证）只用于展示最终产出，不会被 `SKILL.md` 自动加载。示例中使用的数据源反映当次运行环境，不代表安装或执行必须具备同一连接器。
 
 ## 依赖
 
