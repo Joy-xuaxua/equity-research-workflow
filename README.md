@@ -263,13 +263,6 @@ equity-research-skill/
 
 This skill is designed **depth first**: it would rather be slow than give up clear sources, transparent assumptions, reproducible valuation, accountable conclusions, and falsifiable disagreements. It suits serious investment research, long-term coverage, and investment memos, and is not for anyone who just wants a one-line quote or general market commentary.
 
-## Star History
-
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=rollingSirius/equity-research-skill&type=Date&theme=dark" />
-  <img src="https://api.star-history.com/svg?repos=rollingSirius/equity-research-skill&type=Date" alt="Star History Chart" />
-</picture>
-
 ## Disclaimer
 
 Everything this skill produces is research reference only and **does not constitute investment advice**. Neither the author nor this skill is a licensed investment advisor; investment decisions and their consequences are the user's own.

@@ -263,13 +263,6 @@ equity-research-skill/
 
 这个 skill 的设计取向是 **depth first**：宁可慢一点，也要尽量做到来源清楚、假设透明、估值可复算、结论可追责、分歧可证伪。它适合严肃投资研究、长线跟踪和投资备忘录，不适合只想要一句话报价或泛泛市场评论的场景。
 
-## Star 增长
-
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=rollingSirius/equity-research-skill&type=Date&theme=dark" />
-  <img src="https://api.star-history.com/svg?repos=rollingSirius/equity-research-skill&type=Date" alt="Star History Chart" />
-</picture>
-
 ## 免责声明
 
 本技能产出的内容仅为研究参考，**不构成投资建议**。作者与本技能均非持牌投资顾问，投资决策及其后果由使用者自行承担。
