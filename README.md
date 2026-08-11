@@ -169,6 +169,35 @@ The skill itself is Markdown instructions, accompanied by reproducible scripts. 
 2. Add one line to your agent config: when the user asks to research or analyze a stock, first read and follow the full workflow in `skills/equity-research/SKILL.md`.
 3. When the valuation or checker scripts need to run, prefer the agent's own code environment; with no local Python, run them in a hosted AI code environment or an online notebook — no local Python setup required first.
 
+## Quickstart
+
+Three steps, no configuration.
+
+**1. Install the skill** — see [Install](#install) above.
+
+**2. Ask in plain language** — no special syntax, no flags:
+
+```text
+Research NVDA for me
+```
+
+**3. Wait for the report** — delivered as PDF by default.
+
+To confirm the scripts run in your environment before spending a full research pass:
+
+```bash
+python3 scripts/dcf.py --demo
+```
+
+What to expect on a first run:
+
+| Question | Answer |
+|---|---|
+| How long does it take? | Minutes, not seconds. The skill probes primary filings, reconciles conflicting numbers, and cross-checks several valuation methods before writing anything. |
+| What if some data is missing? | It is written as "not obtained" — never guessed, never filled in from memory. |
+| Can I get another format? | Say so in the request: `.md`, `.docx`, or `.xlsx` (valuation workbook). |
+| Do I need local Python? | No. The scripts can run in the agent's own code environment. |
+
 ## Usage
 
 Natural language is enough to trigger it:
