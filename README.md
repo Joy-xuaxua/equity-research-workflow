@@ -1,268 +1,268 @@
-# 个股投研报告 Skill
+# Equity Research Skill
 
-作者：[@rollingSirius](https://x.com/rollingSirius)
+Author: [@rollingSirius](https://x.com/rollingSirius)
 
-英文文档：[README.en.md](README.en.md) ｜ 示例报告：[NVDA 中文](Example/EXAMPLE_NVDA.md) / [English](Example/EXAMPLE_NVDA.en.md) ｜ [GOOGL 中文](Example/EXAMPLE_GOOGL.md) / [English](Example/EXAMPLE_GOOGL.en.md)
+中文文档：[README.zh-CN.md](README.zh-CN.md) ｜ Sample reports: [NVDA 中文](Example/EXAMPLE_NVDA.md) / [English](Example/EXAMPLE_NVDA.en.md) ｜ [GOOGL 中文](Example/EXAMPLE_GOOGL.md) / [English](Example/EXAMPLE_GOOGL.en.md)
 
-**可能是最深度的 AI 投研报告 Skill。**
+**Possibly the deepest AI equity-research skill.**
 
-这个 skill 的目标不是生成几段股票摘要，而是让 AI 工具按接近机构投研的纪律完成一份**事实可追溯、估值可复算、结论可审计**的深度个股研究报告。它面向严肃投资研究、长线跟踪、财报复盘、投资备忘录和估值校准，不追求最快给出一句话结论。v2 起，整份报告以**预期差**（市场隐含预期 vs 独立预期）为分析主线，并在估值前增加**财报质量核查**。
+The goal of this skill is not to generate a few paragraphs of stock summary, but to make AI tools follow something close to institutional research discipline and produce a deep single-stock report that is **fact-traceable, valuation-reproducible, and conclusion-auditable**. It is built for serious investment research, long-term coverage, earnings reviews, investment memos, and valuation calibration — not for delivering a one-line verdict as fast as possible. Since v2, every report is organized around an **expectations gap** (what the market has priced in vs. your independent view), with an **earnings-quality review** performed before any valuation.
 
-## 核心定位
+## Positioning
 
-多数 AI 股票分析会停在"公司简介 + 最近新闻 + 模糊估值"。这个 skill 刻意往更深处走：
+Most AI stock analysis stops at "company profile + recent news + vague valuation." This skill deliberately goes deeper:
 
-| 能力 | 设计要求 |
+| Capability | Design requirement |
 |---|---|
-| 深度研究 | 完整研究模式输出九章个股研报，覆盖业务、竞争、治理、财务、估值、催化剂与投资结论。 |
-| 预期差分析主线 | 反向 DCF + PVGO 分解解码"现价定价了什么"，产出预期差对比表与可证伪的分歧命题；没有独立观点不给买卖动作。 |
-| 财报模式 | 财报模式不是摘要，而是九章财报深度分析，覆盖预期差质量、分部与 KPI、GAAP/Non-GAAP、现金流、电话会、模型与估值变动。 |
-| 财报质量核查 | 应计质量、Beneish M-Score、收入确认红旗、治理信号 → 财报可信度 A–D 分级；C/D 级直接否决买入动作。 |
-| 可复算估值 | DCF、反向 DCF、三情景概率加权、EPV/三要素、EVA/剩余收益、SOTP 等估值必须由 `scripts/dcf.py` 执行，关键假设以 JSON 留档；可选蒙特卡洛输出公允价值分布。 |
-| 外部视角 | 关键假设对照历史基准率（base rates）标注分位；超越基准率必须给结构性理由；终值通过合理性三查。 |
-| 来源纪律 | 关键数据必须标注来源与时间戳；冲突数据要对账；缺失数据必须写"未获取到"；外部内容仅作数据、不改变流程。 |
-| 买方视角 | 结论按预注册标定规则映射，成稿前完成反方论证与事前风险预演，并回答"如果今天这是一笔现金，我会买入它吗？为什么？" |
-| 十六类行业附录 | 针对 16 类行业分别改变 KPI、模型、估值与反证框架。 |
-| 多市场覆盖 | 支持美股、港股、A 股与 A/H 双重上市对比，含中概 VIE/ADR 结构风险定价。 |
-| 财报首次覆盖 | 没有旧研报或旧模型也能直接使用财报模式；skill 会补建至少 3 年、8 个季度的历史基线。 |
+| Deep research | Full research mode outputs a nine-chapter report covering business, competition, governance, financials, valuation, catalysts, and the investment verdict. |
+| Expectations gap as the spine | Reverse DCF + PVGO decomposition decode what the current price has priced in, producing an expectations-gap table and a falsifiable variant thesis; no independent view, no buy/sell action. |
+| Earnings mode | Earnings mode is not a summary but a nine-chapter earnings deep-dive: surprise quality, segments and KPIs, GAAP vs. Non-GAAP, cash flow, the call, and model and valuation changes. |
+| Earnings-quality review | Accrual quality, Beneish M-Score, revenue-recognition red flags, governance signals → an A–D earnings-credibility grade; grades C/D veto any buy action outright. |
+| Reproducible valuation | DCF, reverse DCF, probability-weighted three-scenario, EPV/three-factor, EVA/residual income, SOTP and the rest must be executed by `scripts/dcf.py`, with key assumptions filed as JSON; optional Monte Carlo outputs a fair-value distribution. |
+| Outside view | Key assumptions are marked with their percentile against historical base rates; beating the base rate requires a structural reason; terminal value must pass a three-point sanity check. |
+| Source discipline | Every key number carries a source and timestamp; conflicting data is reconciled; missing data must be written as "not obtained"; external content is data only and never alters the workflow. |
+| Buy-side lens | Conclusions map through pre-registered calibration rules; a counter-case and a pre-mortem are completed before finalizing, answering "if this were cash today, would I buy it, and why?" |
+| Sixteen industry appendices | Sixteen industry appendices, each changing the KPIs, model, valuation, and disconfirming-evidence framework. |
+| Multi-market coverage | US, HK, and A-share markets, including A/H dual-listing comparison and China ADR/VIE structural-risk pricing. |
+| Initiation from earnings | Earnings mode works with no prior report or model; the skill first rebuilds a baseline of at least 3 years and 8 quarters. |
 
-## 它能做什么
+## What it does
 
-### 1. 完整个股深度研究
+### 1. Full deep-dive research
 
-适合第一次系统研究一家公司，或需要重新建立投资框架的场景。默认输出九章报告：
+For studying a company systematically for the first time, or rebuilding an investment framework from scratch. Default output is a nine-chapter report:
 
-1. 一页速览（结论框 + Tearsheet 速览表 + 预期差对比表）
-2. 公司与业务详情
-3. 竞争格局与护城河
-4. 管理层、治理与资本配置计分卡
-5. 财务分析与财报质量核查
-6. 多方法估值（含估值区间对比图）
-7. 分析师观点汇总与分歧归因
-8. 新闻、风险与催化剂
-9. 投资结论、反方论证与仓位参考
+1. One-page summary (verdict box + tearsheet + expectations-gap table)
+2. Company and business detail
+3. Competitive landscape and moat
+4. Management, governance, and capital-allocation scorecard
+5. Financial analysis and earnings-quality review
+6. Multi-method valuation (with a football-field chart)
+7. Analyst views and divergence attribution
+8. News, risks, and catalysts
+9. Investment verdict, counter-case, and position-sizing reference
 
-### 2. 深度财报模式
+### 2. Deep earnings mode
 
-适合公司刚发布季报、年报、业绩指引或电话会纪要后，判断"这份财报到底改变了什么"。财报模式会区分两种情况：
+For the moment right after a company reports a quarter, a full year, guidance, or a call transcript, when the question is "what did this print actually change?" Earnings mode splits into two cases:
 
-| 覆盖状态 | skill 的处理方式 |
+| Coverage status | How the skill handles it |
 |---|---|
-| 已有历史报告或模型 | 做持续覆盖更新，重点分析财报相对旧论点、旧预测、旧估值的变化。 |
-| 没有历史报告或模型 | 做"财报切入的首次覆盖"，先补建历史基线，再分析本次财报质量与估值含义。 |
+| A prior report or model exists | Continuing-coverage update, focused on what the print changes relative to the old thesis, old forecasts, and old valuation. |
+| No prior report or model | Initiation of coverage from the earnings event: rebuild the historical baseline first, then analyze this print's quality and valuation implications. |
 
-财报模式默认输出九章：
+Earnings mode outputs nine chapters by default:
 
-1. 结论与快照
-2. 预期差与质量
-3. 收入、分部与 KPI
-4. 利润率、费用与盈利质量
-5. 现金流、资产负债表与资本配置
-6. 指引、电话会与管理层信号
-7. 竞争、行业与市场反应
-8. 模型、估值与公允价值变动桥
-9. 投资论点更新与行动清单
+1. Verdict and snapshot
+2. Surprise and its quality
+3. Revenue, segments, and KPIs
+4. Margins, costs, and earnings quality
+5. Cash flow, balance sheet, and capital allocation
+6. Guidance, the call, and management signals
+7. Competition, industry, and market reaction
+8. Model, valuation, and the fair-value bridge
+9. Thesis update and action list
 
-每次财报另跑最小核查集（应计比率、现金转化、DSO/递延背离、Non-GAAP 调整项经常性）。
+Every earnings run also executes a minimum check set: accrual ratio, cash conversion, DSO/deferred-revenue divergence, and whether Non-GAAP adjustments are recurring.
 
-### 3. 估值与结论校准
+### 3. Valuation and calibration
 
-这个 skill 不允许只给一个"看起来合理"的目标价。它要求至少三种估值方法交叉验证，并把假设、计算过程和结论映射留档：
+This skill does not allow a target price that merely "looks reasonable." It requires at least three valuation methods cross-checked against each other, with assumptions, calculations, and the label mapping all filed:
 
-- 反向 DCF + PVGO 分解：当前股价隐含了什么收入增速、利润率或资本回报；现价中有多少比例在为未来增长付费。
-- 三情景 DCF：乐观、中性、悲观情景及概率加权公允价值，附概率极端化稳健性检验。
-- EPV / 三要素法：底价·EPV·成长买点阶梯；EPV/净资产多年趋势做护城河的财务验证。
-- EVA / 剩余收益：存量 ROIC vs 增量 ROIIC，"增速 = 再投资率 × ROIIC"自洽检验。
-- 相对估值：合理倍数（warranted multiple）纪律，用增长/回报/风险推算应有倍数，不直接抄同业中位数。
-- SOTP：适合多业务、多资产或分部差异极大的公司。
-- 蒙特卡洛（可选）：公允价值 P10–P90 分布与 P(内在价值 < 现价)。
+- Reverse DCF + PVGO decomposition: what revenue growth, margin, or return on capital the current price implies, and how much of the price is paying for future growth.
+- Three-scenario DCF: bull, base, and bear scenarios with a probability-weighted fair value, plus a robustness test that pushes the probabilities toward the extremes.
+- EPV / three-factor method: the asset-reproduction floor · EPV · growth entry ladder; the multi-year EPV-to-adjusted-book trend as financial verification of the moat.
+- EVA / residual income: incumbent ROIC vs. incremental ROIIC, with the "growth = reinvestment rate × ROIIC" consistency check.
+- Relative valuation: warranted-multiple discipline — derive the multiple the company deserves from growth, returns, and risk rather than copying the peer median.
+- SOTP: for multi-business or multi-asset companies, or where segments differ sharply.
+- Monte Carlo (optional): the P10–P90 fair-value distribution and P(intrinsic value < current price).
 
-结论标签（低估/合理/高估 + 动作）按预注册标定规则映射（±15% 缓冲带），叠加动作矩阵与否决项；随动作输出期望收益、上行/下行不对称比与 Kelly-lite 仓位量级参考。
+The verdict label (undervalued / fairly valued / overvalued + action) maps through pre-registered calibration rules (a ±15% buffer band), overlaid with an action matrix and veto conditions; each action ships with expected value, upside/downside asymmetry, and a Kelly-lite (¼ Kelly) sizing-magnitude reference.
 
-### 4. 财报质量核查
+### 4. Earnings-quality review
 
-估值之前先回答"这份利润是不是真的"：
+Before valuing anything, answer whether the profit is real:
 
-- 应计质量（Sloan）：总应计比率、现金转化率趋势。
-- Beneish M-Score 八变量模型（检查器自动计算）。
-- 收入确认红旗：DSO 背离、递延收入背离、渠道压货信号。
-- 费用资本化与利润平滑、治理与审计信号。
-- 产出财报可信度等级 A–D：C 级动作最高"观望"，D 级一律"规避"——禁止用"估值便宜"对冲可信度问题。
+- Accrual quality (Sloan): total accruals ratio and the cash-conversion trend.
+- The eight-variable Beneish M-Score (computed automatically by the checker).
+- Revenue-recognition red flags: DSO divergence, deferred-revenue divergence, channel-stuffing signals.
+- Expense capitalization and earnings smoothing; governance and audit signals.
+- Output: an A–D earnings-credibility grade. Grade C caps the action at "wait and see," grade D is always "avoid" — "it's cheap" may never be used to offset a credibility problem.
 
-### 5. 行业专用深度附录
+### 5. Industry-specific deep appendices
 
-主报告不是给所有公司套同一个模板。skill 会先识别公司所处价值链，再按需加载对应附录：
+The main report does not apply one template to every company. The skill first identifies where the company sits in its value chain, then loads the matching appendix on demand:
 
-| 行业 | 专用研究重点 |
+| Industry | Research focus |
 |---|---|
-| SaaS | ARR、NRR、RPO/cRPO、获客效率、Rule of 40、SBC 与反向 DCF。 |
-| 半导体 | 产品/终端、units 与 ASP、库存周期、良率、产能、路线图、出口限制与跨周期估值。 |
-| 银行 | NIM、存款 beta、资产质量、拨备、CET1、流动性与 P/TBV-ROTCE。 |
-| 保险 | 承保利润、准备金、combined ratio、VNB/CSM、偿付能力、投资组合与 P/EV。 |
-| 医药 | 临床证据、成功概率、患者漏斗、专利/独占期、现金 runway 与逐资产 rNPV。 |
-| 消费 | 量价 mix、同店、客流、渠道 sell-through、库存、品牌份额与单位经济。 |
-| 能源 | 产量、储量、递减、成本、差价/套保、维持 capex、商品价格敏感性与 NAV。 |
-| 公用事业 | rate base、allowed/earned ROE、监管案件、资本项目、融资稀释与股息覆盖。 |
-| 互联网/平台 | 用户×时长×变现率、GMV/take rate、单位经济、分部 SOTP、监管风险与 SBC 后 FCF。 |
-| 支付/金融科技 | TPV、净 take rate、激励返点、损失率 vintage、资金成本与渗透天花板。 |
-| 地产/REIT | FFO/AFFO、同店 NOI、出租率与租金差、cap rate、债务到期墙与 P/NAV。 |
-| 工业/机械 | 订单/book-to-bill、backlog 质量、服务后市场、中周期盈利与周期定位。 |
-| 电信 | 用户与 ARPU、EBITDA margin、capex/收入、FCF 与股息覆盖、频谱与净债。 |
-| 汽车/EV | 销量、单车经济、产能利用与盈亏平衡、订单质量、电池成本与现金 runway。 |
-| 金属/矿业 | 产量、AISC 成本曲线分位、储量寿命、维持 capex、价格敏感性与分矿山 NAV。 |
-| 航空/运输 | 单位收益/成本、客座率/利用率、供给端订单簿、周期分位与租赁负债。 |
+| SaaS | ARR, NRR, RPO/cRPO, acquisition efficiency, Rule of 40, SBC, and reverse DCF. |
+| Semiconductors | Products/end markets, units and ASP, inventory cycle, yield, capacity, roadmap, export controls, and through-cycle valuation. |
+| Banks | NIM, deposit beta, asset quality, provisioning, CET1, liquidity, and P/TBV–ROTCE. |
+| Insurance | Underwriting profit, reserves, combined ratio, VNB/CSM, solvency, investment portfolio, and P/EV. |
+| Pharma | Clinical evidence, probability of success, patient funnel, patent/exclusivity, cash runway, and per-asset rNPV. |
+| Consumer | Volume/price mix, same-store sales, traffic, channel sell-through, inventory, brand share, and unit economics. |
+| Energy | Production, reserves, decline, costs, differentials/hedging, maintenance capex, commodity-price sensitivity, and NAV. |
+| Utilities | Rate base, allowed vs. earned ROE, rate cases, capital projects, financing dilution, and dividend coverage. |
+| Internet / platforms | Users × engagement × monetization rate, GMV/take rate, unit economics, segment SOTP, regulatory risk, and post-SBC FCF. |
+| Payments / fintech | TPV, net take rate, incentives and rebates, loss-rate vintages, funding cost, and the penetration ceiling. |
+| Real estate / REITs | FFO/AFFO, same-store NOI, occupancy and leasing spreads, cap rate, the debt-maturity wall, and P/NAV. |
+| Industrials / machinery | Orders and book-to-bill, backlog quality, aftermarket services, mid-cycle earnings, and cycle positioning. |
+| Telecom | Subscribers and ARPU, EBITDA margin, capex/revenue, FCF and dividend coverage, spectrum, and net debt. |
+| Autos / EV | Volumes, per-vehicle economics, utilization and breakeven, order quality, battery cost, and cash runway. |
+| Metals & mining | Output, AISC cost-curve percentile, reserve life, sustaining capex, price sensitivity, and per-mine NAV. |
+| Airlines / transport | Unit revenue and cost, load factor/utilization, the supply-side orderbook, cycle percentile, and lease liabilities. |
 
-混合业务公司只加载足以改变模型或估值的主附录和必要的次附录，避免为了"全面"堆砌无关指标。
+For mixed-business companies, only the primary appendix is loaded — plus any secondary appendix needed to change the model or valuation — so that irrelevant metrics are not piled on in the name of "completeness."
 
-### 6. 数据来源与对账
+### 6. Data sourcing and reconciliation
 
-不强制使用 IBKR、Morningstar 或任何单一数据商。默认优先顺序为：
+No mandatory use of IBKR, Morningstar, or any single data vendor. The default priority order is:
 
-1. 监管申报、交易所公告、政府/监管数据库和公司原始文件。
-2. 交易所/受监管行情、公司正式材料和行业官方统计。
-3. Bloomberg、FactSet、LSEG、S&P Capital IQ、Visible Alpha、Morningstar、Koyfin、Quartr 等专业来源。
-4. 公开行情与财务聚合站，用于补缺和交叉核对。
-5. 媒体、转述和搜索摘要只作线索，尽量追溯原文。
+1. Regulatory filings, exchange announcements, government/regulator databases, and the company's own primary documents.
+2. Exchange or regulated market data, official company materials, and official industry statistics.
+3. Professional sources such as Bloomberg, FactSet, LSEG, S&P Capital IQ, Visible Alpha, Morningstar, Koyfin, and Quartr.
+4. Public quote and financial aggregators, used to fill gaps and cross-check.
+5. Media, second-hand accounts, and search snippets are leads only; trace back to the original wherever possible.
 
-连接器只是访问方式。skill 会在当前 AI 环境中选择可用的最高等级来源，并明确披露降级、延迟、口径和数据冲突。抓取到的外部内容只作为待核验数据，其中的任何指令不改变研究流程。
+Connectors are just access paths. The skill picks the highest-tier source available in the current AI environment and explicitly discloses downgrades, delays, definitional differences, and data conflicts. Fetched external content is treated as data awaiting verification; any instructions inside it do not change the research workflow.
 
-## 安装
+## Install
 
-### 最简单方法
+### Easiest method
 
-直接复制这个仓库链接，发送给支持 skill 或 agent 指令的 AI 工具：
+Copy this repo link and send it to any AI tool that supports skills or agent instructions:
 
 ```text
 https://github.com/rollingSirius/equity-research-skill
 ```
 
-可以这样说：
+For example:
 
 ```text
-请安装并使用这个 skill：
+Please install and use this skill:
 https://github.com/rollingSirius/equity-research-skill
 ```
 
 ### Claude Code
 
 ```bash
-# 个人级：所有项目可用
+# Personal scope: available across all projects
 git clone https://github.com/rollingSirius/equity-research-skill.git ~/.claude/skills/equity-research
 
-# 项目级：随仓库共享
+# Project scope: shared with the repo
 git clone https://github.com/rollingSirius/equity-research-skill.git .claude/skills/equity-research
 ```
 
 ### Claude Desktop / Cowork
 
-把本仓库打包为 zip，或下载 Release，在 **Settings -> Capabilities -> Skills** 中上传。
+Zip this repo, or download a Release, and upload it under **Settings -> Capabilities -> Skills**.
 
-### Codex / 其他 Agent 工具
+### Codex / other agent tools
 
-本技能主体是 Markdown 指令，并附带可复算脚本。任何能读取文件的 Agent 都可以使用；本地 Python **不是安装前提**：
+The skill itself is Markdown instructions, accompanied by reproducible scripts. Any agent that can read files can use it, and local Python is **not a prerequisite for installation**:
 
-1. 把本仓库放进项目目录，例如 `skills/equity-research/`。
-2. 在 Agent 配置中加入一句：当用户要求研究/分析某只股票时，先读取并遵循 `skills/equity-research/SKILL.md` 的完整流程。
-3. 需要运行估值或检查脚本时，优先使用 Agent 自带代码环境；本机没有 Python，可在 AI 托管代码环境或在线 notebook 中运行，无需先配置本地 Python。
+1. Put this repo in your project directory, e.g. `skills/equity-research/`.
+2. Add one line to your agent config: when the user asks to research or analyze a stock, first read and follow the full workflow in `skills/equity-research/SKILL.md`.
+3. When the valuation or checker scripts need to run, prefer the agent's own code environment; with no local Python, run them in a hosted AI code environment or an online notebook — no local Python setup required first.
 
-## 使用
+## Usage
 
-自然语言即可触发：
+Natural language is enough to trigger it:
 
 ```text
-帮我研究一下 NVDA
-分析下 Marvell 值不值得买
-深度分析一下 AAPL 最新财报
-根据 MSFT 财报更新估值和投资结论
-腾讯最新业绩怎么看？按财报模式做深度分析
-帮我比较宁德时代 A 股和港股定价差异
-按 SaaS 行业附录深度分析 Salesforce / CRM
-按半导体行业附录分析台积电的周期位置和估值
-按银行行业附录复盘招商银行最新财报
+Research NVDA for me
+Is Marvell worth buying?
+Deep-dive AAPL's latest earnings
+Update the valuation and verdict on MSFT from its latest results
+How should I read Tencent's latest results? Do a deep dive in earnings mode
+Compare CATL's A-share vs. H-share pricing
+Deep-dive Salesforce / CRM using the SaaS appendix
+Analyze TSMC's cycle position and valuation using the semiconductor appendix
+Review China Merchants Bank's latest results using the banking appendix
 ```
 
-也可以显式指定技能：
+You can also invoke the skill explicitly:
 
-| 工具 | 调用示例 |
+| Tool | Example invocation |
 |---|---|
-| Claude Code | `/equity-research 分析 NVDA`，或"用 equity-research 技能研究 TSLA"。 |
-| Claude Desktop / Cowork | "用 equity-research 技能帮我看看 AAPL 值不值得买"。 |
-| Codex CLI | "先读 skills/equity-research/SKILL.md，再按它分析 NVDA"。 |
-| 其他 Agent | "先读取 skills/equity-research/SKILL.md 并严格按其流程执行，然后研究 <股票>"。 |
+| Claude Code | `/equity-research analyze NVDA`, or "use the equity-research skill to research TSLA." |
+| Claude Desktop / Cowork | "Use the equity-research skill to tell me whether AAPL is worth buying." |
+| Codex CLI | "Read `skills/equity-research/SKILL.md` first, then analyze NVDA following it." |
+| Other agents | "Read `skills/equity-research/SKILL.md` and follow its workflow strictly, then research \<ticker\>." |
 
-未指明输出格式时，报告默认以 **PDF** 交付；可在请求中指明 `.md`、`.docx` 或 `.xlsx`（估值 workbook）。报告语言默认跟随用户请求语言或当前常用沟通语言，也可显式指定“用中文输出”或“write the report in English”。
+When no output format is specified, the report is delivered as **PDF** by default; you can ask for `.md`, `.docx`, or `.xlsx` (valuation workbook) in the request. The report language defaults to the user's request language or the current working conversation language, and can be explicitly set, e.g. "write the report in English" or "用中文输出".
 
-## 适合什么场景
+## When it fits
 
-| 场景 | 是否适合 | 说明 |
+| Scenario | Fit | Notes |
 |---|---|---|
-| 首次研究一家公司 | 适合 | 建立业务、财务、估值和投资结论的完整底稿。 |
-| 财报发布后复盘 | 适合 | 用财报模式拆解预期差、质量、指引、电话会和估值变化。 |
-| 投资备忘录 | 适合 | 适合形成可审计、可复盘的研究结论。 |
-| 长线跟踪 | 适合 | 可以基于旧报告持续更新论点、预测和公允价值。 |
-| 一句话问股价涨跌 | 不适合 | 这个 skill 会优先保证深度和来源纪律。 |
-| 高频交易信号 | 不适合 | 它不是量化交易或盘中交易系统。 |
+| Researching a company for the first time | Yes | Builds a complete working file across business, financials, valuation, and verdict. |
+| Post-earnings review | Yes | Earnings mode unpacks the surprise, its quality, guidance, the call, and valuation changes. |
+| Investment memo | Yes | Suited to conclusions that can be audited and revisited later. |
+| Long-term coverage | Yes | Continuously updates thesis, forecasts, and fair value on top of an earlier report. |
+| A one-line question about the stock going up | No | The skill prioritizes depth and source discipline. |
+| High-frequency trading signals | No | It is not a quant or intraday trading system. |
 
-## 输出物
+## Outputs
 
-**交付给用户的只有一份报告，默认 PDF 格式**（可指明 .md/.docx/.xlsx；语言可自动判定或显式指定）。报告本身包含：
+**The user receives exactly one report, PDF by default** (`.md`/`.docx`/`.xlsx` on request; language can be auto-detected or explicitly specified). The report itself contains:
 
-- 结论框 + Tearsheet + 预期差对比表（报告头部三件套）。
-- 至少三种估值方法的交叉验证与估值区间对比图。
-- 财报可信度等级与逐项核查证据。
-- 反方论证、监控清单与置信度自评。
-- 关键数据来源与时间戳清单、估值假设与检查结果摘要（附录）。
+- The verdict box, tearsheet, and expectations-gap table (the three-part report header).
+- Cross-validation across at least three valuation methods, plus a football-field chart.
+- The earnings-credibility grade with item-by-item evidence.
+- The counter-case, a monitoring checklist, and a self-assessed confidence level.
+- A list of key sources with timestamps, valuation assumptions, and a summary of checker results (appendix).
 
-估值假设 JSON、`scripts/dcf.py` 原始输出、检查器结果、财务 CSV 等为**内部工作文件**：保留在工作目录供复算与追溯，不作为交付物；用户索要时才提供。
+The assumption JSON, raw `scripts/dcf.py` output, checker results, financial CSVs, and similar files are **internal working files**: kept in the working directory for reproduction and traceability, not treated as deliverables, and handed over only when the user asks.
 
-## 文件结构
+## Repository structure
 
 ```text
 equity-research-skill/
-├── SKILL.md                        # 技能主文件：触发条件 + 纪律 + 六步工作流程
+├── SKILL.md                        # Skill entry point: triggers + discipline + six-step workflow
 ├── references/
-│   ├── report-template.md          # 九章报告模板与表格骨架
-│   ├── earnings-mode.md            # 深度财报模式：覆盖分流、财报分析协议、模型变动桥与九章模板
-│   ├── expectations-investing.md   # 预期差分析主线：反向 DCF、PVGO、预期差表、独立观点检验
-│   ├── forensic-accounting.md      # 财报质量核查：应计、M-Score、红旗与可信度分级
-│   ├── base-rates.md               # 历史基准率：用外部视角约束预测假设
-│   ├── cost-of-capital.md          # 资本成本：WACC 构建与折现率纪律
-│   ├── valuation-methods.md        # 估值方法：DCF、反向 DCF、情景加权、EPV、EVA、SOTP 与结论标定
-│   ├── output-format.md            # 输出格式：可读性规范与交付物规则（默认 PDF）
-│   ├── data-sources.md             # 取数手册：来源分级、工具降级、行情、申报、行业与对账
-│   └── markets-cn-hk.md            # A股/港股/A+H 差异手册，含中概 VIE/ADR 结构风险
-├── industries/                     # 16 类行业附录（见上表）
+│   ├── report-template.md          # Nine-chapter report template and table skeletons
+│   ├── earnings-mode.md            # Deep earnings mode: coverage routing, analysis protocol, model-change bridge, nine-chapter template
+│   ├── expectations-investing.md   # Expectations gap as the spine: reverse DCF, PVGO, gap table, independent-view test
+│   ├── forensic-accounting.md      # Earnings-quality review: accruals, M-Score, red flags, credibility grading
+│   ├── base-rates.md               # Historical base rates: constraining forecasts with the outside view
+│   ├── cost-of-capital.md          # Cost of capital: WACC construction and discount-rate discipline
+│   ├── valuation-methods.md        # Valuation methods: DCF, reverse DCF, scenario weighting, EPV, EVA, SOTP, and label calibration
+│   ├── output-format.md            # Output format: readability rules and delivery rules (PDF by default)
+│   ├── data-sources.md             # Sourcing handbook: source tiers, tool downgrades, quotes, filings, industry data, reconciliation
+│   └── markets-cn-hk.md            # A-share/HK/A+H handbook, including China ADR/VIE structural risk
+├── industries/                     # 16 industry appendices (see table above)
 ├── scripts/
-│   ├── dcf.py                      # 估值计算器：DCF、反向 DCF、敏感性、概率加权、EPV、EVA、PVGO、蒙特卡洛、仓位
-│   └── check_research_output.py    # 财务/估值一致性检查器 + 财报质量核查（应计/M-Score/背离）
+│   ├── dcf.py                      # Valuation calculator: DCF, reverse DCF, sensitivity, probability weighting, EPV, EVA, PVGO, Monte Carlo, sizing
+│   └── check_research_output.py    # Financial/valuation consistency checker + earnings-quality review (accruals/M-Score/divergences)
 └── Example/
-    ├── EXAMPLE_NVDA.md             # 英伟达示例产出，不参与技能执行
-    ├── EXAMPLE_NVDA.en.md          # NVIDIA 英文示例产出，不参与技能执行
-    ├── EXAMPLE_GOOGL.md            # Alphabet 示例产出（v2 完整模式），不参与技能执行
-    └── EXAMPLE_GOOGL.en.md         # Alphabet 英文示例产出，不参与技能执行
+    ├── EXAMPLE_NVDA.md             # NVIDIA sample output, not part of skill execution
+    ├── EXAMPLE_NVDA.en.md          # NVIDIA English sample output, not part of skill execution
+    ├── EXAMPLE_GOOGL.md            # Alphabet sample output (v2 full mode), not part of skill execution
+    └── EXAMPLE_GOOGL.en.md         # Alphabet English sample output, not part of skill execution
 ```
 
-[`Example/EXAMPLE_NVDA.md`](Example/EXAMPLE_NVDA.md) / [`Example/EXAMPLE_NVDA.en.md`](Example/EXAMPLE_NVDA.en.md) 与 [`Example/EXAMPLE_GOOGL.md`](Example/EXAMPLE_GOOGL.md) / [`Example/EXAMPLE_GOOGL.en.md`](Example/EXAMPLE_GOOGL.en.md)（v2 完整模式示例，含预期差对比表、财报质量核查、五法估值与反方论证）只用于展示最终产出，不会被 `SKILL.md` 自动加载。示例中使用的数据源反映当次运行环境，不代表安装或执行必须具备同一连接器。
+[`Example/EXAMPLE_NVDA.md`](Example/EXAMPLE_NVDA.md) / [`Example/EXAMPLE_NVDA.en.md`](Example/EXAMPLE_NVDA.en.md) and [`Example/EXAMPLE_GOOGL.md`](Example/EXAMPLE_GOOGL.md) / [`Example/EXAMPLE_GOOGL.en.md`](Example/EXAMPLE_GOOGL.en.md) (v2 full-mode examples with the expectations-gap table, earnings-quality review, valuation methods, and the counter-case) exist only to show what the final output looks like; `SKILL.md` never loads them automatically. The data sources used in the samples reflect the environment of that particular run and do not imply the same connectors are required to install or run the skill.
 
-## 依赖
+## Dependencies
 
-| 依赖 | 必需性 | 说明 |
+| Dependency | Required? | Notes |
 |---|---|---|
-| 联网搜索 / 网页抓取 | 建议 | 获取最新行情、监管申报、行业数据、分析师评级和新闻；离线使用时必须由用户提供材料。 |
-| 可执行 Python 环境 | 运行脚本时需要 | 可用 Agent 自带环境、AI 在线环境、在线 notebook 或本机 Python；不要求本地预装。脚本仅使用标准库。 |
-| PDF 生成能力 | 默认输出需要 | pdf 技能或 md→PDF 工具链；不可用时降级交付 .md 并说明。 |
-| IBKR / 其他行情连接器 | 可选 | 有则作为行情路径之一；没有时使用交易所、专业数据 API 或公开行情源。 |
-| Morningstar / 专业数据连接器 | 可选 | 用于外部估值锚、护城河、一致预期和标准化数据；均非必需。 |
-| docx / xlsx 技能 | 可选 | 仅当用户指明输出 Word 版报告或 Excel 估值 workbook。 |
+| Web search / page fetching | Recommended | For live quotes, regulatory filings, industry data, analyst ratings, and news; offline use requires the user to supply the materials. |
+| An executable Python environment | Needed to run the scripts | The agent's own environment, a hosted AI environment, an online notebook, or local Python all work; no local install required. The scripts use the standard library only. |
+| PDF generation | Needed for the default output | A PDF skill or an md→PDF toolchain; if unavailable, delivery downgrades to `.md` with an explanation. |
+| IBKR or other market-data connectors | Optional | One quote path among several; without it, use exchanges, professional data APIs, or public quote sources. |
+| Morningstar or other professional data connectors | Optional | Used for an external valuation anchor, moat ratings, consensus, and standardized data; none are required. |
+| docx / xlsx skills | Optional | Only when the user asks for a Word report or an Excel valuation workbook. |
 
-## 设计取向
+## Design stance
 
-这个 skill 的设计取向是 **depth first**：宁可慢一点，也要尽量做到来源清楚、假设透明、估值可复算、结论可追责、分歧可证伪。它适合严肃投资研究、长线跟踪和投资备忘录，不适合只想要一句话报价或泛泛市场评论的场景。
+This skill is designed **depth first**: it would rather be slow than give up clear sources, transparent assumptions, reproducible valuation, accountable conclusions, and falsifiable disagreements. It suits serious investment research, long-term coverage, and investment memos, and is not for anyone who just wants a one-line quote or general market commentary.
 
-## 免责声明
+## Disclaimer
 
-本技能产出的内容仅为研究参考，**不构成投资建议**。作者与本技能均非持牌投资顾问，投资决策及其后果由使用者自行承担。
+Everything this skill produces is research reference only and **does not constitute investment advice**. Neither the author nor this skill is a licensed investment advisor; investment decisions and their consequences are the user's own.
 
-## 许可证
+## License
 
 [MIT](LICENSE)
