@@ -1,5 +1,9 @@
 # Equity Research Skill
 
+[![Stars](https://img.shields.io/github/stars/rollingSirius/equity-research-skill?style=flat)](https://github.com/rollingSirius/equity-research-skill/stargazers)
+[![Last commit](https://img.shields.io/github/last-commit/rollingSirius/equity-research-skill)](https://github.com/rollingSirius/equity-research-skill/commits/main)
+[![License](https://img.shields.io/github/license/rollingSirius/equity-research-skill)](LICENSE)
+
 Author: [@rollingSirius](https://x.com/rollingSirius)
 
 中文文档：[README.zh-CN.md](README.zh-CN.md) ｜ Sample reports: [NVDA 中文](Example/EXAMPLE_NVDA.md) / [English](Example/EXAMPLE_NVDA.en.md) ｜ [GOOGL 中文](Example/EXAMPLE_GOOGL.md) / [English](Example/EXAMPLE_GOOGL.en.md)
@@ -258,6 +262,13 @@ equity-research-skill/
 ## Design stance
 
 This skill is designed **depth first**: it would rather be slow than give up clear sources, transparent assumptions, reproducible valuation, accountable conclusions, and falsifiable disagreements. It suits serious investment research, long-term coverage, and investment memos, and is not for anyone who just wants a one-line quote or general market commentary.
+
+## Star History
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=rollingSirius/equity-research-skill&type=Date&theme=dark" />
+  <img src="https://api.star-history.com/svg?repos=rollingSirius/equity-research-skill&type=Date" alt="Star History Chart" />
+</picture>
 
 ## Disclaimer
 

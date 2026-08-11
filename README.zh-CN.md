@@ -1,5 +1,9 @@
 # 个股投研报告 Skill
 
+[![Stars](https://img.shields.io/github/stars/rollingSirius/equity-research-skill?style=flat)](https://github.com/rollingSirius/equity-research-skill/stargazers)
+[![Last commit](https://img.shields.io/github/last-commit/rollingSirius/equity-research-skill)](https://github.com/rollingSirius/equity-research-skill/commits/main)
+[![License](https://img.shields.io/github/license/rollingSirius/equity-research-skill)](LICENSE)
+
 作者：[@rollingSirius](https://x.com/rollingSirius)
 
 英文文档：[README.md](README.md) ｜ 示例报告：[NVDA 中文](Example/EXAMPLE_NVDA.md) / [English](Example/EXAMPLE_NVDA.en.md) ｜ [GOOGL 中文](Example/EXAMPLE_GOOGL.md) / [English](Example/EXAMPLE_GOOGL.en.md)
@@ -258,6 +262,13 @@ equity-research-skill/
 ## 设计取向
 
 这个 skill 的设计取向是 **depth first**：宁可慢一点，也要尽量做到来源清楚、假设透明、估值可复算、结论可追责、分歧可证伪。它适合严肃投资研究、长线跟踪和投资备忘录，不适合只想要一句话报价或泛泛市场评论的场景。
+
+## Star 增长
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=rollingSirius/equity-research-skill&type=Date&theme=dark" />
+  <img src="https://api.star-history.com/svg?repos=rollingSirius/equity-research-skill&type=Date" alt="Star History Chart" />
+</picture>
 
 ## 免责声明
 
