@@ -33,6 +33,9 @@ LABEL_ALIASES = {
 MISSING_DATA_MARKERS = ["未获取到", "not obtained", "not available", "unavailable", "not disclosed", "not found"]
 JUDGMENT_MARKERS = ["我的判断", "my view", "my judgment", "my assessment", "assessment:"]
 SOURCE_MARKERS = ["数据来源", "来源", "sources and timestamps", "data sources", "sources", "source:"]
+INDUSTRY_RULES_PATH = os.path.join(os.path.dirname(__file__), "..", "references", "industry-rules.json")
+ZH_TEMPLATE_MARKERS = ["本章要点", "我的判断", "未获取到", "数据来源与时间戳", "必写结论句", "估值假设表"]
+EN_TEMPLATE_MARKERS = ["key takeaways:", "my view:", "not obtained", "sources and timestamps", "disclaimer: not investment advice"]
 
 
 @dataclass
@@ -119,6 +122,104 @@ def has_any(text: str, patterns: Sequence[str]) -> bool:
     return any(pattern.lower() in lower for pattern in patterns)
 
 
+def load_industry_rules() -> Dict[str, Dict]:
+    with open(INDUSTRY_RULES_PATH, "r", encoding="utf-8") as f:
+        payload = json.load(f)
+    return payload["industries"]
+
+
+def normalize_industry_args(values: Optional[Sequence[str]]) -> List[str]:
+    industries: List[str] = []
+    for value in values or []:
+        for item in value.split(","):
+            slug = item.strip().lower()
+            if slug and slug not in industries:
+                industries.append(slug)
+    return industries
+
+
+def detect_declared_industries(text: str, rules: Dict[str, Dict]) -> List[str]:
+    matches = re.findall(r"(?:行业附录|industry append(?:ix|ices))\s*[:：]\s*([^\n]+)", text, flags=re.I)
+    declared = " ".join(matches).lower()
+    if not declared:
+        return []
+    declared_words = re.sub(r"[^a-z0-9\u4e00-\u9fff]+", " ", declared)
+    declared_compact = declared_words.replace(" ", "")
+    found: List[str] = []
+    for slug, rule in rules.items():
+        candidates = [slug, rule.get("name_zh", ""), rule.get("name_en", "")] + rule.get("aliases", [])
+        normalized = [re.sub(r"[^a-z0-9\u4e00-\u9fff]+", " ", candidate.lower()).strip() for candidate in candidates if candidate]
+        if any(candidate in declared_words or candidate.replace(" ", "") in declared_compact for candidate in normalized):
+            found.append(slug)
+    return found
+
+
+def detect_report_language(text: str) -> Optional[str]:
+    if re.search(r"^# .+Equity Research Report\s*$", text, flags=re.I | re.M):
+        return "en"
+    if re.search(r"^# .+(个股投资研究报告|财报深度分析)\s*$", text, flags=re.M):
+        return "zh"
+    return None
+
+
+def check_language_consistency(text: str, language: str, path: str, issues: List[Issue]) -> None:
+    resolved = detect_report_language(text) if language == "auto" else language
+    if not resolved:
+        add(issues, "P2", "REPORT_LANGUAGE_UNDETERMINED", "无法从标题判定报告语言；请使用 --language zh 或 --language en。", file=path)
+        return
+    conflicting = ZH_TEMPLATE_MARKERS if resolved == "en" else EN_TEMPLATE_MARKERS
+    found = [marker for marker in conflicting if marker.lower() in text.lower()]
+    if found:
+        add(
+            issues,
+            "P1",
+            "REPORT_LANGUAGE_MIXED",
+            "报告含与目标语言不一致的模板标记。",
+            detail=f"language={resolved}; conflicting_markers={', '.join(found)}",
+            file=path,
+        )
+
+
+def check_industry_requirements(
+    text: str,
+    requested: Optional[Sequence[str]],
+    path: str,
+    issues: List[Issue],
+) -> None:
+    rules = load_industry_rules()
+    table_text = "\n".join(line for line in text.splitlines() if "|" in line)
+    slugs = normalize_industry_args(requested)
+    if "auto" in slugs:
+        slugs = [slug for slug in slugs if slug != "auto"] + detect_declared_industries(text, rules)
+    if not slugs:
+        slugs = detect_declared_industries(text, rules)
+    if not slugs:
+        add(
+            issues,
+            "P2",
+            "REPORT_NO_INDUSTRY_DECLARATION",
+            "报告未声明主/次行业附录，无法执行行业特定 KPI 检查。",
+            detail="在报告中写“行业附录: saas”或运行检查器时传入 --industry saas。",
+            file=path,
+        )
+        return
+    for slug in dict.fromkeys(slugs):
+        rule = rules.get(slug)
+        if not rule:
+            add(issues, "P1", "REPORT_UNKNOWN_INDUSTRY", f"未知行业规则：{slug}。", file=path)
+            continue
+        for group in rule.get("required_groups", []):
+            if not has_any(table_text, group.get("terms", [])):
+                add(
+                    issues,
+                    "P1",
+                    "REPORT_INDUSTRY_KPI_MISSING",
+                    f"{rule['name_zh']}报告的表格缺少必备 KPI 组：{group['label']}。",
+                    detail=f"accepted_terms={', '.join(group.get('terms', []))}",
+                    file=path,
+                )
+
+
 def text_mentions_ai_capex(text: str) -> bool:
     lower = text.lower()
     return ("ai" in lower or "人工智能" in text or "cloud" in lower or "云" in text) and (
@@ -158,9 +259,18 @@ def row_num(row: Dict[str, str], col: Optional[str]) -> Optional[float]:
     return parse_number(row.get(col)) if col else None
 
 
-def check_report(path: str, assumptions: Optional[Dict], issues: List[Issue]) -> None:
+def check_report(
+    path: str,
+    assumptions: Optional[Dict],
+    issues: List[Issue],
+    industries: Optional[Sequence[str]] = None,
+    language: str = "auto",
+) -> None:
     text = load_text(path)
     lower = text.lower()
+
+    check_language_consistency(text, language, path, issues)
+    check_industry_requirements(text, industries, path, issues)
 
     if not has_any(text, SOURCE_MARKERS):
         add(issues, "P1", "REPORT_NO_SOURCE_SECTION", "报告未发现来源清单或来源说明。", file=path)
@@ -178,6 +288,10 @@ def check_report(path: str, assumptions: Optional[Dict], issues: List[Issue]) ->
         add(issues, "P2", "REPORT_NO_SCENARIO_VALUATION", "报告未发现情景估值或概率加权讨论。", file=path)
     if "epv" not in lower and "盈利能力价值" not in text and "三要素" not in text:
         add(issues, "P2", "REPORT_NO_EPV", "报告未发现 EPV/三要素估值交叉验证。", file=path)
+    if not has_any(text, ["预测登记", "预测与验证", "forecast register", "forecast tracking"]):
+        add(issues, "P2", "REPORT_NO_FORECAST_REGISTER", "报告未发现带验证期限的预测登记。", file=path)
+    if not has_any(text, ["验证日期", "验证时点", "validation date", "review date"]):
+        add(issues, "P2", "REPORT_NO_FORECAST_REVIEW_DATE", "报告预测未发现明确验证日期。", file=path)
 
     has_decision_triad = (
         has_any(text, ["内在价值判断", "intrinsic value view", "intrinsic value judgment"])
@@ -604,7 +718,7 @@ def run(args) -> int:
     if args.assumptions:
         assumptions = check_assumptions(args.assumptions, issues)
     if args.report:
-        check_report(args.report, assumptions, issues)
+        check_report(args.report, assumptions, issues, args.industry, args.language)
     if args.financials:
         check_financials(args.financials, issues)
     if not any([args.report, args.assumptions, args.financials]):
@@ -620,11 +734,14 @@ def write_demo_files(tmp: str) -> Tuple[str, str, str]:
     financials = os.path.join(tmp, "demo_financials.csv")
     with open(report, "w", encoding="utf-8") as f:
         f.write(
-            "# Demo 投资结论\n\n"
+            "# Demo（DEMO）个股投资研究报告\n\n"
             "截至 2026-07-21，来源 Demo。我的判断：公司合理。\n\n"
+            "行业附录: saas。\n\n"
+            "| NRR | RPO | Rule of 40 |\n|---:|---:|---:|\n| 110% | 100 | 35% |\n\n"
             "> 内在价值判断：合理｜未来 1–3 个月市场交易方向：中性｜投资动作：观望。\n"
             "> 市场最可能先交易收入增速和 FCF 修复；上行证伪：增长显著加速；下行证伪：FCF 继续恶化。\n\n"
             "估值由 scripts/dcf.py 运行，包含反向 DCF、情景 DCF、EPV / 盈利能力价值。\n\n"
+            "预测登记：收入增长 10%–15%，验证日期 2026-10-31。\n\n"
             "数据来源与时间戳：Demo 2026-07-21。未获取到：无。\n"
         )
     with open(assumptions, "w", encoding="utf-8") as f:
@@ -668,10 +785,17 @@ def main() -> None:
     ap.add_argument("--report", help="Markdown 报告路径")
     ap.add_argument("--assumptions", help="估值假设 JSON 路径，建议使用 dcf.py 的 config")
     ap.add_argument("--financials", help="历史/预测财务 CSV 路径")
+    ap.add_argument("--industry", action="append", help="行业规则 slug，可重复或逗号分隔；传 auto 读取报告中的行业附录声明")
+    ap.add_argument("--language", choices=["auto", "zh", "en"], default="auto", help="报告语言；auto 从标准标题判定")
+    ap.add_argument("--list-industries", action="store_true", help="列出可用行业 slug 后退出")
     ap.add_argument("--json", action="store_true", help="以 JSON 输出检查结果")
     ap.add_argument("--strict", action="store_true", help="P2 也返回非零退出码")
     ap.add_argument("--demo", action="store_true", help="运行内置示例")
     args = ap.parse_args()
+    if args.list_industries:
+        for slug, rule in load_industry_rules().items():
+            print(f"{slug}\t{rule['name_zh']}\t{rule['appendix']}")
+        return
     if args.demo:
         with tempfile.TemporaryDirectory() as tmp:
             report, assumptions, financials = write_demo_files(tmp)

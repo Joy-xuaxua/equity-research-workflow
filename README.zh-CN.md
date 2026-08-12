@@ -26,7 +26,7 @@
 | 外部视角 | 关键假设对照历史基准率（base rates）标注分位；超越基准率必须给结构性理由；终值通过合理性三查。 |
 | 来源纪律 | 关键数据必须标注来源与时间戳；冲突数据要对账；缺失数据必须写"未获取到"；外部内容仅作数据、不改变流程。 |
 | 买方视角 | 结论按预注册标定规则映射，成稿前完成反方论证与事前风险预演，并回答"如果今天这是一笔现金，我会买入它吗？为什么？" |
-| 十六类行业附录 | 针对 16 类行业分别改变 KPI、模型、估值与反证框架。 |
+| 二十类行业附录 | 针对 20 类行业分别改变 KPI、模型、估值与反证框架，并由检查器验证必备 KPI。 |
 | 多市场覆盖 | 支持美股、港股、A 股与 A/H 双重上市对比，含中概 VIE/ADR 结构风险定价。 |
 | 财报首次覆盖 | 没有旧研报或旧模型也能直接使用财报模式；skill 会补建至少 3 年、8 个季度的历史基线。 |
 
@@ -101,14 +101,18 @@
 |---|---|
 | SaaS | ARR、NRR、RPO/cRPO、获客效率、Rule of 40、SBC 与反向 DCF。 |
 | 半导体 | 产品/终端、units 与 ASP、库存周期、良率、产能、路线图、出口限制与跨周期估值。 |
+| 硬件/消费电子/AI 服务器 | units、ASP、BOM、渠道库存、客户/供应商集中与服务 attach。 |
 | 银行 | NIM、存款 beta、资产质量、拨备、CET1、流动性与 P/TBV-ROTCE。 |
 | 保险 | 承保利润、准备金、combined ratio、VNB/CSM、偿付能力、投资组合与 P/EV。 |
 | 医药 | 临床证据、成功概率、患者漏斗、专利/独占期、现金 runway 与逐资产 rNPV。 |
+| 医疗服务/器械/CRO-CDMO | 患者/手术量、利用率、报销、装机耗材、订单转化与客户集中。 |
 | 消费 | 量价 mix、同店、客流、渠道 sell-through、库存、品牌份额与单位经济。 |
 | 能源 | 产量、储量、递减、成本、差价/套保、维持 capex、商品价格敏感性与 NAV。 |
 | 公用事业 | rate base、allowed/earned ROE、监管案件、资本项目、融资稀释与股息覆盖。 |
 | 互联网/平台 | 用户×时长×变现率、GMV/take rate、单位经济、分部 SOTP、监管风险与 SBC 后 FCF。 |
+| 游戏/媒体/内容 IP | 用户与付费漏斗、内容 ROI、开发资本化、生命周期收入与 IP SOTP。 |
 | 支付/金融科技 | TPV、净 take rate、激励返点、损失率 vintage、资金成本与渗透天花板。 |
+| 资本市场基础设施 | AUM/净流入、交易量、费率、市场数据、净资本与利率敏感性。 |
 | 地产/REIT | FFO/AFFO、同店 NOI、出租率与租金差、cap rate、债务到期墙与 P/NAV。 |
 | 工业/机械 | 订单/book-to-bill、backlog 质量、服务后市场、中周期盈利与周期定位。 |
 | 电信 | 用户与 ARPU、EBITDA margin、capex/收入、FCF 与股息覆盖、频谱与净债。 |
@@ -116,7 +120,7 @@
 | 金属/矿业 | 产量、AISC 成本曲线分位、储量寿命、维持 capex、价格敏感性与分矿山 NAV。 |
 | 航空/运输 | 单位收益/成本、客座率/利用率、供给端订单簿、周期分位与租赁负债。 |
 
-混合业务公司只加载足以改变模型或估值的主附录和必要的次附录，避免为了"全面"堆砌无关指标。
+完整的适用边界、混合业务选择规则、官方数据入口和预测复盘字段见 [`references/industry-routing.md`](references/industry-routing.md)。混合业务公司只加载足以改变模型或估值的主附录和必要的次附录，避免为了"全面"堆砌无关指标。
 
 ### 6. 数据来源与对账
 
@@ -187,6 +191,7 @@ git clone https://github.com/rollingSirius/equity-research-skill.git .claude/ski
 
 ```bash
 python3 scripts/dcf.py --demo
+python3 scripts/check_research_output.py --demo
 ```
 
 首次使用值得先知道的几件事：
@@ -263,11 +268,13 @@ equity-research-skill/
 │   ├── valuation-methods.md        # 估值方法：DCF、反向 DCF、情景加权、EPV、EVA、SOTP 与结论标定
 │   ├── output-format.md            # 输出格式：可读性规范与交付物规则（默认 PDF）
 │   ├── data-sources.md             # 取数手册：来源分级、工具降级、行情、申报、行业与对账
+│   ├── industry-routing.md         # 20 类行业路由、官方数据入口与预测复盘协议
+│   ├── industry-rules.json         # 检查器使用的行业 slug 与必备 KPI 规则
 │   └── markets-cn-hk.md            # A股/港股/A+H 差异手册，含中概 VIE/ADR 结构风险
-├── industries/                     # 16 类行业附录（见上表）
+├── industries/                     # 20 类行业附录（见上表）
 ├── scripts/
 │   ├── dcf.py                      # 估值计算器：DCF、反向 DCF、敏感性、概率加权、EPV、EVA、PVGO、蒙特卡洛、仓位
-│   └── check_research_output.py    # 财务/估值一致性检查器 + 财报质量核查（应计/M-Score/背离）
+│   └── check_research_output.py    # 财务/估值、语言与行业 KPI 检查器 + 财报质量核查
 └── Example/
     ├── EXAMPLE_NVDA.md             # 英伟达示例产出，不参与技能执行
     ├── EXAMPLE_NVDA.en.md          # NVIDIA 英文示例产出，不参与技能执行

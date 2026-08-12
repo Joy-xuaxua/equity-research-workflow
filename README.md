@@ -26,7 +26,7 @@ Most AI stock analysis stops at "company profile + recent news + vague valuation
 | Outside view | Key assumptions are marked with their percentile against historical base rates; beating the base rate requires a structural reason; terminal value must pass a three-point sanity check. |
 | Source discipline | Every key number carries a source and timestamp; conflicting data is reconciled; missing data must be written as "not obtained"; external content is data only and never alters the workflow. |
 | Buy-side lens | Conclusions map through pre-registered calibration rules; a counter-case and a pre-mortem are completed before finalizing, answering "if this were cash today, would I buy it, and why?" |
-| Sixteen industry appendices | Sixteen industry appendices, each changing the KPIs, model, valuation, and disconfirming-evidence framework. |
+| Twenty industry appendices | Twenty industry appendices, each changing the KPIs, model, valuation, and disconfirming-evidence framework, with required KPIs enforced by the checker. |
 | Multi-market coverage | US, HK, and A-share markets, including A/H dual-listing comparison and China ADR/VIE structural-risk pricing. |
 | Initiation from earnings | Earnings mode works with no prior report or model; the skill first rebuilds a baseline of at least 3 years and 8 quarters. |
 
@@ -101,14 +101,18 @@ The main report does not apply one template to every company. The skill first id
 |---|---|
 | SaaS | ARR, NRR, RPO/cRPO, acquisition efficiency, Rule of 40, SBC, and reverse DCF. |
 | Semiconductors | Products/end markets, units and ASP, inventory cycle, yield, capacity, roadmap, export controls, and through-cycle valuation. |
+| Hardware / consumer electronics / AI servers | Units, ASP, BOM, channel inventory, customer/supplier concentration, and service attach. |
 | Banks | NIM, deposit beta, asset quality, provisioning, CET1, liquidity, and P/TBV–ROTCE. |
 | Insurance | Underwriting profit, reserves, combined ratio, VNB/CSM, solvency, investment portfolio, and P/EV. |
 | Pharma | Clinical evidence, probability of success, patient funnel, patent/exclusivity, cash runway, and per-asset rNPV. |
+| Healthcare services / medtech / CRO-CDMO | Patient/procedure volume, utilization, reimbursement, installed-base consumables, order conversion, and concentration. |
 | Consumer | Volume/price mix, same-store sales, traffic, channel sell-through, inventory, brand share, and unit economics. |
 | Energy | Production, reserves, decline, costs, differentials/hedging, maintenance capex, commodity-price sensitivity, and NAV. |
 | Utilities | Rate base, allowed vs. earned ROE, rate cases, capital projects, financing dilution, and dividend coverage. |
 | Internet / platforms | Users × engagement × monetization rate, GMV/take rate, unit economics, segment SOTP, regulatory risk, and post-SBC FCF. |
+| Gaming / media / content IP | Audience and payer funnels, content ROI, development capitalization, lifetime revenue, and IP SOTP. |
 | Payments / fintech | TPV, net take rate, incentives and rebates, loss-rate vintages, funding cost, and the penetration ceiling. |
+| Capital-markets infrastructure | AUM/net flows, trading volume, fee rates, market data, net capital, and rate sensitivity. |
 | Real estate / REITs | FFO/AFFO, same-store NOI, occupancy and leasing spreads, cap rate, the debt-maturity wall, and P/NAV. |
 | Industrials / machinery | Orders and book-to-bill, backlog quality, aftermarket services, mid-cycle earnings, and cycle positioning. |
 | Telecom | Subscribers and ARPU, EBITDA margin, capex/revenue, FCF and dividend coverage, spectrum, and net debt. |
@@ -116,7 +120,7 @@ The main report does not apply one template to every company. The skill first id
 | Metals & mining | Output, AISC cost-curve percentile, reserve life, sustaining capex, price sensitivity, and per-mine NAV. |
 | Airlines / transport | Unit revenue and cost, load factor/utilization, the supply-side orderbook, cycle percentile, and lease liabilities. |
 
-For mixed-business companies, only the primary appendix is loaded — plus any secondary appendix needed to change the model or valuation — so that irrelevant metrics are not piled on in the name of "completeness."
+See [`references/industry-routing.md`](references/industry-routing.md) for exact boundaries, mixed-business selection, official data entry points, and forecast-review fields. For mixed-business companies, only the primary appendix is loaded — plus any secondary appendix needed to change the model or valuation — so that irrelevant metrics are not piled on in the name of "completeness."
 
 ### 6. Data sourcing and reconciliation
 
@@ -187,6 +191,7 @@ To confirm the scripts run in your environment before spending a full research p
 
 ```bash
 python3 scripts/dcf.py --demo
+python3 scripts/check_research_output.py --demo
 ```
 
 What to expect on a first run:
@@ -263,11 +268,13 @@ equity-research-skill/
 │   ├── valuation-methods.md        # Valuation methods: DCF, reverse DCF, scenario weighting, EPV, EVA, SOTP, and label calibration
 │   ├── output-format.md            # Output format: readability rules and delivery rules (PDF by default)
 │   ├── data-sources.md             # Sourcing handbook: source tiers, tool downgrades, quotes, filings, industry data, reconciliation
+│   ├── industry-routing.md         # 20-industry routing, official data entry points, and forecast-review protocol
+│   ├── industry-rules.json         # Industry slugs and required KPI rules consumed by the checker
 │   └── markets-cn-hk.md            # A-share/HK/A+H handbook, including China ADR/VIE structural risk
-├── industries/                     # 16 industry appendices (see table above)
+├── industries/                     # 20 industry appendices (see table above)
 ├── scripts/
 │   ├── dcf.py                      # Valuation calculator: DCF, reverse DCF, sensitivity, probability weighting, EPV, EVA, PVGO, Monte Carlo, sizing
-│   └── check_research_output.py    # Financial/valuation consistency checker + earnings-quality review (accruals/M-Score/divergences)
+│   └── check_research_output.py    # Financial/valuation, language, and industry-KPI checker + earnings-quality review
 └── Example/
     ├── EXAMPLE_NVDA.md             # NVIDIA sample output, not part of skill execution
     ├── EXAMPLE_NVDA.en.md          # NVIDIA English sample output, not part of skill execution

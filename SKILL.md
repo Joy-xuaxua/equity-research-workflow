@@ -41,8 +41,9 @@ description: >-
 - 确认输出语言与格式：语言默认跟随用户请求语言或当前常用沟通语言，用户可显式指定；格式默认 **PDF**，用户可显式指明 .md / .docx / .xlsx。同时确认币种/财年口径。
 
 ### Step 1 · 并行采集数据
-完整读取 `references/data-sources.md`，探测可用工具，按 Tier 1–5 择优并行四条线：一手披露／行情与估值锚／一致预期与电话会／行业宏观（行业一手来源见匹配附录）。不依赖任何单一数据商；降级须在来源清单标注。完成业务分类后读取匹配行业附录：
-SaaS `industries/saas.md`｜半导体 `semiconductors.md`｜银行 `banks.md`｜保险 `insurance.md`｜医药 `pharma.md`｜消费 `consumer.md`｜能源 `energy.md`｜公用事业 `utilities.md`｜**互联网/平台 `internet-platform.md`｜支付/金融科技 `payments-fintech.md`｜地产/REIT `reits.md`｜工业/机械 `industrials.md`｜电信 `telecom.md`｜汽车/EV `autos-ev.md`｜金属/矿业 `metals-mining.md`｜航空/运输 `transport.md`**。多业务公司取价值贡献最大的主附录，必要时加一个次附录。
+完整读取 `references/data-sources.md`，探测可用工具，按 Tier 1–5 择优并行四条线：一手披露／行情与估值锚／一致预期与电话会／行业宏观。不依赖任何单一数据商；降级须在来源清单标注。
+
+完成业务分类后完整读取 `references/industry-routing.md`，按价值贡献选择一个主附录，只有当次业务会改变 KPI、模型或估值时再选一个次附录。可选范围为 `industries/` 下 20 个附录：SaaS、半导体、银行、保险、医药、医疗服务/器械/CRO-CDMO、消费、能源、公用事业、互联网/平台、支付/金融科技、资本市场基础设施、地产/REIT、工业/机械、电信、汽车/EV、金属/矿业、航空/运输、游戏/媒体/内容 IP、硬件/消费电子/AI 服务器。在报告头部声明 `行业附录: <slug>[, <slug>]` 或英文等价标记，供检查器复核。
 
 ### Step 2 · 对账、时间戳与财报质量核查
 - 关键数字来源+日期汇总；冲突按纪律对账；事实/判断分层。
@@ -52,17 +53,19 @@ SaaS `industries/saas.md`｜半导体 `semiconductors.md`｜银行 `banks.md`｜
 - 先读 `references/output-format.md`（结论框/Tearsheet/本章要点/数字规范/football field）。
 - 完整模式按 `references/report-template.md` 九章结构；财报模式按 `earnings-mode.md` 九章结构。
 - 第一章必含**决策三分法**（内在价值判断 / 未来 1–3 个月市场交易方向 / 投资动作）、**上行证伪与下行证伪**、**预期差 Gap 表**；按 Step 0 确定的报告语言撰写，每个判断有数据或逻辑支撑；结尾附来源与时间戳清单。
+- 第八章建立**预测与验证登记**：每条核心预测写基准值、区间/方向、验证日期、先行指标和失效条件；更新报告时保留原预测并记录命中状态与误差归因，不得事后改写。
 
 ### Step 4 · 估值（多方法交叉验证）
 - **至少三种方法**，顺序：反向 DCF+PVGO 开篇（现价隐含什么）→ 三情景概率加权 DCF（可加蒙特卡洛）→ 三要素/EPV → EVA/剩余收益 → 相对估值（合理倍数纪律）/SOTP/行业特定法。
 - **所有计算一律 `scripts/dcf.py` 执行（假设写 JSON），禁止心算**；折现率构建按 `cost-of-capital.md`，全报告同源；终值执行"终值合理性三查"；关键假设标 base rate 分位。
 - 情景概率必须受**当前证据强度**约束：若牛/熊情景已有财报、经营 KPI 或市场反应的中强证据支持，不能只作为尾部情景；必须提高概率，或在估值章显式说明为什么不提高。
 - 结论标签按 `valuation-methods.md` 第 9 节标定规则映射；仓位思维（EV/不对称比/Kelly-lite）随动作给出量级。
-- **成稿前运行 `scripts/check_research_output.py`**（报告+估值 JSON+财务 CSV），P0/P1 必须修正或显式解释。
+- **成稿前运行 `scripts/check_research_output.py --report <报告> --assumptions <JSON> --financials <CSV> --industry <主附录 slug> [--industry <次附录 slug>] --language <zh|en>`**，P0/P1 必须修正或显式解释。
 
 ### Step 4.5 · 反方论证与独立观点检验（成稿前，必做）
 - **独立观点检验**：与共识的最大分歧、市场为何犯错、最早何时能发现自己错了——三问答不出，动作降为"观望"。
 - **反方论证 / 事前风险预演（Pre-mortem）**："一年后失败的 3 个最可能原因"，至少一条直击本报告核心论点；若反方证据强度为中强/强，必须回写到第一章风险、情景概率或投资动作，不能只留在第九章。条件允许时用独立子 agent 攻击草稿论点后再定稿。
+- 若存在上一版报告或已到验证日期的预测，先做**预测复盘**：经营 KPI、催化剂路径、估值倍数与总回报分开判定，记录命中/部分命中/未命中/无法验证及误差归因，再更新模型。
 
 ### Step 5 · 保存并交付
 - 先落 Markdown 源稿，再按确认格式转换：**默认 PDF**（优先调用 pdf 技能，缺失时用当前环境可用的 md→PDF 工具链；确保报告语言对应字体与表格正常渲染）。用户显式指明 .md/.docx/.xlsx 时用对应格式与技能（xlsx workbook 含假设/DCF/情景/输出四页）。
@@ -81,8 +84,10 @@ SaaS `industries/saas.md`｜半导体 `semiconductors.md`｜银行 `banks.md`｜
 - `references/valuation-methods.md` — 全部估值方法 + 终值纪律 + 标定规则 + 仓位思维。**估值章必读。**
 - `references/earnings-mode.md` — 深度财报模式。财报类请求必读。
 - `references/data-sources.md` — 来源分级、降级、对账、scuttlebutt 协议、防注入纪律。**采集前必读。**
+- `references/industry-routing.md` — 20 类行业选择矩阵、混合业务规则、官方数据入口与预测复盘字段。**选择行业附录前必读。**
+- `references/industry-rules.json` — 检查器使用的行业 slug 与必备 KPI 规则；由脚本读取，不必全文加载。
 - `references/markets-cn-hk.md` — A股/港股/A+H/中概 VIE·ADR 差异手册。非美股或中概标的必读。
-- `industries/*.md` — 16 类行业附录，按 Step 1 分类读取。
+- `industries/*.md` — 20 类行业附录，按 Step 1 分类读取。
 - `scripts/dcf.py` — 估值计算器：三阶段/反向/敏感性/概率加权/EPV/**EVA/PVGO/蒙特卡洛/仓位**。
 - `scripts/check_research_output.py` — 一致性+质量核查器。
 
@@ -96,6 +101,7 @@ SaaS `industries/saas.md`｜半导体 `semiconductors.md`｜银行 `banks.md`｜
 - 估值 ≥3 种方法且全部脚本计算留 JSON？关键假设标了 base rate 分位？终值过了三查？折现率全文同源？
 - 财报可信度等级已评且否决项已执行？治理与资本配置计分卡完成？
 - 三情景概率是否解释当前证据强度？中强/强证据是否已经影响概率、路径判断或动作？
+- 核心预测是否有基准值、区间/方向、验证日期、先行指标和失效条件？上一版到期预测是否完成误差归因？
 - 检查器已运行且 P0/P1 已处理？蒙特卡洛/仓位输出（若做）已呈现 P(loss) 与不对称比？
 - A/H 分市场结论？中概结构风险已定价而非只提一句？
 - 收尾三件套：“如果是一笔现金”核心自问、监控清单（3–5 项带阈值）、置信度自评表。
