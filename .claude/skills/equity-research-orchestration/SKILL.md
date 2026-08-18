@@ -51,7 +51,7 @@ description: >-
 ```json
 {
   "company": "", "ticker": "", "exchange": "",
-  "mode": "full|earnings", "language": "zh|en", "currency": "",
+  "mode": "full|earnings", "language": "zh|en", "format": "pdf|md|docx|xlsx", "currency": "",
   "fiscal_year": "", "fiscal_period": "",
   "industry": "",
   "ah_listing": false, "cn_adr": false,
@@ -143,6 +143,7 @@ chapters=<如 2+3>           # chapter-writer 专用
 line=<如 01-disclosure>     # collector 专用
 revision=false|true         # valuation 专用
 orch_root=<绝对路径>        # deliverer 专用（lint_contract.py 所在）
+format=pdf|md|docx|xlsx     # deliverer 专用
 ```
 
 随波次附 1–2 句任务指令（如"执行 W2 对账"）。各 agent body 声明自己所需的键；缺关键键（workdir/skill_root）时 agent 会在回报中说明并停止——你补全后重派。
