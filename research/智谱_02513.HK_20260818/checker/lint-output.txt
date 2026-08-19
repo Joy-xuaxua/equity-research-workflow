@@ -1,0 +1,9 @@
+[FAIL] FINANCIALS_ROWS_SHORT: financials.csv 数据行 4 < 最低要求 5（mode=full）
+[FAIL] GRADE_MISMATCH: forensic\earnings-quality.md 等级行与 grade.json 不一致：{'D'} vs B｜行：4. **置信度折扣**：FY2025 CFO 为 Tier 4 主值＋Tier 3 替代值（分类差 ~10.29 亿未
+[FAIL] GRADE_MISMATCH: forensic\earnings-quality.md 等级行与 grade.json 不一致：{'C', 'B', 'A'} vs B｜行：新证据逐项过预注册表：SBC 558,265（=收入 77%）与原判断一致（监控项⑤）；CFO 双值冲突为数据分类口径差
+[FAIL] GRADE_MISMATCH: forensic\earnings-quality.md 等级行与 grade.json 不一致：{'D', 'C', 'B'} vs B｜行：**否决含义（预注册）**：若等级为 C，动作上限为"观望"、报告第一章须警示；若为 D，一律"规避"且估值在可信度恢复
+[FAIL] GRADE_MISMATCH: chapters\ch05-financials.md 等级行与 grade.json 不一致：{'C', 'B'} vs B｜行：本章要点：智谱 FY2022–FY2025 收入 0.57 亿→7.24 亿元（三年约 12.6 倍），但毛利率自 64
+[FAIL] GRADE_MISMATCH: chapters\ch05-financials.md 等级行与 grade.json 不一致：{'D'} vs B｜行：4. **置信度折扣**：FY2025 CFO 为 Tier 4 主值＋Tier 3 替代值（分类差 ~10.29 亿未
+[FAIL] GRADE_MISMATCH: chapters\ch05-financials.md 等级行与 grade.json 不一致：{'C', 'B', 'A'} vs B｜行：新证据逐项过预注册表：SBC 558,265（=收入 77%）与原判断一致（监控项⑤）；CFO 双值冲突为数据分类口径差
+[FAIL] GRADE_MISMATCH: chapters\ch05-financials.md 等级行与 grade.json 不一致：{'D', 'C', 'B'} vs B｜行：**否决含义（预注册）**：若等级为 C，动作上限为"观望"、报告第一章须警示；若为 D，一律"规避"且估值在可信度恢复
+共 8 项缺失/不一致

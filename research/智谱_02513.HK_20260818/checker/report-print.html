@@ -1,0 +1,2851 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><title>智谱（02513.HK）个股投资研究报告</title><style>
+@page { size: A4; margin: 16mm 12mm 16mm 12mm; }
+html { -webkit-print-color-adjust: exact; }
+body {
+  font-family: "Microsoft YaHei", "PingFang SC", "Noto Sans CJK SC", sans-serif;
+  font-size: 9.5pt; line-height: 1.55; color: #1a1a1a; margin: 0;
+}
+h1 { font-size: 17pt; text-align: center; margin: 0 0 10pt; }
+h2 { font-size: 13pt; margin: 16pt 0 6pt; border-bottom: 1.5pt solid #333; padding-bottom: 2pt; }
+h3 { font-size: 11pt; margin: 12pt 0 4pt; }
+h4 { font-size: 10pt; margin: 10pt 0 3pt; }
+p { margin: 4pt 0; text-align: justify; }
+table {
+  border-collapse: collapse; width: 100%; margin: 6pt 0;
+  font-size: 8pt; table-layout: auto;
+}
+th, td {
+  border: 0.5pt solid #999; padding: 2.5pt 4pt; vertical-align: top;
+  word-break: break-word; overflow-wrap: anywhere; max-width: 260pt;
+}
+th { background: #eef1f4; font-weight: bold; }
+tr { page-break-inside: avoid; }
+blockquote {
+  margin: 8pt 0; padding: 6pt 10pt; border-left: 3pt solid #2b5b84;
+  background: #f2f6fa; page-break-inside: avoid;
+}
+blockquote p { margin: 3pt 0; }
+code, pre {
+  font-family: Consolas, "Microsoft YaHei", monospace;
+}
+code { font-size: 8.5pt; background: #f4f4f4; padding: 0 2pt; }
+pre {
+  font-size: 8pt; background: #f7f7f7; border: 0.5pt solid #ccc;
+  padding: 6pt; overflow: visible; white-space: pre-wrap;
+  page-break-inside: avoid; line-height: 1.35;
+}
+hr { border: none; border-top: 0.75pt solid #bbb; margin: 12pt 0; }
+ul, ol { margin: 4pt 0 4pt 18pt; padding: 0; }
+li { margin: 2pt 0; }
+strong { color: #000; }
+</style></head><body><h1>智谱（02513.HK）个股投资研究报告</h1>
+<ul>
+<li>撰写日期：2026-08-19</li>
+<li>数据截止日：2026-08-18（各数据点以来源时间戳为准）</li>
+<li>报告币种：HKD（财务报表原币 RMB，换算汇率随时间戳标注）</li>
+<li>覆盖状态：首次覆盖（initiation）</li>
+</ul>
+<p>行业附录: saas</p>
+<hr>
+<h2>一、一页速览（Executive Summary）</h2>
+<p>本章要点：标定规则输出<strong>显著高估</strong>（脚本原文：<code>综合区间 [65, 300] × 现价 1043.0 → 显著高估</code>），概率加权公允价值 141.6 HKD/股（较现价 −86%），净预期差<strong>偏空</strong>；投资动作<strong>规避（持有者减持，不建议做空）</strong>。与共识（19 家评级 15 强推+4 买入、目标价 906–2,043）的最大单一分歧：<strong>留存质量零披露与毛利率结构性压制被低估</strong>（归一口径见 1.2 节末，红队 F6 已归一至 ch7.5，本报告全文仅用此一个答案）。</p>
+<blockquote>
+<p><strong>内在价值判断：显著高估</strong>｜<strong>未来 1–3 个月市场交易方向：宽幅震荡、事件驱动（8-31 中报裁决；我的判断：短期博弈不对称略偏多——空头持仓拥挤＋硬催化在即——但 2027-01 供给窗口压制持续性）</strong>｜<strong>投资动作：规避（未持有者不建仓；持有者减持；默认不建议做空）</strong>
+（估值标签由标定规则产出，逐字复述 dcf-output.v2.txt 标定行｜财报可信度 B｜置信度 中）
+一句话论点：市场把智谱定价成"中国版 Anthropic 的垄断期权"（现价的 108% 为未来增长付费，隐含 5 年营收 CAGR +206%~+239%），我的判断是留存质量零披露与毛利率结构性压制（云端 18.9% 毛利业务 +292.6%）被低估——即便 71 亿元 ARR 全额兑现（牛情景 250.8），现价仍高出其约 3.2 倍。
+综合估值区间 HK$65–300（现价 1,043.00，隐含空间 −93.8% ~ −71.2%；概率加权 141.6，−86%）｜上行证伪：中报 H1 收入 ≥11.2 亿＋ARR 经审计口径证实＋云端毛利率连续两期 &gt;30%（基准上修、加权值向 170–200）｜下行证伪：ARR 证实含大额未签约/背书口径或 H1 收入 &lt;8 亿（v2 迁移回摆、加权值回 ~125）
+最大风险：价格-价值背离的路径风险（红队 pre-mortem ③，证据强度中）——流通盘约 2.67%＋恒科/港股通资金＋A+H 双平台叙事可使现价长期停留在公允价值上方，"规避"判意在价格维度被流动力证伪（不改价值标签，但推高等待成本与做空风险）。</p>
+</blockquote>
+<p>单位约定：每股与估值区间为 HKD；财务数据为 CNY（亿元）另有标注。基准时点 2026-08-18 收盘。</p>
+<h3>1.1 Tearsheet 快照表</h3>
+<table>
+<thead>
+<tr>
+<th>项目</th>
+<th>数值</th>
+<th>来源/时间</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>现价</td>
+<td>1,043.00 HKD（当日 −13.30%，区间 990–1,211）</td>
+<td>港交所收盘，台账 §1/C02，2026-08-18</td>
+</tr>
+<tr>
+<td>总市值 / 股本</td>
+<td>4,856.4 亿 HKD ／ 465,623,090 股（人民币口径 4,283–4,386 亿元）</td>
+<td>台账 §1，2026-08-18</td>
+</tr>
+<tr>
+<td>52 周区间</td>
+<td>116.10–2,980.00（25.7 倍宽；现价较高点 −65.0%，高点 2026-06-22 盘中）</td>
+<td>台账 §1/C03，2026-08-18</td>
+</tr>
+<tr>
+<td>关键倍数</td>
+<td>静态 P/S 591–606x（FY2025 收入 7.243 亿元）；P/ARR 252x（2026-03 ARR 17 亿口径，未经审计）；forward P/S 68x–143x（2026E 双锚 30.7/63.4 亿元，跨年口径另见 ch8 R6 注）</td>
+<td>台账 §1、ch7.3，2026-08</td>
+</tr>
+<tr>
+<td>净现金</td>
+<td>约 370 亿 HKD（每股 79.5；v2 修正值 37,083 取整）</td>
+<td>ch6.1（F2 修正后推算），2026-08-19；2026 中报现金未披露</td>
+</tr>
+<tr>
+<td>护城河</td>
+<td>窄（偏弱）——份额与提价撑下限，成本结构与留存缺失压上界</td>
+<td>ch3 表 3-3，2026-08</td>
+</tr>
+<tr>
+<td>财报可信度</td>
+<td>B（红旗：应收背离 +100.8pp 单年有解释；监控 8 项）</td>
+<td>forensic/grade.json，2026-08-19</td>
+</tr>
+<tr>
+<td>催化剂 Top1</td>
+<td>2026-08-31 董事会审议 2026 中期业绩（一次裁决：收入锚、ARR 口径、应收背离三悬念）</td>
+<td>台账 §5（已确认日程）</td>
+</tr>
+<tr>
+<td>上行证伪 Top1</td>
+<td>中报 H1 收入 ≥11.2 亿＋ARR 经审计口径证实（牛权重加大、加权值向 170–200）</td>
+<td>valuation-notes v2 thesis brief，2026-08-19</td>
+</tr>
+<tr>
+<td>下行证伪 Top1</td>
+<td>ARR 证实含未签约/背书口径或 H1 &lt;8 亿（基准回撤至 45 亿下方、加权值回 ~125）</td>
+<td>同上（v2 预注册回摆条件）</td>
+</tr>
+</tbody>
+</table>
+<p>方向约定（避免歧义）：<strong>上行证伪＝使我方"显著高估"判断失效、须上修区间的证据；下行证伪＝使多头叙事失效、加剧下行的证据</strong>。下同。</p>
+<h3>1.2 预期差 Gap 表</h3>
+<p><strong>第一验证事件（红队 F1，强）</strong>：2026-08-31 中报。2026-07 ARR ≈71 亿元 CNY（≈10 亿美元，钛媒体+36氪+华尔街见闻+雪球多源交叉，Tier 4；<strong>公司口径、未经审计、定义未披露</strong>）已触发 v1 预注册推翻条件并完成 v2 基准迁移；8-31 中报原文确认前该锚<strong>悬置</strong>，回摆条件已预注册于 v2 thesis brief（见下行证伪行）。</p>
+<table>
+<thead>
+<tr>
+<th>关键驱动</th>
+<th>市场隐含（反向 DCF/共识）</th>
+<th>我的预期</th>
+<th>Base rate 分位</th>
+<th>分歧依据</th>
+<th>验证信号与时点</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>营收 CAGR（5y）</td>
+<td>+206%~+239%/年（@FCF 率 15%/25%，需 2030 年营收 1,958–3,264 亿元 CNY，口径无关绝对额，处于任何行业口径总量同量级或以上）</td>
+<td>熊/基准/牛 +38.6%/+98.8%/+113.4%（概率加权 81%）；FY2026 收入 26/63.4/75 亿元</td>
+<td>隐含要求处于任何历史分布之外（连续 5 年 &gt;20% 增速者占 1–3%）；我的基准 ≈ 全市场 P95+（已属激进端）</td>
+<td>留存质量零披露＋毛利率结构性压制被低估（归一分歧，见下）；2H25 增速已减速至 +99.4%</td>
+<td><strong>2026-08-31 中报</strong>：H1 收入 vs 11.2 亿锚＋ARR 审计口径（17 亿 vs 71 亿裁决）；2027-03-31 年报 R2（50–70 亿元）</td>
+</tr>
+<tr>
+<td>稳态经营利润率（FCF 率）</td>
+<td>隐含稳态首年 FCF 55,508 百万 HKD/年（≈489.6 亿元 CNY），为 FY2025 实际 FCF 的 15–21 倍绝对差；25% FCF 率（已超窄护城河特征）也不足以支撑现价</td>
+<td>基准 16%（P60–70）；熊 5%／牛 22%（P85+，需云端 &gt;30% 证据方采）</td>
+<td>基准 16% P60–70；牛 22% P85+</td>
+<td>云端毛利率 18.9%＋总毛利率四期下行 64.6%→41.0%＋本地化 66.0%→48.8%（红队补入，Tier 4）</td>
+<td>中报云端分部毛利率：&gt;30% 连续两期=上调线；&lt;20% 或总毛利率 &lt;40%=下调线（2026-08-31 与 2027-03-31 两期）</td>
+</tr>
+<tr>
+<td>再投资回报 ROIIC</td>
+<td>PVGO 占现价 108%（零增长价值 −86.76/股）——为"尚未发生的增长"付费，隐含超额回报持续 &gt;15 年</td>
+<td>当前态 EVA 深负（ROIC&lt;WACC）；2030 基准态 ROIC 18.0%、超额利差 +7.5% 且 10 年衰减至 0；内生 g=45%×16%=7.2%</td>
+<td>超额回报期 &gt;15–20 年的公司极少；EPV/净资产 −0.10x（≪1，毁灭价值）</td>
+<td>ch3 护城河"窄（偏弱）"；增长依赖外部资本（IPO 50 亿＋配售 314 亿＋拟 A 股 150 亿 HKD/CNY 口径见 ch4）</td>
+<td>EPV 拐点转正（云端毛利率回 25%+、经营亏损收窄）；中报是否首披 NRR/留存 KPI</td>
+</tr>
+<tr>
+<td>终值倍数/永续 g</td>
+<td>现价对应静态 P/S 591–606x、P/ARR 252x（3 月口径）——退出倍数无成熟同业锚</td>
+<td>退出 P/FCF 13.7x ≤ 成熟同业 25x；g=3.0% &lt; 中国名义 GDP 4.5–5%</td>
+<td>WACC×g 敏感带 125.8–175.8 全部低于现价（最有利组合 WACC 9.5%/g 4%=175.8，仅现价 17%）</td>
+<td>折现率与永续假设无法解释现价差距——差距只能由收入/利润率兑现解释（回到前两行）</td>
+<td>ch6.6 敏感性表；R6：2026-12-31 前可聚合预测家数 ≥3 家且区间收敛 ±30%</td>
+</tr>
+<tr>
+<td><strong>净预期差方向</strong></td>
+<td><strong>偏空</strong>（v1→v2 加权值 122.4→141.6，量级收敛但不改方向——现价仍高于区间上限 3.5 倍）</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>市场交易变量：未来 1–3 个月，市场最可能先交易 <strong>2026-08-31 中期业绩</strong>（H1 收入落在 30.7/63.4 亿元两锚的哪一侧、ARR 17 亿 vs 71 亿口径裁决、应收背离是否连续第二年触发可信度降 C）与 A 股受理进度；上行证伪（H1 ≥11.2 亿＋ARR 证实＋毛利率企稳）会收窄但无法翻转偏空 Gap（100% 牛情景 250.8 仍 &lt; 1.5×H=450），下行证伪（ARR 含未签约口径/H1 &lt;8 亿）则使加权值回撤至 ~125 一线。</p>
+<p><strong>最大单一分歧（红队 F6 归一，全文唯一锚，勿引隐含增长要求版本）</strong>：市场按"高锚收入＋经调整亏损收窄"定价，我的判断是<strong>留存质量零披露与毛利率结构性压制（云端 18.9% 毛利业务 +292.6%）被低估</strong>。分歧为何存在：外推（1H25 +325% 与 ARR 叙事线性外推）＋口径依赖（非 IFRS 剔 SBC 77%、单一续约率 95%、未经审计 ARR）＋样本薄（可聚合预测仅 1 家）。若我错了：最早 2026-08-31 中报可发现（H1 ≥11.2 亿、毛利率企稳于 41%+、NRR 首披强劲即削弱本论点）。</p>
+<h3>1.3 核心多空逻辑（各 3 条，可证伪）</h3>
+<p><strong>多头逻辑（什么情况下市场是对的）</strong>：</p>
+<ol>
+<li><strong>ARR 动能兑现</strong>：2026-07 ARR ≈71 亿元（较 1 月增 15 倍、提前半年达成年初指引，Tier 4 多源）。证伪线：8-31 经审计证实且 H1 ≥11.2 亿 → 牛权重加大、加权值向 170–200（标签仍不变）；若留存 KPI 首披强劲，熊 35% 失据、ch3 护城河重开。</li>
+<li><strong>行业性提价改善经济性</strong>：DeepSeek 2026-08-17 峰谷定价（部分涨至 11 倍）＋智谱 Q1 提价 83% 下调用量 +400%。证伪线：云端分部毛利率连续两期 &gt;30% → "结构性压制"论失效，稳态 FCF 率上修、区间上移。</li>
+<li><strong>供给端有良性样本＋资产负债表厚</strong>：2026-07-08 首批解禁超六成基石续持、当周 +13%（财新，红队 F10 多头侧）；净现金约 370 亿 HKD＋A 股拟募约 150 亿元 → 熊情景终值有底（资产底价 74.3），生存无虞。</li>
+</ol>
+<p><strong>空头逻辑（本报告立场）</strong>：</p>
+<ol>
+<li><strong>隐含要求超出任何 base rate</strong>：现价隐含 5 年营收 CAGR +206%~+239%（2030 年需 1,958–3,264 亿元，行业空间数据无法为现价辩护——口径无关）；PVGO 占现价 108%；连续 5 年 &gt;20% 增速的公司仅占 1–3%。</li>
+<li><strong>增长质量与经济性双差</strong>：毛利率四期下行至 41.0%（云端 18.9%、本地化 66.0%→48.8%）；SBC/收入 77.1%；CFO 年消耗 22.5–32.8 亿（双口径）；EPV/净资产 −0.10x——零增长视角毁灭价值。</li>
+<li><strong>稀释与供给链条明确</strong>：A 股 2%–8%＋激励 10%/10 年 ≈ 潜在稀释 12–18% 当前股本；上市 6 个月内 IPO 50 亿＋配售 314 亿（解禁次日启动、折让 12.99%、后一周 −28%）；2027-01-07/08 控股股东集团 30.22% 禁售期满＋全流通解禁窗口（合计约 40% 股本进入可流通状态，我的推算：控股股东 30.22%＋其他未上市股份，Tier 1 禁售条款＋台账 §1 股本构成）。</li>
+</ol>
+<hr>
+<h2>二、业务详情</h2>
+<p>本章要点：智谱以 GLM 系列基础模型为核心，经"本地化部署（FY2025 占收入 73.7%）＋云端 MaaS API（26.3%）"双通道变现，FY2025 收入 7.243 亿元（+131.9%）。收入 92.2% 按"某一时点"确认、NRR/RPO 等订阅指标全部未披露——其经济形态是"模型授权＋项目交付＋按量 API"混合体而非订阅 SaaS，增长质量目前只能靠 B 端续约率 95%（Tier 5 单源）等薄弱口径验证。</p>
+<p><strong>口径声明</strong>：本章财务数据为 IFRS 人民币口径，单位人民币百万元（由台账人民币千元换算）；行情项为 HKD。数据截至台账对账日 2026-08-18/19；来源标注"台账 §x / C##"指向 <code>forensic/ledger.md</code> 章节/裁决编号。</p>
+<h3>2.1 商业模式与公司沿革</h3>
+<ul>
+<li>公司 2019-06 设立，2025-03-26 整体变更股份公司，2026-01-08 于港交所 18C（特专科技）上市，IPO 发行价 HK$116.20（台账 §0/§1，Tier 1）。</li>
+<li>核心资产为 GLM 系列基础模型：2026-06 GLM-5.2 官宣（6-13 预热 / 6-15 正式，双值保留 C16）、6-17 上线并开源；API 同期提价——GLM-5-Turbo 单代 +83% 或 2025 年底以来累计 +83%，两种口径并存（C15，引用须注明）。</li>
+<li>交付双线：企业级本地化部署（私有化交付＋实施，FY2025 毛利率 48.8%）与云端部署（MaaS API 按量计费，毛利率 18.9%）（台账 §2.4，Tier 1 业绩公告 2026-03-31）。</li>
+<li>团队与持股：2025-12-31 正式雇员 1,094 名（业绩公告；ESG 口径 937，C09 双值未裁决）；员工持股平台慧惠 8.86%、智登 6.10%（超额配发后、2026-07 配售前基数，C06 我的推算）。</li>
+<li>投入形态：FY2025 研发开支 31.804 亿元＝收入的 439%，其中算力服务费仅 1H25 即 11.451 亿元（台账 §2.1；forensic 检查四）；经营亏损 37.868 亿元。研发强度决定其依赖外部融资：上市后 IPO 含超配毛额 50.00 亿 HKD＋2026-07 配售 314.11 亿 HKD（台账 §1，资本配置细节归第四章）。</li>
+</ul>
+<h3>2.2 收入结构：业务线与确认方式</h3>
+<p>表 2-1 业务线结构（FY2025；Tier 1 业绩公告 2026-03-31，台账 §2.4）</p>
+<table>
+<thead>
+<tr>
+<th>业务线/分部</th>
+<th style="text-align: right;">FY2025 收入（百万元）</th>
+<th style="text-align: right;">占比</th>
+<th style="text-align: right;">同比</th>
+<th style="text-align: right;">毛利率</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>本地化部署</td>
+<td style="text-align: right;">533.955</td>
+<td style="text-align: right;">73.7%</td>
+<td style="text-align: right;">+102.3%*</td>
+<td style="text-align: right;">48.8%</td>
+<td>企业/政府私有化交付；*同比为我的推算（FY2024 本地 263.921＝总收入−云端反推值）</td>
+</tr>
+<tr>
+<td>云端部署（MaaS API）</td>
+<td style="text-align: right;">190.379</td>
+<td style="text-align: right;">26.3%</td>
+<td style="text-align: right;">+292.6%</td>
+<td style="text-align: right;">18.9%</td>
+<td>占比由 FY2024 的 15.5%* 升 10.8pp；增速为披露原值</td>
+</tr>
+<tr>
+<td><strong>合计</strong></td>
+<td style="text-align: right;"><strong>724.334</strong></td>
+<td style="text-align: right;">100.0%</td>
+<td style="text-align: right;">+131.9%</td>
+<td style="text-align: right;">41.0%</td>
+<td>毛利率同比 −15.3pp（56.3%→41.0%），云端占比上升为下拉主因</td>
+</tr>
+</tbody>
+</table>
+<p>*我的推算：FY2024 云端＝190.379÷(1+292.6%)＝48.493 百万元。趋势锚点：1H25 收入 190.877（+325.0%）、2H25 533.457（+99.4%），下半年动能明显减速（台账 §2.1/§5）。</p>
+<p>表 2-2 收入确认方式（Tier 1，台账 §2.4）</p>
+<table>
+<thead>
+<tr>
+<th>确认方式</th>
+<th style="text-align: right;">FY2024（百万元）</th>
+<th style="text-align: right;">FY2025（百万元）</th>
+<th style="text-align: right;">FY2025 占比</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>某一时点</td>
+<td style="text-align: right;">250.521</td>
+<td style="text-align: right;">667.977</td>
+<td style="text-align: right;">92.2%</td>
+</tr>
+<tr>
+<td>某一时段</td>
+<td style="text-align: right;">61.893</td>
+<td style="text-align: right;">56.357</td>
+<td style="text-align: right;">7.8%</td>
+</tr>
+</tbody>
+</table>
+<p>FY2024 时点确认占比 80.2%、时段 19.8%（我的推算）。时点确认占比一年内 +12.0pp，收入形态进一步远离订阅制——这是判断其"非 SaaS 经济形态"的直接证据（我的判断）。</p>
+<p><strong>地区结构：未获取到</strong>（台账无地区收入披露）；<strong>客户分档（ACV/客户数）：未获取到</strong>。</p>
+<h3>2.3 SaaS 适配判定与核心 KPI 表</h3>
+<p><strong>适配判定（我的判断）</strong>：按 saas 行业附录使用原则，收入须以可续约订阅为主才可套用 SaaS 框架与同业倍数；智谱 92.2% 收入为时点确认，属"模型授权＋项目交付＋按量 API"混合形态。下列 KPI 表按附录要求列示（缺失即"未获取到"），仅作增长质量参照，不作为 SaaS 同业横比基准。</p>
+<p>表 2-3 SaaS KPI 表（附录 §10 要求；财务期 FY2025，RMB）</p>
+<table>
+<thead>
+<tr>
+<th>指标</th>
+<th style="text-align: right;">最新值</th>
+<th style="text-align: right;">同比</th>
+<th>过去 8 季趋势</th>
+<th>同业位置</th>
+<th>来源与口径</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ARR / 订阅收入</td>
+<td style="text-align: right;">17 亿元（2026-03）</td>
+<td style="text-align: right;">未获取到</td>
+<td>未获取到</td>
+<td>未获取到</td>
+<td>公司口径、未经审计（台账 §1/C05）；＝FY2025 收入的 2.35 倍（我的推算）</td>
+</tr>
+<tr>
+<td>Revenue growth</td>
+<td style="text-align: right;">+131.9%</td>
+<td style="text-align: right;">1H25 +325.0% / 2H25 +99.4%</td>
+<td>未获取到（仅半年拆分）</td>
+<td>未获取到</td>
+<td>台账 §2.1；FY2023 +117.0%、FY2024 +150.9%（我的推算）</td>
+</tr>
+<tr>
+<td>NRR / gross retention</td>
+<td style="text-align: right;">未获取到</td>
+<td style="text-align: right;">—</td>
+<td>—</td>
+<td>—</td>
+<td>公司未披露；仅 B 端续约率 95%（Tier 5 单源，公司定义未获取到，台账 §5）</td>
+</tr>
+<tr>
+<td>RPO / cRPO</td>
+<td style="text-align: right;">未获取到</td>
+<td style="text-align: right;">—</td>
+<td>—</td>
+<td>—</td>
+<td>公司未披露（台账 §5）</td>
+</tr>
+<tr>
+<td>Gross margin</td>
+<td style="text-align: right;">41.0%（本地 48.8% / 云端 18.9%）</td>
+<td style="text-align: right;">−15.3pp</td>
+<td>未获取到</td>
+<td>未获取到</td>
+<td>台账 §2.1/§2.4；四期轨迹 54.6%→64.6%→56.3%→41.0%</td>
+</tr>
+<tr>
+<td>S&amp;M 效率 / CAC payback</td>
+<td style="text-align: right;">S&amp;M/收入 54.0%</td>
+<td style="text-align: right;">−70.0pp（FY2024 124.0%）</td>
+<td>未获取到</td>
+<td>未获取到</td>
+<td>S&amp;M 3.909 亿元（台账 §2.1）；CAC payback 未获取到（无新增 ARR 拆分）</td>
+</tr>
+<tr>
+<td>Rule of 40</td>
+<td style="text-align: right;">−188.4</td>
+<td style="text-align: right;">恶化</td>
+<td>—</td>
+<td>未获取到</td>
+<td>＝131.9%＋FCF 利润率 −320.3%（我的推算；经营利润率口径为 −390.9，更差）</td>
+</tr>
+<tr>
+<td>FCF margin</td>
+<td style="text-align: right;">−320.3%（FCF −23.207 亿元）</td>
+<td style="text-align: right;">FY2024 −866.4%</td>
+<td>—</td>
+<td>未获取到</td>
+<td>FCF＝CFO −22.460 − capex 0.747 亿元；CFO 为 Tier 5、待年报核验（台账 §2.2/判断 1）</td>
+</tr>
+<tr>
+<td>SBC / revenue</td>
+<td style="text-align: right;">77.1%（5.583 亿元）</td>
+<td style="text-align: right;">FY2024 未获取到</td>
+<td>—</td>
+<td>未获取到</td>
+<td>台账 §2.1（经调整亏损桥）</td>
+</tr>
+</tbody>
+</table>
+<h3>2.4 客户、供应商与集中度</h3>
+<p>表 2-4 集中度与收款质量（Tier 1 为主；台账 §2.4/§2.3）</p>
+<table>
+<thead>
+<tr>
+<th>维度</th>
+<th style="text-align: right;">最新值</th>
+<th>期间</th>
+<th>来源</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>前五大客户收入占比</td>
+<td style="text-align: right;">40.0%</td>
+<td>1H25</td>
+<td>招股书（Tier 1，2025-12-30）；FY2025 全年值未获取到</td>
+</tr>
+<tr>
+<td>最大客户占比</td>
+<td style="text-align: right;">11.0%</td>
+<td>1H25</td>
+<td>同上</td>
+</tr>
+<tr>
+<td>单一客户 &gt;10%</td>
+<td style="text-align: right;">无（FY2024 曾有 1 家 59.465 百万元＝收入 19.0%）</td>
+<td>FY2025</td>
+<td>台账 §2.4（Tier 1）</td>
+</tr>
+<tr>
+<td>前五大供应商占比</td>
+<td style="text-align: right;">50.2%（最大 13.4%）</td>
+<td>1H25</td>
+<td>招股书（Tier 1）</td>
+</tr>
+<tr>
+<td>应收＋合同资产 / 收入</td>
+<td style="text-align: right;">99.0%（FY2024 170.2%）</td>
+<td>FY2025</td>
+<td>我的推算（台账 §2.4）</td>
+</tr>
+<tr>
+<td>DSO</td>
+<td style="text-align: right;">153 天（FY2024 106 天，+47 天）</td>
+<td>FY2025</td>
+<td>脚本计算（forensic/earnings-quality.md 检查三）</td>
+</tr>
+<tr>
+<td>应收账龄 3 个月内占比</td>
+<td style="text-align: right;">80.3%；坏账准备率 10.6%（FY2024 9.0%）</td>
+<td>FY2025</td>
+<td>附注 8（Tier 1 PDF 核验 2026-08-18）</td>
+</tr>
+</tbody>
+</table>
+<p>解读：客户集中度方向改善（最大客户 19.0%→无超 10%），但应收增速 +232.7% 对收入增速 +131.9% 背离 +100.8pp、（AR＋合同资产）/收入仍约 1 倍——收入确认领先收款权，属财报质量单年红旗（forensic/earnings-quality.md 检查三；第五章将逐字嵌入该证据表，此处不展开）。</p>
+<h3>2.5 产业链位置</h3>
+<ul>
+<li><strong>上游（算力）</strong>：芯片/算力外购，供应商前五大占 50.2%；FY2025 资本开支 74.7 百万元（−83.8%），购置算力设备转为服务采购并计入研发（1H25 算力服务费 11.451 亿元）——资本开支轻、费用负担重的算力获取模式；美国实体清单为业务风险（forensic 检查五；台账 §2.2）。</li>
+<li><strong>中游（模型层）</strong>：IDC 中国 MaaS 调用量份额 49.5%（2025 年，第一；2024 年 46.4%、2025H1 49.2%）——份额与口径桥详见第三章。</li>
+<li><strong>下游（客户）</strong>：企业级/政府 B 端（本地化占收入 73.7%）＋API 开发者（云端 26.3%）；B 端续约率 95%（Tier 5 单源）；合同负债 2.513 亿元（+17.9%）慢于收入增速，提示 API 收入以后付费为主（台账 §2.4/C28）。</li>
+</ul>
+<hr>
+<h2>三、业务与竞争分析</h2>
+<p>本章要点：中国 LLM 市场处于"早期爆发＋推理价格战＋算力军备竞赛"阶段，智谱 MaaS 调用量份额 49.5% 居第一（IDC，2025），但收入口径份额仅约 7–14%（我的推算，口径受限）。护城河综合判"窄（偏弱）"——份额上升与逆势提价是正证据，92.2% 时点确认收入、云端毛利率 18.9%、无留存与生态披露是反证；宽护城河所需的财务特征（毛利稳定、正资本回报）在台账数据中不存在。</p>
+<p><strong>口径声明</strong>：财务数据为 IFRS 人民币口径（百万元，由台账千元换算）；来源标注"台账 §x / C##"指向 <code>forensic/ledger.md</code>。数据截至对账日 2026-08-18/19。</p>
+<h3>3.1 行业空间与周期位置</h3>
+<p>表 3-1 中国 LLM 市场规模（台账 C20/C24，双值保留）</p>
+<table>
+<thead>
+<tr>
+<th>口径</th>
+<th style="text-align: right;">规模</th>
+<th>年份与说明</th>
+<th>置信度</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>沙利文（招股书引用）</td>
+<td style="text-align: right;">53 亿元</td>
+<td>2024 年中国 LLM 市场</td>
+<td>Tier 1</td>
+</tr>
+<tr>
+<td>产业信息网</td>
+<td style="text-align: right;">98.67 亿元</td>
+<td>2025 年，统计口径未披露</td>
+<td>低（口径不明，引用须带年份与定义）</td>
+</tr>
+<tr>
+<td>沙利文 CAGR</td>
+<td style="text-align: right;">+63.5%</td>
+<td>行业预测期</td>
+<td>Tier 1（133.3% 口径已弃用，C24）</td>
+</tr>
+</tbody>
+</table>
+<p>智谱收入/市场规模＝7.3%～13.7%（我的推算：分子 FY2025 收入 7.243 亿元，分母分别取 98.67 亿/53 亿元）——与调用量份额 49.5% 差距显著，口径桥见 3.3。</p>
+<p>周期位置（我的判断，依据 C21–C23）：①<strong>算力军备竞赛</strong>——字节 2026 年资本开支由 1,600 亿元计划上调至 2,000 亿元以上（C22），智谱 FY2025 资本开支仅 74.7 百万元且转为费用化服务采购，资源量级不可比；②<strong>推理价格战</strong>——DeepSeek 定价呈 V 型（Q1 提价 +83% → 4–5 月大幅降价 → 8 月再涨，C23），智谱同期逆势提价（GLM-5-Turbo 单代/累计 +83%，口径双值 C15）；③<strong>商业化早期</strong>——份额第一的公司收入仅 7.243 亿元、毛利率 41.0%、经营亏损 37.868 亿元，行业内尚无"份额→利润"的转化样本。</p>
+<h3>3.2 竞争格局与份额趋势</h3>
+<p>表 3-2 中国 MaaS 调用量份额（IDC 原文核验，台账 C21）</p>
+<table>
+<thead>
+<tr>
+<th>时点</th>
+<th style="text-align: right;">智谱</th>
+<th style="text-align: right;">第二名</th>
+<th style="text-align: right;">第三名</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2024</td>
+<td style="text-align: right;">46.4%</td>
+<td style="text-align: right;">未获取到</td>
+<td style="text-align: right;">未获取到</td>
+</tr>
+<tr>
+<td>2025H1</td>
+<td style="text-align: right;">49.2%</td>
+<td style="text-align: right;">未获取到</td>
+<td style="text-align: right;">未获取到</td>
+</tr>
+<tr>
+<td>2025</td>
+<td style="text-align: right;">49.5%</td>
+<td style="text-align: right;">28%</td>
+<td style="text-align: right;">10%</td>
+</tr>
+</tbody>
+</table>
+<p>注：第二/三名厂商名称未获取到（台账未载，不做记忆填补）；"46.4% 为 2025 年值"的误传已经 IDC 原文核验纠正。</p>
+<p>趋势判读（我的判断，证据强度中）：份额 2024→2025 +3.1pp，且是在自身 API 提价背景下取得——价格与份额同升是定价权的初步信号；但提价口径存在单代/累计双值（C15）、调用量≠收入，信号强度打折。</p>
+<p><strong>同业 KPI 对照：未获取到</strong>——竞争对手厂商名及其增速/毛利率/留存均未采集，saas 附录 peer set 规则（5–10 家可比＋剔除说明）无法执行，留 data-gaps 由编排者安排补采。</p>
+<h3>3.3 份额—收入口径桥（我的判断）</h3>
+<p>调用量份额 49.5% 与收入份额 7–14% 并存的三个可能解释：①调用量含免费/低价推理流量，收入贡献低；②本地化部署收入（占收入 73.7%）大概率不在"MaaS 调用量"统计口径内；③API 单价远低于私有化项目客单价。结论：调用量份额是使用量指标而非收入指标，增长与估值判断必须落在收入/ARR 口径（ARR 17 亿元，2026-03，公司口径未经审计，台账 §1）。</p>
+<h3>3.4 护城河评分表</h3>
+<p>表 3-3 模板五维评分（依据均为台账/forensic 数据）</p>
+<table>
+<thead>
+<tr>
+<th>维度</th>
+<th>有无</th>
+<th>强度</th>
+<th>依据</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>无形资产</td>
+<td>有</td>
+<td>窄</td>
+<td>正：GLM 模型族持续迭代（GLM-5→GLM-5.2，2026-06 官宣、6-17 上线，C16）、研发/收入 439%、18C 上市与份额第一的品牌；反：GLM-5.2 于 6-17 即开源，自我稀释技术独占性，开源竞品拉平模型性能差距（C23）</td>
+</tr>
+<tr>
+<td>转换成本</td>
+<td>有（弱）</td>
+<td>窄</td>
+<td>正：本地化部署嵌入企业 IT 栈（收入 73.7%）、B 端续约率 95%（Tier 5 单源）；反：92.2% 收入为时点确认＝交易型而非订阅（表 2-2）、API 客户多模型策略下切换成本低、NRR/RPO 未披露（台账 §2.4/§5）</td>
+</tr>
+<tr>
+<td>网络效应</td>
+<td>无</td>
+<td>无</td>
+<td>无开发者生态收入、无数据回流证据（附录 ecosystem/data moat 维度均未获取到）</td>
+</tr>
+<tr>
+<td>成本优势</td>
+<td>无</td>
+<td>无</td>
+<td>云端毛利率仅 18.9%、算力外购（供应商前五 50.2%）、美国实体清单约束算力获取（forensic 检查五）、算力投入与字节 2,000 亿+ 量级不可比（C22）</td>
+</tr>
+<tr>
+<td>规模</td>
+<td>有</td>
+<td>窄</td>
+<td>正：MaaS 调用量第一（49.5%）、收入体量居前（收入口径份额 7–14%）；反：规模未转化为毛利杠杆（54.6%→64.6%→56.3%→41.0%）、经营亏损随规模扩大（−25.38 亿→−37.87 亿元，台账 §2.1）</td>
+</tr>
+<tr>
+<td><strong>综合</strong></td>
+<td></td>
+<td><strong>窄（偏弱）</strong></td>
+<td>份额与提价能力支撑"窄"下限；成本结构与留存证据缺失压制上界</td>
+</tr>
+</tbody>
+</table>
+<p>表 3-4 SaaS 附录 §8 补充维度</p>
+<table>
+<thead>
+<tr>
+<th>维度</th>
+<th>证据强度</th>
+<th>正证据</th>
+<th>反证据/缺口</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Workflow depth</td>
+<td>中</td>
+<td>本地化占收入 73.7%、续约率 95%</td>
+<td>工作流不可替代性的直接证据未获取到</td>
+</tr>
+<tr>
+<td>Data moat</td>
+<td>未获取到</td>
+<td>—</td>
+<td>无数据回流/累积优势披露</td>
+</tr>
+<tr>
+<td>Ecosystem</td>
+<td>未获取到</td>
+<td>—</td>
+<td>无 API 生态、marketplace、开发者收入数据</td>
+</tr>
+<tr>
+<td>Multi-product expansion</td>
+<td>未获取到</td>
+<td>—</td>
+<td>分部仅本地/云端两分，无产品线 attach 数据</td>
+</tr>
+<tr>
+<td>Scale efficiency</td>
+<td>中偏弱</td>
+<td>S&amp;M/收入 124.0%→54.0%（FY2024→FY2025）</td>
+<td>毛利率四期下行；gross retention 未获取到</td>
+</tr>
+<tr>
+<td>Pricing power</td>
+<td>中</td>
+<td>提价 +83%（口径双值 C15）同期份额 46.4%→49.5%</td>
+<td>DeepSeek 价格战压制（C23）；提价后 win rate 未获取到</td>
+</tr>
+<tr>
+<td>AI defensibility</td>
+<td>弱（双面）</td>
+<td>GLM-5.2 于 2026-06 领先发布并开源</td>
+<td>开源使技术独占窗口短；无 attach rate/ARPU 证据（附录红旗项）</td>
+</tr>
+</tbody>
+</table>
+<p><strong>财务交叉验证（模板要求与第六章 EPV/EVA 交叉；此处以台账财务事实预挂钩）</strong>：宽护城河应表现为定价权下的毛利稳定与高资本回报；台账显示毛利率四期下行至 41.0%、权益总额 −81.11 亿元、经营亏损 37.868 亿元、CFO −22.46 亿元/年——"宽"无财务支持，本章"窄"与财务证据一致。第六章估值若采用高于"窄"的竞争假设（如永续超额收益），须显式解释与本章的矛盾（一致性预注册要求，非本章代第六章下结论）。</p>
+<h3>3.5 增长引擎与证伪点</h3>
+<p>表 3-5 增长引擎</p>
+<table>
+<thead>
+<tr>
+<th>引擎</th>
+<th>量化证据</th>
+<th>持续性评估（我的判断）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>云端 MaaS 放量</td>
+<td>FY2025 +292.6%、占比 15.5%→26.3%（台账 §2.4＋我的推算）</td>
+<td>份额第一＋提价支撑放量，但 18.9% 毛利率压制增长质量</td>
+</tr>
+<tr>
+<td>本地化渗透</td>
+<td>FY2025 +102.3%（我的推算）、毛利率 48.8%</td>
+<td>企业级/政府需求，项目制、时点确认、结算周期长（DSO 153 天）</td>
+</tr>
+<tr>
+<td>提价</td>
+<td>API +83%（单代/累计双口径，C15）</td>
+<td>2026 年收入弹性主因；DeepSeek 8 月再涨暂缓价格战（C23）</td>
+</tr>
+<tr>
+<td>ARR 动能</td>
+<td>17 亿元（2026-03，未经审计）＝FY2025 收入 2.35 倍</td>
+<td>转化率与留存均未验证，单一公司口径</td>
+</tr>
+</tbody>
+</table>
+<p><strong>一致预期对照</strong>：2026E 收入区间 30.72 亿元（彭博，2026-06，多分析师）～ 63.4 亿元（标普源单分析师，2026-07-24 缓存），隐含 FY2026 增速 +324.1%～+775.3%（我的推算）——远高于 2H25 已减速的 +99.4%；2027E 72.14 亿、2028E 173.79 亿元（彭博口径，2026E→2028E CAGR 约 +137.9%，我的推算）。预期兑现要求增长再加速，是本章增长论点最大的证伪敞口（可聚合盈利预测家数仅 1 家，台账 §2.5/C12）。</p>
+<p><strong>必写结论句（saas 附录 §10）</strong>：</p>
+<ul>
+<li>我的判断：这家公司当前估值最依赖的不是本季度收入，而是未来 5 年能否维持三位数增长（彭博口径 2026E–2028E CAGR +137.9%）并把 FCF margin 从 −320.3% 收敛为正——现价对应 P/ARR 约 252x、静态 P/S 591–606x（台账 §1），该隐含要求属于激进区间，验证责任在增长与留存证据（现价隐含假设的反向 DCF 细化归第六章）。</li>
+<li>若 NRR/cRPO/CAC payback/SBC 中的任一核心指标披露后触发下列阈值，或下表现有口径触发阈值，我会下调长期增长与利润假设：</li>
+</ul>
+<p>表 3-6 证伪点与阈值（saas 附录反证清单落地）</p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>证伪信号</th>
+<th>阈值</th>
+<th>当前基准</th>
+<th>验证途径</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>提价致份额流失</td>
+<td>MaaS 调用量份额跌破 45%（连续两个半年）</td>
+<td>49.5%（2025，IDC，C21）</td>
+<td>IDC 半年度报告</td>
+</tr>
+<tr>
+<td>2</td>
+<td>留存恶化</td>
+<td>B 端续约率 &lt;90%</td>
+<td>95%（Tier 5 单源）</td>
+<td>中报/年报或公司口径披露</td>
+</tr>
+<tr>
+<td>3</td>
+<td>规模不经济</td>
+<td>总毛利率 &lt;40%，或云端毛利率连续两期 &lt;20%</td>
+<td>41.0% / 18.9%（FY2025）</td>
+<td>2026 中报（董事会 2026-08-31 审议）/年报</td>
+</tr>
+<tr>
+<td>4</td>
+<td>增长失速</td>
+<td>2026 收入低于一致预期区间下沿 30.72 亿元（隐含 +324.1% 未达成）</td>
+<td>2H25 动能 +99.4%、ARR 17 亿元</td>
+<td>2026 年报（约 2027-03）</td>
+</tr>
+<tr>
+<td>5</td>
+<td>融资依赖复发</td>
+<td>年现金消耗（CFO 口径）&gt;25 亿元且无已确认融资渠道</td>
+<td>CFO −22.46 亿元/年（Tier 5 待年报核验）；招股书口径月耗 3.273 亿元（口径细节未获取到，forensic 监控清单②）</td>
+<td>中报/年报现金流量表</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>四、管理层、治理与资本配置计分卡</h2>
+<p>本章要点：治理端无 C 级红旗且独董更替已闭环（唐穎辞任原因良性、徐文鳴 2026-06-22 生效，原黄旗撤销），剩余黄旗为股权高度集中（未上市股份 50.36%＋控股股东集团 30.22%，禁售至 2027-01-07）与 SBC/收入 77.1%，财报可信度等级 <strong>B</strong>（forensic，2026-08-19 补采轮复核维持）。资本配置计分卡综合评<strong>"差"</strong>，主导项为股权稀释（上市 7 个月累计融资毛额约 364.1 亿港元；A 股发行已获授权 2%–8%＋拟募约 150 亿元、激励计划上限 10%/10 年，合计潜在稀释约 12%–18% 当前股本）与深负的当期再投资回报；回购与分红无记录（不适用）。</p>
+<p><strong>口径声明</strong>：除注明外，财务金额为人民币千元（IFRS），行情与募资额为港元；持股占比基数默认为配售前总股本 445,843,090 股（Tier 1，2026-02-04）。来源缩写：台账＝<code>forensic/ledger.md</code>（v2，对账＋补采折算 2026-08-18/19），EQ＝<code>forensic/earnings-quality.md</code>（含 2026-08-19 复核）；Tier 与时间戳见台账对应行。公司 2026-01-08 上市，"近 5 年记录"实际可得期间仅 FY2024–FY2025＋上市后 8 个月，本章所有评分据此降格并显式注明（我的判断）。</p>
+<h3>4.1 内部人持股与激励一致性</h3>
+<table>
+<thead>
+<tr>
+<th>持股类别/主体</th>
+<th style="text-align: right;">股数（股）</th>
+<th style="text-align: right;">占比</th>
+<th>状态与说明</th>
+<th>来源/时间</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>配售前总股本</td>
+<td style="text-align: right;">445,843,090</td>
+<td style="text-align: right;">100%</td>
+<td>＝未上市股份 224,528,485（50.36%）＋H 股 221,314,605（49.64%）；股东会出席比例反推勾稽一致（347,902,744÷78.0362%）</td>
+<td>台账 §1/C01，Tier 1（2026-02-04、2026-06-22）</td>
+</tr>
+<tr>
+<td>其中：控股股东集团</td>
+<td style="text-align: right;">—</td>
+<td style="text-align: right;">30.22%</td>
+<td>禁售至 2027-01-07；2027-01-08 全流通解禁；A 股发行后摊薄至 25.39%–27.05%</td>
+<td>EQ 检查五（Tier 1）</td>
+</tr>
+<tr>
+<td>其中：员工持股平台·慧惠</td>
+<td style="text-align: right;">39,482,710</td>
+<td style="text-align: right;">8.86%</td>
+<td>已部分转 H（5,922,407 H＋33,560,303 未上市，逐股勾稽）；我的推算（裁决 C06）</td>
+<td>台账 §1/C06</td>
+</tr>
+<tr>
+<td>其中：员工持股平台·智登</td>
+<td style="text-align: right;">27,196,330</td>
+<td style="text-align: right;">6.10%</td>
+<td>已部分转 H（4,079,450＋23,116,880，逐股勾稽）；我的推算（裁决 C06）</td>
+<td>台账 §1/C06</td>
+</tr>
+<tr>
+<td>2026-07-13 配售新增 H 股</td>
+<td style="text-align: right;">19,780,000</td>
+<td style="text-align: right;">摊薄既有股东约 4.2%</td>
+<td>配售价 1,588 港元；经 AGM＋7 月月报表 Tier 4 镜像＋新浪直引三重印证，逐位 Tier 1 待月报表原文</td>
+<td>台账 §1/C11，Tier 4 直引 2026-08-04</td>
+</tr>
+<tr>
+<td>当前总股本（2026-08-18）</td>
+<td style="text-align: right;">465,623,090</td>
+<td style="text-align: right;">—</td>
+<td>H 股合计 241,094,605（51.8%，我的推算）</td>
+<td>台账 §1</td>
+</tr>
+</tbody>
+</table>
+<p>内部人绑定程度不低：员工平台合计约 15.0%（8.86%＋6.10%，配售前基数），叠加控股股东集团 30.22%，利益绑定方向为正面。但激励的经济成本极高：FY2025 SBC 558,265 千元＝收入的 77.1%（FY2024 SBC 单项金额未获取到）；2026 股份激励计划 2026-03-31 采纳、股东会 2026-06-22 通过（99.628%）——<strong>上限约已发行股本 10%（约 4,458 万股，以 445,843,090 为基数）、有效期 10 年</strong>，行权价与摊销表未获取到（Tier 1 投票结果＋Tier 4 通函摘要）。非 IFRS"经调整"口径剔除 SBC（FY2025 加回合计 1,536,195，将 47.18 亿亏损调至 31.82 亿），EQ 检查四已定性为"激励与非 IFRS 挂钩风险"的监控项。<strong>我的判断</strong>：激励一致性呈两面性——持股绑定深（正），但股权成本接近收入的八成且被经调整口径系统性移出亏损叙事（负），卖方预测采用"经调整净亏损"口径（JPM，2026-08-17 转述）放大了后者。</p>
+<p>高管背景与任职记录：<strong>未获取到</strong>（董事与高管个人履历、董事会构成未进入台账，招股书相应章节未采集；已入档的人事记录仅独董更替一项，见 4.2）。审计师为毕马威（招股书申报会计师），FY2025 业绩公告数字经审计，股东会 2026-06-22 以 100% 赞成续聘毕马威（Tier 1）；<strong>2025 年报审计意见类型未获取到</strong>（EQ 检查五：正面，留一项待核）。</p>
+<h3>4.2 治理红旗与可信度等级（表述与 forensic 一致）</h3>
+<table>
+<thead>
+<tr>
+<th>治理信号</th>
+<th>表述（与 EQ 检查五一致）</th>
+<th>定级</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>独董更替（闭环）</td>
+<td>唐穎 2026-05-06 辞任独董/薪酬委员会主席/提名委员会成员（"希望投入更多时间于其他公司及个人事务"、确认与董事会无分歧、因独董低于 1/3 依规待继任生效）→ 徐文鳴（41 岁，中国政法大学法与经济学研究院院长、华熙生物独董）2026-06-22 股东会通过（99.9977%）继任，年薪 RMB 40 万（税前）</td>
+<td><strong>非红旗（原黄旗撤销）</strong>：原因良性、程序合规、过渡机制依规；若后续披露显示与财务/审计分歧相关则重开。辞任 Tier 5 多源转述＋继任/薪酬 Tier 1</td>
+</tr>
+<tr>
+<td>股权集中</td>
+<td>未上市股份 50.36%＋控股股东集团 30.22%；配發結果公告专段"股权高度集中"警告</td>
+<td>结构性风险（已披露）</td>
+</tr>
+<tr>
+<td>激励结构</td>
+<td>上限约已发行股本 <strong>10%（约 4,458 万股）/10 年</strong>，股东会 2026-06-22 通过（99.628%）；行权价与摊销表未获取到；SBC 558,265＝收入 77%，非 IFRS 口径剔除 SBC</td>
+<td>操纵动机内建的轻度信号＋潜在稀释 ~9.6% 当前股本（10 年）须入估值（EQ 口径）</td>
+</tr>
+<tr>
+<td>资本运作节奏</td>
+<td>上市 6 个月内 IPO 50 亿＋配售 314 亿（解禁次日启动、折让 12.99%、完成后一周股价 −28%）＋<strong>A 股科创板发行已获股东会特别决议授权（2026-06-22：发行后总股本 2%–8%、拟募 ~150 亿元、控股股东摊薄至 25.39%–27.05%、辅导验收 2026-06-17、处 CSRC 注册受理前）</strong></td>
+<td><strong>监控项</strong>：时机选择属市场行为观察（Tier 5），非财务造假信号；A 股稀释链（2%–8%＋激励 10%）合计潜在稀释约 <strong>12%–18%</strong> 当前股本（我的推算区间，估值须显性列示）</td>
+</tr>
+<tr>
+<td>关联交易</td>
+<td>供应商前五大 50.2%、最大 13.4%；2024-11 收购并认购投资约 2.03 亿元形成应收（附注 8(i)）</td>
+<td>集中度偏高，无异常定价证据（明细未获取到）</td>
+</tr>
+<tr>
+<td>持续经营</td>
+<td>FY2025 末流动负债净额 −88.35 亿、权益总额 −81.11 亿；董事依 IPO 毛额 50.00 亿港元＋未动用融资 52.36 亿认定持续经营适当；上市＋配售后流动性实质修复</td>
+<td>曾为重大疑点、已被两轮融资补救；融资依赖型商业模式未变（监控）</td>
+</tr>
+<tr>
+<td>审计/做空/监管</td>
+<td>毕马威（股东会 2026-06-22 以 100% 赞成续聘，Tier 1）；无做空报告、无问询函；稳定价格操作（116.10–116.20 买、190.70–262.00 卖）属绿鞋常规</td>
+<td>无红旗（审计意见类型待核）</td>
+</tr>
+</tbody>
+</table>
+<p><strong>财报可信度等级：B</strong>（EQ/grade.json；2026-08-19 补采轮复核<strong>维持 B、veto_action=null</strong>，监控清单由 7 项扩至 8 项——独董项撤销、新增 A 股发行进度与稀释链条目）。评级依据：触发 1–2 项轻度红旗且有合理解释，同时多项监控指标；红旗①为应收背离 +100.8pp / DSO 106→153 天（单年，详见第五章），红旗②为非 IFRS 调整项连年＋SBC/收入 77%＋G&amp;A 异动未明。<strong>升级触发</strong>：2026 中报应收再度背离即构成"持续背离"→ C。否决含义（预注册）：B 级无估值限制；监控指标纳入报告。</p>
+<h3>4.3 中概结构五查（VIE / ADR，按 markets-cn-hk.md §8；C30 更正后口径）</h3>
+<table>
+<thead>
+<tr>
+<th>检查项</th>
+<th>结果</th>
+<th>依据</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1. VIE 架构</td>
+<td>台账无 VIE 披露。Tier 1 股本结构（未上市股份可全流通转换为 H 股、每股面值人民币 0.10 元、2025-03-26 整体变更股份公司）表明为 <strong>H 股架构</strong>：股东直接持有境内股份公司股份，非开曼壳协议控制。<strong>我的判断</strong>：VIE 协议控制风险不适用；招股书风险章节原文未采集，若载有 VIE 专节需复核（见尾注）</td>
+<td>台账 §0/§1</td>
+</tr>
+<tr>
+<td>2. 现金通道</td>
+<td><strong>未获取到</strong>现金的实体/币种分布与可分配性逐层披露；可确认融资流入均为港元（IPO 净额 48.06 亿＋配售净额 ≈313.75 亿港元）。<strong>我的判断</strong>：经营现金流 −22.5 亿/年（人民币）背景下，现金通道实质是"港元融资所得覆盖境内烧钱"——配售后备考现金超 300 亿元人民币量级（EQ 检查五推算），规模上充裕</td>
+<td>台账 §1；EQ 检查五</td>
+</tr>
+<tr>
+<td>3. 退市与监管</td>
+<td>单一港股主板上市；<strong>无 SEC 登记申报——EDGAR 无 F-6/20-F（Tier 1 负面证据，2026-08-19）</strong>→ 无美国挂牌证券，HFCAA/PCAOB 检查不适用；美国实体清单列名为业务风险非治理风险（EQ 检查五）；中方数据安全/出海审查敞口未获取到</td>
+<td>台账 §1/C30</td>
+</tr>
+<tr>
+<td>4. 治理（结构维度）</td>
+<td><strong>未获取到</strong>同股不同权（WVR）安排披露；开曼小股东救济弱度问题在 H 股架构下不直接适用；实质风险为"股权高度集中"警告＋控股股东集团 30.22% 禁售至 2027-01-07 的解禁节奏</td>
+<td>EQ 检查五；台账 §1</td>
+</tr>
+<tr>
+<td>5. ADR 机械项</td>
+<td><strong>无交易所挂牌/受托 ADR 计划</strong>（发行人不参与）；但 OTC Pink Limited 场外存在<strong>非受托 ADR KNWAY</strong>（1 ADR＝0.5 股普通股，CUSIP US49926K1034，报价 54.00 美元，2026-08-19 15:59 美东）与 <strong>H 股直接报价 KATJF</strong>（162.00 美元，最近成交 2026-06-05，陈旧）。折算参考：KNWAY×2＝108 美元/股 vs 港股 1,043 港元≈133.6 美元，OTC 较港股约 <strong>−19%</strong>（时点/流动性不可比，仅存在性证据，<strong>不作估值锚</strong>——C30 裁决；台账我的判断：价差不反映套利机会）</td>
+<td>台账 §1/C30，Tier 2 OTC Markets＋Tier 1 EDGAR（2026-08-19）</td>
+</tr>
+</tbody>
+</table>
+<p>五查结论（C30 更正后）：<strong>未发现 VIE/HFCAA/受托 ADR 类结构性尾部情景的证据</strong>，按 §8 处理规则无需为此施加折价或尾部情景；OTC 非受托报价（KNWAY/KATJF）仅为存在性证据，其 −19% 价差不构成估值锚。cn_adr=true 参数按 C30 理解为"OTC 存在性"而非"美上市"。结构端实质减值项仍为股权集中与解禁/再融资节奏（已在 4.2/4.4 定级），其定价属估值章职责，本章不越界。</p>
+<h3>4.4 资本运作时间线（上市 7 个月）</h3>
+<table>
+<thead>
+<tr>
+<th>时间</th>
+<th>事件</th>
+<th>数值</th>
+<th>来源/时间</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2026-01-08</td>
+<td>H 股主板上市（18C）</td>
+<td>发行价 116.20 港元；毛额合计 50.00365 亿（含超配），净额 48.06 亿港元</td>
+<td>台账 §1/C08，Tier 1</td>
+</tr>
+<tr>
+<td>2026-01–02</td>
+<td>稳定价格期（绿鞋）</td>
+<td>护盘买入 116.10–116.20、卖出 190.70–262.00 港元</td>
+<td>EQ 检查五（Tier 1）</td>
+</tr>
+<tr>
+<td>2026-02-04</td>
+<td>超额配股权后股本</td>
+<td>445,843,090 股</td>
+<td>台账 C01，Tier 1</td>
+</tr>
+<tr>
+<td>2026-03-31</td>
+<td>采纳股份激励计划</td>
+<td>上限 10%（约 4,458 万股）/10 年；股东会 6-22 通过（99.628%）；行权价与摊销表未获取到</td>
+<td>台账 §2.5，Tier 1 投票＋Tier 4 通函</td>
+</tr>
+<tr>
+<td>2026-05-06</td>
+<td>唐穎辞任独董</td>
+<td>原因良性、确认无分歧；待继任生效（Tier 5 多源转述）</td>
+<td>台账 §2.5</td>
+</tr>
+<tr>
+<td>2026-06-08</td>
+<td>恒生科技指数纳入（含港股通）</td>
+<td>检讨公布 2026-05-22</td>
+<td>台账 C17</td>
+</tr>
+<tr>
+<td>2026-06-17</td>
+<td>A 股辅导验收（国泰海通）</td>
+<td>辅导链：中金(2025-04)→2026-02 撤回重备→6-06 备案→6-17 验收；处 CSRC 注册受理前</td>
+<td>台账 §2.5/C10，Tier 5 转述</td>
+</tr>
+<tr>
+<td>2026-06-22</td>
+<td>股东会</td>
+<td>徐文鳴继任独董生效（99.9977%，年薪 RMB 40 万，Tier 1）；A 股发行特别决议授权（发行后总股本 2%–8%、拟募 ~150 亿元、决议有效期 12 个月，Tier 1）；激励计划通过；续聘毕马威（100%）</td>
+<td>台账 §2.5</td>
+</tr>
+<tr>
+<td>2026-07-13</td>
+<td>配售完成（解禁次日启动）</td>
+<td>19,780,000 股 @1,588 港元（较 7-08 收盘 1,825 折让 12.99%）；毛额 314.106 亿、净额 ≈313.75 亿港元；完成后一周股价 −28%</td>
+<td>台账 §1，Tier 4 直引</td>
+</tr>
+<tr>
+<td>2026-08-18</td>
+<td>最新收盘</td>
+<td>1,043.00 港元（−13.30%）；较 6-22 高点 2,980 回撤 −65.0%，较配售价 −34.3%</td>
+<td>台账 §1/C02</td>
+</tr>
+</tbody>
+</table>
+<p>累计上市以来融资毛额 ≈<strong>364.11 亿港元</strong>（Tier 1＋Tier 4，台账 §1）。<strong>我的判断</strong>：连续大额融资与"解禁次日折让配售"的时机选择不构成财务造假信号（与 EQ 表述一致），但 A 股发行已获股东会授权（发行后总股本 2%–8%、拟募约 150 亿元，其中 120 亿基座模型/20 亿 MaaS/10 亿营运——Tier 1 授权＋Tier 4 通函拆分＋Tier 5 辅导验收转述），叠加激励计划上限 10%/10 年，显示管理层以融资为第一资本工具、以摊薄换算力的路径依赖；在 SBC/收入 77.1% 之上再叠加两级市场融资，是本计分卡给予稀释维度"差"评的直接依据。</p>
+<h3>4.5 资本配置计分卡</h3>
+<table>
+<thead>
+<tr>
+<th>维度</th>
+<th>可得期间记录</th>
+<th>评分</th>
+<th>依据</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>回购</td>
+<td>无回购记录；稳定价格期买入为绿鞋护盘机制（非回购）</td>
+<td><strong>不适用（无记录）</strong></td>
+<td>上市未满 1 年、深度亏损期，无回购属中性；台账无回购公告</td>
+</tr>
+<tr>
+<td>并购</td>
+<td>商誉 39,379（2023 年收购聆心智能形成，未再增长、无减值）；2024-11 收购并认购投资约 2.03 亿元形成应收（附注 8(i)）</td>
+<td><strong>中</strong></td>
+<td>体量极小且无减值史；标的后续 ROIC 未获取到，故不给优</td>
+</tr>
+<tr>
+<td>再投资</td>
+<td>研发 3,180,443＝收入 439%；收入 FY2024→FY2025 增量 +411,920 vs 经营亏损扩大 −1,248,398（增量经营回报深负，我的推算）；capex 74,700（−83.8%，算力购置转服务采购、费用化进研发，1H25 算力服务费即 1,145,100）</td>
+<td><strong>差</strong></td>
+<td>当期会计回报深负。<strong>我的判断</strong>：18C 特专科技上市前重度亏损为制度性阶段特征（净亏损＝收入 6.5 倍），"差"针对当期回报而非投入决策本身；回报兑现的验证依赖第五章/估值章的路径判断</td>
+</tr>
+<tr>
+<td>分红</td>
+<td>无分红记录（FY2022–FY2025 连年亏损，FY2025 末权益总额 −81.11 亿）</td>
+<td><strong>不适用（无记录）</strong></td>
+<td>亏损期不分红中性，不构成扣分</td>
+</tr>
+<tr>
+<td>股权稀释</td>
+<td>SBC/收入 77.1%（FY2025）；FY2025 年内股本 36.2M→159.5M（可转换工具转股，附注 7）；IPO＋配售累计毛额 364.11 亿港元、配售摊薄约 4.2%；激励计划上限 10%（约 4,458 万股/10 年）＋A 股授权 2%–8%（9,098,838–38,768,964 股、拟募 ~150 亿元、CSRC 受理前），合计潜在稀释约 12%–18% 当前股本（EQ 口径）</td>
+<td><strong>差</strong></td>
+<td>SaaS 附录红旗项"Non-GAAP 利润好看但 SBC 高企、股本持续稀释"的直接命中；且再融资节奏与解禁日相邻</td>
+</tr>
+<tr>
+<td><strong>综合</strong></td>
+<td></td>
+<td><strong>差</strong></td>
+<td>差评集中于稀释与再投资两项；按模板规则，综合"差"进入否决项考量输入，具体动作由结论章裁决</td>
+</tr>
+</tbody>
+</table>
+<p><strong>我的判断（阈值声明，SaaS 附录必写结论句的治理侧适配）</strong>：若 SBC/收入在 2026–2027 年报仍高于 50%、或激励计划行权价/摊销表披露后确认摊销使经调整净亏损与 IFRS 净亏损的裂口继续扩大、或解禁后 6 个月内 A 股发行进入定价且叠加超 100 亿港元级新融资，我会显式下调长期每股价值假设（提高年化稀释率至覆盖 12%–18% 潜在稀释链）——这家公司的股权成本正以接近收入八成的速率由存量股东承担，且当前无任何对冲性回购。</p>
+<h3>4.6 治理监控清单（阈值版；对齐 EQ 监控清单 8 项中的治理相关条目）</h3>
+<table>
+<thead>
+<tr>
+<th>监控项</th>
+<th>关注阈值</th>
+<th>触发后果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2025 年报审计意见类型（独董项已闭环撤销，EQ 监控⑥）</td>
+<td>意见非无保留</td>
+<td>可信度等级 B 立即重开（EQ 预注册）</td>
+</tr>
+<tr>
+<td>2026 中报应收增速−收入增速</td>
+<td>连续第二年背离</td>
+<td>升级为 C 级触发项（EQ 预注册）</td>
+</tr>
+<tr>
+<td>SBC 与激励计划摊销（行权价/摊销表待披露，EQ 监控⑤）</td>
+<td>SBC/收入连续两年 &gt;50%</td>
+<td>下调每股价值假设、提高稀释率（本章 4.5 声明）</td>
+</tr>
+<tr>
+<td>2027-01-08 全流通解禁与融资节奏（EQ 监控⑦）</td>
+<td>解禁后 6 个月内 &gt;100 亿港元级新融资</td>
+<td>稀释评级维持"差"并升级监控</td>
+</tr>
+<tr>
+<td>A 股发行进度：CSRC 注册受理→定价（EQ 监控⑧；授权已获 Tier 1）</td>
+<td>受理或定价落地</td>
+<td>按 2%–8%＋激励 10% 稀释链（约 12%–18% 当前股本）入估值模型</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>五、财务分析与财报质量</h2>
+<p>本章要点：智谱 FY2022–FY2025 收入 0.57 亿→7.24 亿元（三年约 12.6 倍），但毛利率自 64.6% 峰值降至 41.0%、FY2025 净亏损 47.18 亿元（收入的 6.5 倍）、年经营现金流出 22.5 亿–32.8 亿元（CFO 双口径，C29）——增长由融资而非经营现金支撑。财报可信度等级 <strong>B</strong>（一项单年红旗：应收增速与收入增速背离 +100.8pp / DSO 106→153 天，有合同资产结转的解释；另多项监控指标），核心跟踪项为应收背离、SBC/收入 77.1%、毛利率轨迹与现金消耗。</p>
+<p>口径声明：除特别注明，本章财务数据均为<strong>人民币千元</strong>（IFRS，自然年 12-31 止），来源为 forensic 台账 §2（Tier 1：招股书 2025-12-30、FY2025 业绩公告 2026-03-31 且 PDF 已于 2026-08-18 22:15 回源核验）；FY2025 经营现金流为 C29 双值（主值 A Tier 4／替代值 B Tier 3，分类口径差约 10.29 亿，终核待年报，见表 5-1 注）。比率为脚本计算（<code>forensic/_ratios.txt</code> 勾稽通过）。</p>
+<h3>5.1 财务趋势</h3>
+<p><strong>表 5-1：五年趋势表（模板要求近 5 年；上市主体申报报表期自 FY2022 起，FY2021 及以前无申报数据——数据不可得而非采集失败，故列 4 个财年）</strong></p>
+<table>
+<thead>
+<tr>
+<th>指标（RMB 千元）</th>
+<th style="text-align: right;">FY2022</th>
+<th style="text-align: right;">FY2023</th>
+<th style="text-align: right;">FY2024</th>
+<th style="text-align: right;">FY2025</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>收入</td>
+<td style="text-align: right;">57,409</td>
+<td style="text-align: right;">124,538</td>
+<td style="text-align: right;">312,414</td>
+<td style="text-align: right;">724,334</td>
+</tr>
+<tr>
+<td>收入同比</td>
+<td style="text-align: right;">未获取到</td>
+<td style="text-align: right;">+116.9%</td>
+<td style="text-align: right;">+150.9%</td>
+<td style="text-align: right;">+131.9%</td>
+</tr>
+<tr>
+<td>毛利</td>
+<td style="text-align: right;">31,345*</td>
+<td style="text-align: right;">80,452*</td>
+<td style="text-align: right;">175,889</td>
+<td style="text-align: right;">296,656</td>
+</tr>
+<tr>
+<td>毛利率</td>
+<td style="text-align: right;">54.6%*</td>
+<td style="text-align: right;">64.6%*</td>
+<td style="text-align: right;">56.3%</td>
+<td style="text-align: right;">41.0%</td>
+</tr>
+<tr>
+<td>经营亏损</td>
+<td style="text-align: right;">未获取到</td>
+<td style="text-align: right;">未获取到</td>
+<td style="text-align: right;">-2,538,352</td>
+<td style="text-align: right;">-3,786,750</td>
+</tr>
+<tr>
+<td>经营利润率</td>
+<td style="text-align: right;">未获取到</td>
+<td style="text-align: right;">未获取到</td>
+<td style="text-align: right;">-812.7%</td>
+<td style="text-align: right;">-522.8%</td>
+</tr>
+<tr>
+<td>年内亏损</td>
+<td style="text-align: right;">-143,650</td>
+<td style="text-align: right;">-787,957</td>
+<td style="text-align: right;">-2,958,007</td>
+<td style="text-align: right;">-4,718,167</td>
+</tr>
+<tr>
+<td>净利率</td>
+<td style="text-align: right;">-250.2%</td>
+<td style="text-align: right;">-632.7%</td>
+<td style="text-align: right;">-946.8%</td>
+<td style="text-align: right;">-651.3%</td>
+</tr>
+<tr>
+<td>经营现金流 CFO</td>
+<td style="text-align: right;">未获取到</td>
+<td style="text-align: right;">未获取到</td>
+<td style="text-align: right;">-2,244,900</td>
+<td style="text-align: right;">-2,246,000†（A）／-3,275,000†（B）</td>
+</tr>
+<tr>
+<td>资本开支</td>
+<td style="text-align: right;">未获取到</td>
+<td style="text-align: right;">未获取到</td>
+<td style="text-align: right;">462,300</td>
+<td style="text-align: right;">74,700</td>
+</tr>
+<tr>
+<td>FCF（CFO−capex）</td>
+<td style="text-align: right;">未获取到</td>
+<td style="text-align: right;">未获取到</td>
+<td style="text-align: right;">-2,707,200</td>
+<td style="text-align: right;">-2,320,700†（A）／-3,349,700†（B）</td>
+</tr>
+<tr>
+<td>FCF margin</td>
+<td style="text-align: right;">未获取到</td>
+<td style="text-align: right;">未获取到</td>
+<td style="text-align: right;">-866.5%</td>
+<td style="text-align: right;">-320.3%†（A）／-462.5%†（B）</td>
+</tr>
+<tr>
+<td>经调整净亏损（非 IFRS）</td>
+<td style="text-align: right;">-97,400‡</td>
+<td style="text-align: right;">-621,000‡</td>
+<td style="text-align: right;">-2,465,569</td>
+<td style="text-align: right;">-3,181,972</td>
+</tr>
+<tr>
+<td>基本 EPS（元）</td>
+<td style="text-align: right;">未获取到</td>
+<td style="text-align: right;">未获取到</td>
+<td style="text-align: right;">-8.72</td>
+<td style="text-align: right;">-12.03</td>
+</tr>
+<tr>
+<td>ROE / ROIC</td>
+<td style="text-align: right;">不适用（权益为负，见注 3）</td>
+<td style="text-align: right;">不适用</td>
+<td style="text-align: right;">不适用</td>
+<td style="text-align: right;">不适用</td>
+</tr>
+</tbody>
+</table>
+<p>表注：<em>FY2022/2023 毛利为披露毛利率反推值（±0.1% 舍入），2024/2025 为披露原值。†FY2025 CFO 为 C29 双值：主值 A -2,246,000（Tier 4 搜狐，其 1H25 列与招股书审计数完全一致，即 financials.csv 载值）；替代值 B -3,275,000（Tier 3 东吴/Wind 标准化）。两套均勾稽至 Tier 1 现金净变动 -1,010 万，差约 10.29 亿为</em><em>分类口径</em>*（短期投资购买、可转换工具相关现金流归类），非事实冲突；业绩公告为简明口径无现金流量表，终核待年报。B 口径 FCF＝-32.75 亿−0.747 亿≈-33.5 亿。‡台账以 -97.4M/-621.0M 记载，此处换算为千元。注 3：权益总额 FY2024 -3,955,145、FY2025 -8,110,982（向投资者发行的金融工具 10,072,827 计入负债，上市后已重分类为权益），负权益与经营亏损并存时 ROE/ROIC 比率无经济含义，不列示（口径事实而非缺数）。EPS 分子为"分担向投资者发行的金融工具亏损后"归母亏损（附注 7a：-1,394,042 / -1,918,476 千元），脚本复算与披露一致。来源：ledger §2.1–2.2＋C29；半年度粗拆：1H25 收入 190,877（+325.0%）、2H25 约 +99.4%（减速方向明确）。</p>
+<p><strong>费用结构与利润率驱动（FY2024→FY2025）</strong></p>
+<ul>
+<li>研发开支 FY2025 为 3,180,443（占收入 439.0%），其中算力服务费 1H25 即 1,145,100——算力开支<strong>费用化进研发</strong>而非资本化（财报质量含义见 5.2 检查四）。</li>
+<li>S&amp;M 387,475→390,869（+0.9%），S&amp;M/收入 124.0%→54.0%——四条费用线中唯一体现规模杠杆的一条。</li>
+<li>G&amp;A 133,603→505,357（+278.3%），其中上市开支仅 40,568，增量 371,754 千元的构成明细未获取到（待年报附注）。</li>
+<li>毛利率 56.3%→41.0%（-15.3pp）：云端部署收入占比升至 26.3%（+292.6%）而云端毛利率仅 18.9%（本地化部署 48.8%）。我的判断：压制是结构性的——若云端占比继续上升且云端毛利率不改善，综合毛利率尚未见底。</li>
+</ul>
+<p><strong>FCF "改善"的质量拆解（我的判断，双口径）</strong>：主值 A 口径下 FCF 同比改善 386,500 千元（-2,707,200→-2,320,700），与 capex 下降 387,600 千元（462,300→74,700，购置算力设备转服务采购）几乎完全相等，而 CFO 仅微降 1,100 千元——现金"改善"的实质是"资本开支转费用"（同一笔算力开支改压毛利与研发费用），不是经营杠杆。替代值 B 口径（CFO -32.75 亿）下 CFO 同比恶化约 10.29 亿、FCF 扩大至约 -33.5 亿，但口径差属短期投资购买与可转换工具相关现金流的分类归属（C29，两口径同勾稽 Tier 1 现金净变动 -1,010 万），非事实冲突。无论取哪一口径，年现金消耗 22.5 亿–32.8 亿的融资依赖结构不变（终核待年报）。</p>
+<p><strong>表 5-2：资产负债表健康度（RMB 千元；FY2022/2023 未获取到）</strong></p>
+<table>
+<thead>
+<tr>
+<th>指标</th>
+<th style="text-align: right;">FY2024</th>
+<th style="text-align: right;">FY2025</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>总资产</td>
+<td style="text-align: right;">4,375,769</td>
+<td style="text-align: right;">4,853,861</td>
+<td>TA=TL+权益双年勾稽（裁决 C26）</td>
+</tr>
+<tr>
+<td>流动资产</td>
+<td style="text-align: right;">3,015,867</td>
+<td style="text-align: right;">3,571,411</td>
+<td>其中现金 2,269,222 / 2,259,147；短期投资 FVTPL 42,621/377,287＋FVOCI 32,465/125,817</td>
+</tr>
+<tr>
+<td>应收账款（净）</td>
+<td style="text-align: right;">91,135</td>
+<td style="text-align: right;">303,208</td>
+<td>毛额 100,170/339,198 − 坏账准备 9,035/35,990（准备率 9.0%→10.6%）</td>
+</tr>
+<tr>
+<td>合同资产（备忘口径）</td>
+<td style="text-align: right;">440,741</td>
+<td style="text-align: right;">413,879</td>
+<td>(AR+合同资产)/收入 170.2%→99.0%（脚本计算）</td>
+</tr>
+<tr>
+<td>固定资产</td>
+<td style="text-align: right;">866,363</td>
+<td style="text-align: right;">655,825</td>
+<td>另使用权资产 201,198/338,081、无形资产 50,359/50,963、商誉 39,379（2023 年收购聆心智能形成，未再增长）</td>
+</tr>
+<tr>
+<td>总负债</td>
+<td style="text-align: right;">8,330,914</td>
+<td style="text-align: right;">12,964,843</td>
+<td>裁决 C27</td>
+</tr>
+<tr>
+<td>合同负债候选</td>
+<td style="text-align: right;">213,161</td>
+<td style="text-align: right;">251,316</td>
+<td>科目标签 CID 字体不可确证（裁决 C28 保留不确定性标注）；另非流动递延收益 34,752→180,146</td>
+</tr>
+<tr>
+<td>流动负债净额</td>
+<td style="text-align: right;">-4,822,188</td>
+<td style="text-align: right;">-8,834,843</td>
+<td>业绩公告披露值精确勾稽</td>
+</tr>
+<tr>
+<td>权益总额</td>
+<td style="text-align: right;">-3,955,145</td>
+<td style="text-align: right;">-8,110,982</td>
+<td>可转换工具 6,676,943/10,072,827 计负债；上市后重分类权益，2026 年起 FV 噪音消除</td>
+</tr>
+</tbody>
+</table>
+<p>来源：ledger §2.3（Tier 1 业绩公告）。</p>
+<p>流动性与持续经营：FY2025 末董事依 IPO 毛额 50.00 亿港元＋未动用融资 52.36 亿认定持续经营基础适当（业绩公告附注，Tier 1）。上市后 2026-07 配售毛额 314.11 亿港元到账，备考现金超 300 亿元人民币量级（我的推算，口径同 5.2 检查五）——账面流动性已实质修复，但融资依赖型商业模式未变（监控指标⑦）。另 2025 年新增借款约 +467,000 千元（CFO 粗勾稽，ledger §2.3 备注）。</p>
+<p><strong>表 5-3：SaaS KPI 表（行业附录 §10 要求；按可得数据填写）</strong></p>
+<table>
+<thead>
+<tr>
+<th>指标</th>
+<th style="text-align: right;">最新值</th>
+<th style="text-align: right;">同比/环比</th>
+<th>过去 8 季趋势</th>
+<th>同业位置</th>
+<th>来源与口径</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ARR / 订阅收入</td>
+<td style="text-align: right;">17 亿 CNY（2026-03）</td>
+<td style="text-align: right;">未获取到历史序列</td>
+<td>未获取到</td>
+<td>未获取到</td>
+<td>公司口径、<strong>未经审计</strong>（ledger 裁决 C05）</td>
+</tr>
+<tr>
+<td>Revenue growth</td>
+<td style="text-align: right;">FY2025 +131.9%</td>
+<td style="text-align: right;">1H25 +325.0% / 2H25 约 +99.4%（减速）</td>
+<td>未获取到（仅半年度粗拆）</td>
+<td>未获取到</td>
+<td>ledger §2.1（Tier 1）</td>
+</tr>
+<tr>
+<td>NRR / gross retention</td>
+<td style="text-align: right;">未获取到</td>
+<td style="text-align: right;">未获取到</td>
+<td>未获取到</td>
+<td>未获取到</td>
+<td>公司未披露（仅 B 端续约率 95% 单一口径，Tier 5）</td>
+</tr>
+<tr>
+<td>RPO / cRPO</td>
+<td style="text-align: right;">未获取到</td>
+<td style="text-align: right;">未获取到</td>
+<td>未获取到</td>
+<td>未获取到</td>
+<td>未披露</td>
+</tr>
+<tr>
+<td>Gross margin</td>
+<td style="text-align: right;">41.0%（FY2025）</td>
+<td style="text-align: right;">-15.3pp（FY2024 56.3%）</td>
+<td>未获取到</td>
+<td>未获取到</td>
+<td>ledger §2.1</td>
+</tr>
+<tr>
+<td>S&amp;M efficiency / CAC payback</td>
+<td style="text-align: right;">CAC payback 未获取到；S&amp;M/收入 54.0%</td>
+<td style="text-align: right;">FY2024 124.0%（改善）</td>
+<td>未获取到</td>
+<td>未获取到</td>
+<td>S&amp;M 单列值 ledger §2.1 备注</td>
+</tr>
+<tr>
+<td>Rule of 40</td>
+<td style="text-align: right;">-188.4（A）／-330.6（B）</td>
+<td style="text-align: right;">FY2024 约 -715.6</td>
+<td>未获取到</td>
+<td>未获取到</td>
+<td>我的推算（口径：收入增速 + FCF margin；C29 双值）</td>
+</tr>
+<tr>
+<td>FCF margin</td>
+<td style="text-align: right;">-320.3%（A）／-462.5%（B）</td>
+<td style="text-align: right;">FY2024 -866.5%</td>
+<td>未获取到</td>
+<td>未获取到</td>
+<td>脚本计算（CFO−capex 口径；C29 双值）</td>
+</tr>
+<tr>
+<td>SBC / revenue</td>
+<td style="text-align: right;">77.1%（FY2025 SBC 558,265）</td>
+<td style="text-align: right;">FY2024 单项未获取到</td>
+<td>未获取到</td>
+<td>未获取到</td>
+<td>业绩公告经调整亏损桥（Tier 1）</td>
+</tr>
+</tbody>
+</table>
+<p>同业财务对比表（模板 5.1 要求）：<strong>未获取到</strong>——forensic 权威数据集未含同业财务 KPI，台账中商汤行情快照按裁决 C04 登记为"不入权威集、需刷新时间戳"，故本章不做同业数字横比（已列入 data-gaps，编排者可安排定向补采）。</p>
+<h3>5.2 财报质量（forensic 五项检查，逐字嵌入）</h3>
+<p><strong>以下为 <code>forensic/earnings-quality.md</code> 原文逐字嵌入（W2 对账产物 2026-08-18/19，含 2026-08-19 补采轮更新），五项证据表与可信度等级结论不作任何改写。</strong></p>
+<p><strong>数据基准</strong>：<code>forensic/financials.csv</code>（RMB 千元，FY2022–FY2025；2022/2023 毛利为披露毛利率反推值）＋ FY2025 业绩公告 Tier 1 原文（2026-08-18 22:15 回源核验）＋ 招股书（Tier 1）。
+<strong>适用性前提（我的判断）</strong>：本标的为 18C 特专科技上市前重度亏损公司（FY2025 净亏损 47.18 亿 = 收入的 6.5 倍），财报质量风险形态不是"虚增利润"而是<strong>收入确认质量、现金消耗与治理</strong>。Beneish 类模型解释力弱（见检查二）。</p>
+<h4>检查一：应计质量与现金转化</h4>
+<table>
+<thead>
+<tr>
+<th>检查项</th>
+<th>结果</th>
+<th>判定</th>
+<th>证据来源</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>总应计比率 (NI−CFO)/TA</td>
+<td>FY2024 <strong>-16.3%</strong>、FY2025 <strong>-50.9%</strong>（主值 A；替代值 B 口径 <strong>-29.7%</strong>）</td>
+<td><strong>非红旗</strong>（两口径均远低于 +10% 阈值，方向为深负；C29 敏感度已量化）</td>
+<td>financials.csv + checker 脚本＋ledger C29 换算</td>
+</tr>
+<tr>
+<td>应计构成</td>
+<td>深负主因非现金项：金融工具 FV 变动 -937,362、SBC -558,265（FY2025 加回桥）；非"利润藏水"而是<strong>账面亏损大于现金亏损</strong></td>
+<td>解释成立</td>
+<td>业绩公告经调整亏损桥（Tier 1）</td>
+</tr>
+<tr>
+<td>现金转化 CFO/NI</td>
+<td>FY2024 75.9% → FY2025 <strong>47.6%（主值 A）／69.4%（替代值 B）</strong>（现金亏/会计亏；脚本计算＋C29 换算）</td>
+<td><strong>监控项</strong>：会计亏损放大主因可转换工具 FV（上市后已重分类权益，2026 年起此项噪音消除）；补采轮 C29 双值：A -22.46 亿（搜狐 Tier 4，其 1H25 列与招股书审计数完全一致）/ B -32.75 亿（东吴 Tier 3/Wind 标准化），两套均勾稽至 Tier 1 现金净变动 -1,010 万，差 ~10.29 亿为分类口径（短期投资购买、可转换工具相关现金流归类），终核待年报</td>
+<td>招股书（Tier 1）＋搜狐（Tier 4）＋东吴/Wind（Tier 3）；裁决见 ledger C29</td>
+</tr>
+<tr>
+<td>一次性应计单列</td>
+<td>无并购大额应计（商誉仅 39,379，2023 年收购聆心智能形成，未再增长）</td>
+<td>无污染</td>
+<td>附注/业绩公告</td>
+</tr>
+</tbody>
+</table>
+<h4>检查二：Beneish M-Score</h4>
+<table>
+<thead>
+<tr>
+<th>检查项</th>
+<th>结果</th>
+<th>判定</th>
+<th>证据来源</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>M-Score 八变量</td>
+<td><strong>无法计算——未获取到折旧/摊销数据</strong>（FY2022–2025 均未披露于已采集文件；业绩公告为简明口径无 D&amp;A 附注，年报原文 PDF 未定位）。脚本输出 <code>FORENSIC_MSCORE_SKIPPED</code>（P3）</td>
+<td><strong>未获取到，不打分</strong>（纪律：禁止凭印象补数）</td>
+<td>checker-financials.txt</td>
+</tr>
+<tr>
+<td>可计算的替代观察（脚本）</td>
+<td>SGI=2.32（收入高增长，操纵动机变量偏高）；DSRI=(303,208/724,334)÷(91,135/312,414)=<strong>1.45</strong>（应收/收入比恶化，方向不利）；TATA 分子（NI−CFO）为深负 → 若补齐 DEPI，M 极大概率深低于 -1.78 阈值</td>
+<td><strong>我的判断</strong>：不构成 C 级触发，但 DSRI&gt;1 提示应收质量需逐项手工核查（见检查三）</td>
+<td>financials.csv 脚本复算</td>
+</tr>
+<tr>
+<td>模型适用性</td>
+<td>TATA 被 -9.37 亿 FV 变动污染；亏损公司无"盈余"可操纵——模型信号不可直接采信</td>
+<td>适用性警示</td>
+<td>forensic-accounting.md §2</td>
+</tr>
+</tbody>
+</table>
+<h4>检查三：收入确认红旗</h4>
+<table>
+<thead>
+<tr>
+<th>检查项</th>
+<th>结果</th>
+<th>判定</th>
+<th>证据来源</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>应收增速 vs 收入增速</td>
+<td>应收 <strong>+232.7%</strong> vs 收入 +131.9%（背离 +100.8pp）→ 脚本触发 <code>FORENSIC_DSO_DIVERGENCE</code>（P2）</td>
+<td><strong>红旗（单年）</strong>——核心监控项</td>
+<td>checker-financials.txt</td>
+</tr>
+<tr>
+<td>DSO</td>
+<td>106 天（FY2024）→ <strong>153 天</strong>（FY2025），+47 天</td>
+<td>同上</td>
+<td>脚本计算</td>
+</tr>
+<tr>
+<td>合同资产强度</td>
+<td>备忘口径合同资产 440,741→413,879；<strong>(AR+合同资产)/收入 = 170.2%→99.0%</strong>——强度减半但仍≈1 倍年收入</td>
+<td><strong>中度关注</strong>：收入确认（某一时点确认占 92.2%）大幅领先收款权</td>
+<td>附注 8（Tier 1 PDF 核验）</td>
+</tr>
+<tr>
+<td>背离的解释（我的判断）</td>
+<td>①2024 年巨量合同资产（1.7 倍收入）于 2025 年集中结转为应收——<strong>CA→AR 机械转仓</strong>而非新增塞货；②本地化部署（占收入 73.7%）企业级结算周期长；③账龄 3 个月内占 80.3%、坏账准备率由 9.0% 升至 10.6%（35,990/339,198），计提审慎方向</td>
+<td>解释部分成立；<strong>若 2026 中报应收继续背离（连续第二年），升级为 C 级触发项</strong></td>
+<td>附注 8 账龄表＋分部数据</td>
+</tr>
+<tr>
+<td>递延/合同负债背离</td>
+<td>收入 +131.9%，合同负债候选 +17.9%（213,161→251,316，标签 CID 不可确证）、非流动递延收益 +418%（34,752→180,146）</td>
+<td>非背离（递延为正增长；<strong>未</strong>出现"订阅型致命项"——收入加速而递延下降）；合同负债增速慢于收入提示 API 收入以后付费为主</td>
+<td>附注/面值行（C28 不确定性标注）</td>
+</tr>
+<tr>
+<td>客户集中</td>
+<td>前五大 1H25 40.0%、最大 11.0%；FY2025 无单一 &gt;10%（2024 曾有 19% 客户）</td>
+<td>改善方向</td>
+<td>招股书＋业绩公告</td>
+</tr>
+<tr>
+<td>Q4/季末突击、重述、政策变更</td>
+<td>季度分布未获取到；无重述/收入政策变更记录</td>
+<td><strong>未获取到</strong>（无法检查）</td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+<h4>检查四：费用资本化与利润平滑</h4>
+<table>
+<thead>
+<tr>
+<th>检查项</th>
+<th>结果</th>
+<th>判定</th>
+<th>证据来源</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>capex vs 折旧</td>
+<td>capex 462,300→<strong>74,700</strong>（-83.8%，购置算力设备转服务采购）；D&amp;A 未获取到，比率无法计算</td>
+<td>无"费用藏进资产负债表"迹象——方向相反（算力开支费用化进研发：FY2025 研发 3,180,443 中算力服务费 1H25 即 1,145,100）；无形资产仅 50,963</td>
+<td>业绩公告＋招股书</td>
+</tr>
+<tr>
+<td>开发支出资本化</td>
+<td>无资本化开发支出披露</td>
+<td>无红旗</td>
+<td>业绩公告</td>
+</tr>
+<tr>
+<td>"非经常"连续性</td>
+<td>经调整口径加回项连年出现（SBC、FV 变动、上市开支）——FY2025 加回 1,536,195，将 47.18 亿亏损调至 31.82 亿</td>
+<td><strong>监控项</strong>：调整项真实且方向为"亏损调小"；公司无利润可平滑，但经调整口径被用于卖方叙事（JPM"调低经调整净亏损预测"）——激励与非 IFRS 挂钩风险记入检查五</td>
+<td>经调整亏损桥（Tier 1）</td>
+</tr>
+<tr>
+<td>减值节奏</td>
+<td>坏账准备率 9.0%→10.6%（审慎方向）；金融资产减值 21,576（2024:17,008）</td>
+<td>无逆周期平滑迹象</td>
+<td>附注 8/P&amp;L</td>
+</tr>
+<tr>
+<td>G&amp;A 异动</td>
+<td>G&amp;A +278.3%（133,603→505,357），其中上市开支仅 40,568——增量 371,754 千元（约 3.7 亿元）构成未采集到明细</td>
+<td><strong>未获取到</strong>（待年报附注）</td>
+<td>P&amp;L（Tier 1）</td>
+</tr>
+</tbody>
+</table>
+<h4>检查五：结构与治理信号</h4>
+<table>
+<thead>
+<tr>
+<th>检查项</th>
+<th>结果</th>
+<th>判定</th>
+<th>证据来源</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>审计师</td>
+<td>毕马威（KPMG，四大；招股书申报会计师）；FY2025 业绩公告数字经审计；股东会 2026-06-22 以 100% 赞成续聘毕马威（补采轮 Tier 1）；<strong>年报审计意见类型仍未获取到</strong>（原文未开，不作推断）</td>
+<td>正面，留一项待核</td>
+<td>招股书/业绩公告/股东会投票结果（Tier 1）</td>
+</tr>
+<tr>
+<td>持续经营</td>
+<td>FY2025 末流动负债净额 -88.35 亿、权益总额 -81.11 亿（可转换工具 100.73 亿计负债）；董事依 IPO 毛额 50.00 亿港元＋未动用融资 52.36 亿认定持续经营适当；<strong>上市＋7 月配售 314.11 亿后流动性已实质修复</strong>（备考现金超 300 亿人民币量级，我的推算）</td>
+<td>曾为重大疑点、已被两轮融资补救；纳入监控（融资依赖型商业模式未变）</td>
+<td>业绩公告持续经营附注（Tier 1 PDF 核验）</td>
+</tr>
+<tr>
+<td>人事</td>
+<td>独董更替已<strong>闭环</strong>（补采轮）：唐穎 2026-05-06 辞任（"希望投入更多时间于其他公司及个人事务"、确认与董事会无分歧、因独董低于 1/3 依规待继任生效）→ 徐文鳴 2026-06-22 股东会通过（99.9977%）继任，年薪 RMB 40 万，任薪酬委员会主席＋提名委员会成员</td>
+<td><strong>非红旗</strong>（原黄旗撤销：原因良性、程序合规、过渡机制依规；若后续披露显示与财务/审计分歧相关则重开）</td>
+<td>辞任 Tier 5 多源转述＋继任/薪酬 Tier 1 股东会投票结果公告</td>
+</tr>
+<tr>
+<td>股权集中</td>
+<td>未上市股份 50.36%＋控股股东集团 30.22%（禁售至 2027-01-07）；配發結果公告专段"股权高度集中"警告</td>
+<td>结构性风险（流动性与治理），已披露</td>
+<td>Tier 1</td>
+</tr>
+<tr>
+<td>激励结构</td>
+<td>2026 股份激励计划：上限约已发行股本 <strong>10%（约 4,458 万股）/10 年</strong>，股东会 2026-06-22 通过（99.628%）；行权价与摊销表未获取到；FY2025 SBC 558,265 千元=收入的 77%（主表第 5 节，补采轮印证），非 IFRS 口径剔除 SBC</td>
+<td>操纵动机内建的轻度信号（SaaS 附录红旗项）＋<strong>潜在稀释 ~9.6% 当前股本（10 年）须入估值</strong></td>
+<td>Tier 1 投票结果＋Tier 4 通函摘要</td>
+</tr>
+<tr>
+<td>资本运作节奏</td>
+<td>上市 6 个月内：IPO 50 亿＋配售 314 亿（解禁次日启动、折让 12.99%、完成后一周股价 -28%）＋A 股科创板发行已获股东会特别决议授权（2026-06-22：发行后总股本 2%–8%、拟募 ~150 亿元、控股股东摊薄至 25.39%–27.05%、辅导验收 2026-06-17、CSRC 注册受理前）</td>
+<td><strong>监控项</strong>：连环大额融资＋解禁日相邻配售的时机选择属市场行为观察；A 股稀释链（2%–8%＋激励 10%）合计潜在稀释约 12%–18% 当前股本（我的推算区间），估值须显性列示</td>
+<td>Tier 1 股东会投票结果＋Tier 4 通函摘要＋Tier 5 转述</td>
+</tr>
+<tr>
+<td>监管/做空</td>
+<td>无做空报告、无问询函记录；美国实体清单为业务风险非治理风险；稳定价格操作（116.10–116.20 买、190.70–262.00 卖）属绿鞋常规机制</td>
+<td>无红旗</td>
+<td>Tier 1/5</td>
+</tr>
+<tr>
+<td>关联交易</td>
+<td>供应商前五大 50.2%（最大 13.4%）；2024-11 收购并认购投资 202,528,000 形成应收（附注 8(i)）</td>
+<td>集中度偏高，无异常定价证据（明细未获取到）</td>
+<td>招股书/附注 8</td>
+</tr>
+</tbody>
+</table>
+<h4>可信度等级：<strong>B</strong></h4>
+<p><strong>评级依据（预注册表）</strong>：触发 1–2 项轻度红旗且有合理解释，同时多项监控指标。</p>
+<ol>
+<li><strong>红旗①（单年）</strong>：应收背离 +100.8pp / DSO 106→153 天（脚本 P2）。解释：合同资产→应收机械结转＋企业级本地化业务（73.7%）结算周期＋账龄结构健康（80.3% 在 3 个月内）＋集中度改善。<strong>升级触发：2026 中报再现背离即构成"持续背离"→ C。</strong></li>
+<li><strong>红旗②（轻度）</strong>：非 IFRS 调整项连年、SBC/收入 77%、G&amp;A 异动未明。解释：上市前后标准调整＋亏损期无平滑对象；G&amp;A 明细与激励计划细节待年报。</li>
+<li><strong>未构成 C 级触发</strong>：M-Score 未越限（无法计算，且可得变量指示深负）；递延与收入同向增长（无订阅型背离）；治理端无审计非标/无做空报告/无监管处罚；独董辞任证据不足不定性为"严重"。</li>
+<li><strong>置信度折扣</strong>：FY2025 CFO 为 Tier 4 主值＋Tier 3 替代值（分类差 ~10.29 亿未决，两口径应计均深负不触阈值）、D&amp;A/季度分布/审计意见类型缺失——若年报终核推翻 CFO 主值方向或审计意见非标，本等级立即重开。</li>
+</ol>
+<h4>补采轮后 grade 复核（2026-08-19）</h4>
+<p>新证据逐项过预注册表：SBC 558,265（=收入 77%）与原判断一致（监控项⑤）；CFO 双值冲突为数据分类口径差非事实冲突、两口径应计均深负不触阈值（维持监控②）；独董更替闭环<strong>撤销一面黄旗</strong>（治理面改善）；激励 10%/10 年与 A 股 2%–8% 授权为稀释/资本结构监控项（⑦⑧）而非财报质量红旗；ADR 更正（C30）为结构披露修正不涉财报质量。<strong>结论：等级维持 B、veto_action=null，监控清单由 7 项扩至 8 项（含两项更新）。</strong></p>
+<p><strong>监控指标清单（报告第五章与后续复盘必列；2026-08-19 补采轮后更新）</strong>：① 应收增速−收入增速、(AR+合同资产)/收入；② CFO 分类口径终核（C29 双值）与月度现金消耗（招股书口径 327.3M/月）；③ 毛利率轨迹（54.6%→64.6%→56.3%→<strong>41.0%</strong>，云端占比上升的持续压制）；④ 合同负债增速与 API 预付结构；⑤ SBC 与激励计划摊销（行权价/摊销表待披露）；⑥ 审计意见类型核验（独董更替已闭环、撤销该项）；⑦ 2027-01-08 全流通解禁与后续融资节奏；⑧ A 股发行进度（CSRC 注册受理→定价）与稀释链合计（2%–8%＋激励 10%）。</p>
+<p><strong>否决含义（预注册）</strong>：若等级为 C，动作上限为"观望"、报告第一章须警示；若为 D，一律"规避"且估值在可信度恢复前无意义。<strong>当前等级 B：无估值限制，上述监控指标纳入报告。</strong></p>
+<p>附：脚本检查结果摘要（<code>forensic/checker-financials.txt</code>，2026-08-18/19）：</p>
+<pre><code class="language-text">财务/估值一致性检查发现 4 项：P0=0 P1=0 P2=3 P3=1
+[P2] EPS_RECONCILIATION_MISMATCH FY2024/FY2025 —— 已解释：披露 EPS 分子为&quot;分担向投资者发行的
+     金融工具亏损后&quot;归母亏损（-1,394,042/-1,918,476 千元，附注7），脚本复算 -8.72/-12.03 与
+     披露完全一致；非数据错误，为可转换工具会计的口径效应。
+[P2] FORENSIC_DSO_DIVERGENCE —— 真实红旗（见检查三）。
+[P3] FORENSIC_MSCORE_SKIPPED —— D&amp;A 缺失（见检查二）。
+FCF 勾稽（CFO−capex）与市值/股本乘法勾稽均通过（forensic/_ratios.txt）。
+</code></pre>
+<p><strong>（嵌入结束。）</strong> 对应 SaaS 附录反证纪律的阈值表述——我的判断：若 NRR / cRPO / CAC payback / SBC 中的任一核心指标触发以下阈值，我会下调长期假设；鉴于 NRR、cRPO、CAC payback 公司均未披露，以下用可观察替代指标落地：① 2026 中报应收增速−收入增速连续第二年背离（即 5.2 红旗①升级条件）；② (AR+合同资产)/收入回升并持续高于 1.2 倍；③ 毛利率持续低于 40% 且无云端毛利率改善证据；④ SBC/收入不随收入规模化下降（当前 77.1%）；⑤ B 端续约率（当前 95%，Tier 5 单一口径）跌破 90%。</p>
+<hr>
+<h2>六、估值（多方法交叉验证）</h2>
+<p>本章要点：现价 HK$1,043 隐含未来 5 年营收 CAGR +206%～+239%（反向 DCF，脚本输出），所需 2030 年营收 1,958–3,264 亿元 CNY（口径无关的绝对额）处于任何行业口径总量的同量级或以上，现价的 108% 在为尚未发生的增长付费（PVGO）。五法交叉给出综合区间 <strong>HK$65–300</strong>，概率加权公允价值 HK$141.6（较现价 −86%），标定规则输出<strong>显著高估</strong>——该标签对任意情景概率组合稳健（100% 牛情景价值 HK$250.8 仍低于 1.5×H=HK$450）。财报可信度 B 级，无估值前置限制。</p>
+<p><strong>口径声明</strong>：估值币种 HKD（百万，每股为 HKD）；财务原币 RMB 按 0.882 CNY/HKD 折算（aastocks 2026-03-06 快照，台账 §0；0.9031 业绩公告隐含锚作敏感度，差 2.4%）。行情锚：现价 1,043.00 HKD（2026-08-18 港交所收盘，台账 §1/C02）；总股本 465,623,090 股（台账 §1/C01）；总市值 4,856.4 亿 HKD。所有计算由 <code>scripts/dcf.py</code> 执行（v2 配置与输出留档 <code>valuation/assumptions.v2.json</code>、<code>valuation/dcf-output.v2.txt</code>；v1 为审计轨迹保留）。经验基准率来源为 Mauboussin/McKinsey 长期研究（量级参照）。</p>
+<p><strong>修正轮（v2）说明（红队发现吸收，2026-08-19）</strong>：本版按红队反馈修正六项——<strong>F1（强）</strong>：v1 预注册推翻条件①「ARR 上穿 30 亿元」被外部多源证据触发（2026-07 ARR 约 10 亿美元 ≈71 亿元 CNY，钛媒体+36氪+华尔街见闻+雪球交叉，Tier 4；公司口径<strong>未经审计、定义未披露，2026-08-31 中报原文确认前悬置</strong>），按自设规则基准 2026 由 32 亿迁移至牛锚 63.4 亿、熊 20→26 亿、牛 63.4→75 亿，概率 40/35/25→35/40/25；<strong>F2（强）</strong>：净现金加总修正（分项和 37,612 − 借款 529 = 37,083，取 37,000）；<strong>F3（强）</strong>：EPV/PVGO 常态化口径修正为含 SBC 的 −37.40 亿元 CNY（经调整口径系加回 SBC，v1 表述有误）；<strong>F5（中强）</strong>：蒙特卡洛增长分布对齐情景带（40%±15%→81%±25%）；<strong>F7（中）</strong>：情景证据定级与锚源 Tier 匹配标注；<strong>F8（中）</strong>：行业总量参照系改为口径敏感表述。v1→v2 完整对照见 <code>valuation/valuation-notes.md</code> 修正轮节。</p>
+<h3>6.1 估值前提</h3>
+<table>
+<thead>
+<tr>
+<th>前提项</th>
+<th>取值</th>
+<th>来源/说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>财报可信度</td>
+<td><strong>B 级</strong>（veto_action=null）</td>
+<td>forensic/grade.json（2026-08-19 复核维持）；B 级无估值限制</td>
+</tr>
+<tr>
+<td>净现金（净债）</td>
+<td><strong>−37,000（百万 HKD）</strong></td>
+<td>我的推算（F2 修正后）：FY2025 末现金+短期投资 27.62 亿 CNY=31.31 亿 HKD + IPO 净额 48.06 亿 HKD − 2026H1 消耗约 14 亿 HKD（FY2025 CFO 年化一半）+ 配售净额 313.75 亿 HKD − 8 月消耗约 3 亿 = <strong>37,612</strong>；净出 2025 年新增借款 4.67 亿 CNY=5.29 亿 HKD（ch5.56 行，FY2025 业绩公告勾稽）→ <strong>37,083</strong>，取 37,000（保守 0.2%）。对应每股净现金 79.5 HKD。2026 中报（8-31 审议）未披露，终核待原文</td>
+</tr>
+<tr>
+<td>WACC</td>
+<td><strong>10.5%</strong></td>
+<td>港元口径：无风险 3.6%（联系汇率制下近似美元债收益率，<strong>当日值未获取到</strong>，区间假设）+ β 1.30（行业无杠杆约 1.15 + 0.15 低确定性调整，±0.2 纪律内）× 中国 ERP 5.3%（Damodaran 量级，未联网核对当日）≈ 10.49%；落在"港股中资 9–12%"带中值。全文 EPV 的 coc、EVA 的资本费率与 DCF 的 WACC 同源同值。风险单次惩罚：执行/竞争风险由情景概率承载，折现率不叠加</td>
+</tr>
+<tr>
+<td>永续 g</td>
+<td><strong>3.0%</strong></td>
+<td>低于中国长期名义 GDP（约 4.5–5%），满足终值纪律上限</td>
+</tr>
+<tr>
+<td>汇率敏感度</td>
+<td>0.9031 锚下 HKD 价值 −2.4%</td>
+<td>区间变为约 [63, 293]，标签不变</td>
+</tr>
+</tbody>
+</table>
+<h3>6.2 反向 DCF + PVGO：市场在给什么定价（开篇框架）</h3>
+<p>以 v2 基准情景建设期 FCF（2026–2030：−35.9/−19.4/+4.8/+21.0/+40.8 亿 HKD）扣减后，现价 1,043 对应 EV 448,645 百万 HKD，脚本解得（<code>dcf-output.v2.txt</code> 反向 DCF 节）：</p>
+<table>
+<thead>
+<tr>
+<th>反向 DCF 结果</th>
+<th>脚本输出</th>
+<th>参照系（我的推算；行业口径敏感，见下）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>隐含稳态首年 FCF</td>
+<td><strong>55,508 百万 HKD/年</strong>（≈489.6 亿元 CNY/年）</td>
+<td>为 FY2025 实际 FCF（−23.2~−33.5 亿元 CNY）量级的 15–21 倍绝对差</td>
+</tr>
+<tr>
+<td>@FCF 率 15% 所需稳态营收</td>
+<td>370,056 百万 HKD（≈3,263.9 亿元 CNY）</td>
+<td><strong>隐含 5 年营收 CAGR +239%/年</strong>；= FY2025 收入的 451 倍</td>
+</tr>
+<tr>
+<td>@FCF 率 25% 所需稳态营收</td>
+<td>222,033 百万 HKD（≈1,958.3 亿元 CNY）</td>
+<td>隐含 CAGR +206%/年；25% FCF 率本身已超窄护城河财务特征</td>
+</tr>
+</tbody>
+</table>
+<p><strong>行业总量参照（F8：口径敏感，降权表述）</strong>：中国大模型市场口径相差一个数量级——沙利文窄口径 53 亿元（2024，Tier 1）/产业信息网 98.67 亿元（2025，口径不明）/艾媒 738.57 亿元（2026E"AI 大模型"宽口径，Tier 4）。按沙利文窄口径+CAGR 63.5% 推算 2030E 约 1,012 亿元，所需营收为其 1.9–3.3 倍；按艾媒宽口径基数则倍数显著缩小。<strong>口径无关的结论</strong>：所需营收绝对额（1,958–3,264 亿元 CNY）在任何口径下都处于行业总量的同量级或以上——行业空间数据无法为现价辩护，双向皆然（这也意味着不能用"行业更大"直接推翻偏空结论，须靠公司营收兑现）。</p>
+<p><strong>PVGO 分解</strong>（脚本输出，F3 口径修正后）：每股常态化盈利（含 SBC 成本的常态化亏损 −37.40 亿元 CNY 折每股 −9.11，见 6.7）÷ 10.5% = 零增长价值 <strong>−86.76/股</strong>；现价 1,043 = 零增长 −86.76 + 增长期权 1,129.76 → <strong>现价的 108% 在为未来增长付费</strong>。零增长视角下公司价值为负，静态 P/S 591–606x、P/ARR 252x（3 月口径，台账 §1）几乎全部是对增长期权的定价。</p>
+<p><strong>我的判断</strong>：市场不是在给"中国 LLM 调用量份额第一（49.5%，IDC 2025）的软件公司"定价，而是在给"中国版 Anthropic 的垄断期权"定价。红队引入的 2026-07 ARR 约 71 亿元（若证实）改写的是<strong>兑现速度</strong>而非<strong>终局经济性</strong>——即便按 ARR 全额转化（牛情景），现价仍要求其上再叠加约 3–4 倍。对照 base rates（连续 5 年 &gt;20% 增速的公司约占 1–3%），隐含 +206%~+239%/年处于任何历史分布之外。</p>
+<h3>6.3 估值假设总表（base rate 分位 + 证据强度 + 锚源 Tier）</h3>
+<p>表 6-1 关键假设与外部视角定位（经验基准率，来源 Mauboussin/McKinsey 长期研究；F1 修正后）</p>
+<table>
+<thead>
+<tr>
+<th>关键假设</th>
+<th style="text-align: right;">熊</th>
+<th style="text-align: right;">基准</th>
+<th style="text-align: right;">牛</th>
+<th>base rate 分位（我的判断）</th>
+<th>P80+ 结构性理由与领先指标（含 F7 锚源 Tier）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2026E 收入（亿元 CNY）</td>
+<td style="text-align: right;">26</td>
+<td style="text-align: right;">63.4</td>
+<td style="text-align: right;">75</td>
+<td>基准 +775%≈AI 爆发 cohort 上沿；<strong>触发依据=ARR 推翻条件</strong>（预注册）</td>
+<td>①2026-07 ARR ≈71 亿元（Tier 4 多源，未经审计、定义未披露，<strong>8-31 中报原文确认前悬置</strong>）；②2026Q1 提价 83% 下调用量 +400%（业绩会 Tier 5 转述）；③双锚：彭博 30.72 亿（Tier 5 转述 2026-06）/标普单家 63.4 亿（Tier 4 缓存 2026-07）。领先指标：8-31 中报 H1 收入与 ARR 审计口径、IDC 半年度份额</td>
+</tr>
+<tr>
+<td>5 年收入 CAGR（2025→2030）</td>
+<td style="text-align: right;">+38.6%</td>
+<td style="text-align: right;">+98.8%</td>
+<td style="text-align: right;">+113.4%</td>
+<td><strong>基准 ≈ 全市场 P95+、牛 ≈ P97+</strong>（连续 5 年 &gt;20% 者占 1–3%）</td>
+<td>结构性理由：①行业预测 CAGR 63.5%（沙利文窄口径单源，存偏高风险）份额不变即 63.5%；②ARR（若证实）领先收入近 10 倍于 FY2025 基数；③调用量份额 49.5% 与提价同升。可验证：IDC 份额 ≥45% 连续两期、2027-03 年报收入 ≥55 亿（熊证伪线）</td>
+</tr>
+<tr>
+<td>稳态 FCF 率</td>
+<td style="text-align: right;">5%</td>
+<td style="text-align: right;">16%</td>
+<td style="text-align: right;">22%</td>
+<td>熊 P20–30（满足"熊不得好于 P30"）；基准 P60–70；<strong>牛 P85+</strong></td>
+<td>牛 22% 的结构理由：本地化部署毛利率 48.8%+行业性提价（DeepSeek 2026-08 峰谷新政，Tier 1 官方页）；反证：云端毛利率 18.9%、总毛利率四期下行至 41.0%、<strong>本地化毛利率 66.0%→48.8% 也在恶化（红队补入，Tier 4）</strong>。基准 16% 未上调：云端毛利率"改善趋势"仅为 Tier 4 转述（中强度），pre-mortem 兑现线（云端 &gt;30% 连续两期）未达</td>
+</tr>
+<tr>
+<td>年化股本稀释（5 年复利）</td>
+<td style="text-align: right;">3.4%（+18.2%）</td>
+<td style="text-align: right;">2.6%（+13.7%）</td>
+<td style="text-align: right;">1.8%（+9.3%）</td>
+<td>—</td>
+<td>稀释链显性入模：A 股授权 2%–8% + 激励 10%/10 年 ≈ 12–18% 当前股本（台账 §1/EQ）；A 股拟募约 150 亿元 CNY 不计入现金流入（保守偏差，见 6.4）</td>
+</tr>
+<tr>
+<td>现金消耗（2026 年 FCF，亿元 CNY）</td>
+<td style="text-align: right;">−29.2</td>
+<td style="text-align: right;">−31.7</td>
+<td style="text-align: right;">−36.1</td>
+<td>—</td>
+<td>CFO 双值区间映射（C29：−23.2↔−33.5 亿为 FY2025 实际）：熊/基准落于区间内偏值 B，牛超出上沿（成长性投入假设，需求爆发下算力预置）</td>
+</tr>
+<tr>
+<td>情景概率</td>
+<td style="text-align: right;">35%</td>
+<td style="text-align: right;">40%</td>
+<td style="text-align: right;">25%</td>
+<td>—</td>
+<td>证据强度（F7 修正后）：熊=中（价格战 V 型记录+毛利率双向恶化数据点 Tier 4+ARR 口径未披露）；基准=中（ARR 多源 Tier 4 为中强支柱，被彭博低锚 Tier 5 转述与可聚合样本仅 1 家压回"中"）；牛=弱（单分析师 Tier 4 缓存+ARR 上沿全额转化，需护城河走宽而留存 KPI 未披露）</td>
+</tr>
+</tbody>
+</table>
+<p><strong>与 ch03 护城河结论的一致性（预注册要求）</strong>：ch03 判"窄（偏弱）"。v2 基准/熊（合计 75% 权重）稳态经济性（16%/5% FCF 率、终值增量回报向 WACC 收敛）仍在窄护城河财务特征内。<strong>F1 迁移只移动了 2026 年收入锚，未移动终局经济性</strong>——ARR 证据攻击的是兑现速度假设，云端毛利率改善证据（Tier 4 转述、pre-mortem 定级中）未达上调阈值（云端 &gt;30% 连续两期），故稳态率不变。牛情景（25%）隐含 2030 年收入 320 亿元、22% FCF 率（≈沙利文窄口径行业总量的 32%、事实上的宽护城河结局），仅以弱证据支撑，赋 25% 上限；若 8-31 中报披露留存类 KPI 强劲，ch3 与本节须同步重开。</p>
+<h3>6.4 三情景概率加权 DCF（主方法）</h3>
+<p>表 6-2 情景路径（收入亿元 CNY / FCF 率；HKD 建模值见 assumptions.v2.json）</p>
+<table>
+<thead>
+<tr>
+<th>年份</th>
+<th>熊</th>
+<th>基准</th>
+<th>牛</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2026</td>
+<td>26 / −125%</td>
+<td>63.4 / −50%</td>
+<td>75 / −48%</td>
+</tr>
+<tr>
+<td>2027</td>
+<td>30 / −60%</td>
+<td>95 / −18%</td>
+<td>115 / −8%</td>
+</tr>
+<tr>
+<td>2028</td>
+<td>34 / −20%</td>
+<td>140 / +3%</td>
+<td>173.8 / +8%</td>
+</tr>
+<tr>
+<td>2029</td>
+<td>36 / 0%</td>
+<td>185 / +10%</td>
+<td>240 / +15%</td>
+</tr>
+<tr>
+<td>2030</td>
+<td>37 / +5%</td>
+<td>225 / +16%</td>
+<td>320 / +22%</td>
+</tr>
+<tr>
+<td>衰减期</td>
+<td>5 年 5%→3%</td>
+<td>5 年 12%→3%</td>
+<td>5 年 18%→3%</td>
+</tr>
+</tbody>
+</table>
+<p>情景叙事：<strong>熊</strong>＝ARR 口径证伪/大幅缩水（71 亿若含未签约背书口径则重折价）+ 价格战重启 + 理性管理层两年内止血（2029 年盈亏平衡）——5 年累计再消耗约 48 亿元 CNY，对约 327 亿元净现金不构成生存威胁，终态只是一个 5% FCF 率的小生意。<strong>基准</strong>＝ARR 大部兑现（v2 按 63.4 亿锚）、算力预置使 2026 消耗贴近 CFO 值 B、2028 年转正、2030 年 225 亿元。<strong>牛</strong>＝ARR 全额转化 + H2 动能延续（2026 年 75 亿元）、2028 年锚定彭博 2028E 173.79 亿、2030 年 320 亿元（≈沙利文窄口径行业总量 32%）。</p>
+<p>脚本输出（<code>dcf-output.v2.txt</code> 情景 DCF 节）：</p>
+<table>
+<thead>
+<tr>
+<th>情景</th>
+<th style="text-align: right;">概率</th>
+<th style="text-align: right;">每股价值</th>
+<th style="text-align: right;">退出 P/FCF</th>
+<th style="text-align: right;">TV 占比</th>
+<th style="text-align: right;">期末股本（百万股）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>熊</td>
+<td style="text-align: right;">35%</td>
+<td style="text-align: right;"><strong>60.6</strong></td>
+<td style="text-align: right;">13.7x</td>
+<td style="text-align: right;">−35%（EV 为负，比率不适用）</td>
+<td style="text-align: right;">550.35</td>
+</tr>
+<tr>
+<td>基准</td>
+<td style="text-align: right;">40%</td>
+<td style="text-align: right;"><strong>144.1</strong></td>
+<td style="text-align: right;">13.7x</td>
+<td style="text-align: right;">72%</td>
+<td style="text-align: right;">529.38</td>
+</tr>
+<tr>
+<td>牛</td>
+<td style="text-align: right;">25%</td>
+<td style="text-align: right;"><strong>250.8</strong></td>
+<td style="text-align: right;">13.7x</td>
+<td style="text-align: right;">68%</td>
+<td style="text-align: right;">509.07</td>
+</tr>
+<tr>
+<td><strong>概率加权</strong></td>
+<td style="text-align: right;">100%</td>
+<td style="text-align: right;"><strong>141.6（较现价 −86%）</strong></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+</tr>
+</tbody>
+</table>
+<p>终值三查：①退出 P/FCF 13.7x（脚本自动输出）≤ 成熟同业 25x ✓；②TV 占比基准 72%、牛 68% 均 &lt;80% ✓（熊 EV 为负不适用）；③增量回报不保留超 WACC 的永续超额（FCF 口径终值+g=3% 价值中性；EVA 检查利差 10 年衰减至 0，见 6.8）。</p>
+<p><strong>稀释链显性处理</strong>：期末股本较当前 +9.3%~+18.2%，即 A 股 2%–8% + 激励 10%/10 年链已按情景差异入模。A 股拟募约 150 亿元 CNY（≈170 亿 HKD）未计入现金流入：保守偏差量级——若以 ≥700 HKD 等价价格完成并全额入账，基准每股上修约 20–32 HKD，不改变标签；红队 pre-mortem ③提示"回 A 静默期"或使受理快于台账表述，届时本项保守偏差回补。</p>
+<p><strong>与预测登记的钩连（红队 F9）</strong>：情景≠预测中心。v2 熊 2026 年 26 亿元 ≥ ch8 登记表 R2 区间下沿 25 亿元（v1 的 20 亿元为情景尾部值，已随 F1 上移），两表判定在 2027-03 复盘时不再打架。</p>
+<p><strong>稳健性检验（预注册）</strong>：最不利概率组合——100% 牛情景价值 250.8、100% 基准 144.1、100% 熊 60.6；标定缓冲带 1.5×H = 450 &gt; 全部情景值 → <strong>任何概率组合下标签均为"显著高估"，结论对概率不敏感</strong>。中强证据支柱（ARR 多源 Tier 4）落在基准情景（40%，非尾部）；牛情景（弱证据）25% 高于尾部水平但受 6.3 一致性约束压制。</p>
+<h3>6.5 蒙特卡洛（分布形状补充；F5 修正后）</h3>
+<p>v2 构造（对齐情景带，选取依据显性化）：<strong>growth_mean 81% = 概率加权情景 5 年 CAGR（35%×38.6% + 40%×98.8% + 25%×113.4%），σ=25% 使 ±1σ 覆盖熊 +39% 至牛 +113% 带宽</strong>；FCF 率三角分布 −50%/10%/20%（覆盖情景稳态带 5%–22% 并向下覆盖烧钱年）；WACC 均匀 9.5–11.5%；n=3,000。</p>
+<p>脚本输出：<strong>P10 −348.8｜P25 −80.5｜P50 50.4｜P75 117.2｜P90 213.0｜均值 −26.8；P(内在价值 &lt; 现价 1,043) = 100%</strong>。</p>
+<p>解读（含偏差方向披露）：①P50（50.4）低于情景加权（141.6）——模块对全部年份施加同一 FCF 率，负利润率抽样把烧钱期摊到终值，方向偏悲观；②无稀释假设，方向偏乐观；③P10 为深负（−348.8）——高增长×持续负利润率的组合路径下净现金被穿透，是真实的左尾形状而非错误；④即便如此，"现价买入是错误"的模型概率仍为 100%。分布整体仅作形状参考，不构成区间端点。</p>
+<h3>6.6 WACC×g 敏感性（基准情景，每股 HKD）</h3>
+<table>
+<thead>
+<tr>
+<th></th>
+<th style="text-align: right;">g=2.0%</th>
+<th style="text-align: right;">g=3.0%</th>
+<th style="text-align: right;">g=4.0%</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>WACC 9.5%</td>
+<td style="text-align: right;">148.6</td>
+<td style="text-align: right;">160.1</td>
+<td style="text-align: right;">175.8</td>
+</tr>
+<tr>
+<td>WACC 10.5%</td>
+<td style="text-align: right;">135.8</td>
+<td style="text-align: right;">144.1</td>
+<td style="text-align: right;">155.1</td>
+</tr>
+<tr>
+<td>WACC 11.5%</td>
+<td style="text-align: right;">125.8</td>
+<td style="text-align: right;">132.0</td>
+<td style="text-align: right;">140.0</td>
+</tr>
+</tbody>
+</table>
+<p><strong>加粗规则执行说明：表中没有任何单元格高于现价 1,043</strong>——最有利组合（WACC 9.5%、g 4%）为 175.8，仅现价的 17%。折现率与永续增速在合理带宽内的任何组合都无法接近现价，差距只能由收入/利润率假设解释（回到 6.2）。成长股增速×利润率二维敏感面由三情景矩阵（+38.6%/+98.8%/+113.4% × 5%/16%/22%）与蒙特卡洛二维抽样覆盖（脚本无专用模块，杜绝手算）。</p>
+<h3>6.7 EPV / 三要素：与 ch03 护城河交叉验证（F3 口径修正后）</h3>
+<p><strong>常态化盈利口径（修正）</strong>：IFRS 年内亏损 −47.18 亿元 + 金融工具 FV 变动 +9.37 亿元（上市后可转换工具重分类权益，2026 年起噪音消除）+ 上市开支 +0.41 亿元（一次性）= <strong>−37.40 亿元 CNY（−4,240 百万 HKD）</strong>。该口径<strong>包含 SBC 成本 −5.58 亿元</strong>——经调整口径（−31.82 亿元）系将 SBC 加回后的结果，v1 称"经调整已含 SBC"与加回桥事实相反，本版更正并同步 PVGO（红队 F3）；此修正亦消除与 ch7.4 对"非 IFRS 剔除 SBC"批评的立场矛盾。</p>
+<p>脚本输出：<strong>EPV 每股 −7.26</strong>（v1 的 +3.52 作废）；EPV/调整后净资产 = <strong>−0.10x → 毁灭价值（ROIC&lt;资本成本）</strong>；资产重置底价（现金主导，逐项折算后 34,600 百万 HKD）<strong>每股 74.31</strong>。</p>
+<p>三要素读法：底价 74.31 ＜ EPV 为负（常态亏损）＜ 成长价值 = 情景 DCF 的 60.6–250.8。<strong>交叉验证</strong>：ch03 判"窄（偏弱）"，EPV/净资产 −0.10x（≪1）是同一方向的财务度量且较 v1（0.05x）更强——零增长视角下公司毁灭价值，与毛利率四期下行、经营亏损随规模扩大一致；<strong>无不一致项</strong>。护城河"变宽"的先决信号是 EPV 拐点转正（领先指标：云端毛利率回到 25%+、经营亏损收窄）。</p>
+<h3>6.8 EVA / 剩余收益：与 ch4 资本配置交叉验证</h3>
+<p><strong>当前态（FY2025）符号判读</strong>：NOPAT ≈ 经营亏损 −37.87 亿元 CNY（−4,294 百万 HKD，亏损口径税≈0）＜ WACC×投入资本 → <strong>EVA 深负：公司未赚回资本成本，当前增长由外部资本放大</strong>，与 ch4 计分卡"再投资：差"（收入增量 +4.12 亿元 vs 经营亏损扩大 −12.48 亿元）一致。披露：dcf.py 的 EVA 衰减算法在 NOPAT&lt;0、利差穿越 −WACC 时产生符号翻转，当前态只作符号判读、不取数值（模块适用边界）。</p>
+<p><strong>2030 基准态模块运行</strong>（v2 基准 2030 收入 25,510 百万 HKD；投入资本 17,007=收入/1.5 周转假设，NOPAT 3,061=12% 经营利润率）：ROIC 18.0%、超额利差 +7.5%、10 年衰减至 0 → <strong>自洽检验：g = 再投资率 45% × ROIIC 16.0% = 7.2% ≈ DCF 衰减期平均增速 7.5% ✓</strong>（DCF 未假设超过内生增长能力的增速；更快增长需外部资本——正是 A 股/配售路径，ch4.4）。EVA 口径价值（23,177 百万 HKD，2030 时点、不含净现金、未折现）低于 DCF 同期终值（TV 现值 28,299 百万 HKD）：<strong>分歧归因</strong>——EVA 模块无永续延续项且利差严格归零，是终值纪律第 3 条的更保守版本，作 DCF 下界校验而非独立区间来源。</p>
+<h3>6.9 相对估值（降级证据，作上界交叉验证；ARR 口径分裂本身即区间宽度来源）</h3>
+<p>表 6-3 相对估值（每股 HKD；净现金 37,000 百万 HKD 已加回，未扣稀释——与 DCF 口径差异向下偏约 9–18%）</p>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>倍数</th>
+<th>对应指标</th>
+<th style="text-align: right;">隐含每股</th>
+<th>证据等级与时效</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>P/ARR（3 月口径；对照 Anthropic 一级 20x 打 10–15x）</td>
+<td>10–15x</td>
+<td>ARR 1,927 百万 HKD（17 亿元 CNY，2026-03，未经审计）</td>
+<td style="text-align: right;"><strong>121–142</strong></td>
+<td>降级：公司口径；Anthropic 20x 为 2026-06 一级（Tier 5）</td>
+</tr>
+<tr>
+<td>P/ARR（7 月口径，F1 新锚）</td>
+<td>10–15x</td>
+<td>ARR 8,050 百万 HKD（71 亿元 CNY，2026-07，Tier 4 多源<strong>未经审计、定义未披露、8-31 悬置</strong>）</td>
+<td style="text-align: right;"><strong>252–339</strong></td>
+<td>降级+悬置：若中报证实口径含未签约背书则此行作废</td>
+</tr>
+<tr>
+<td>EV/S 2026E（warranted 6–12x，Rule of 40 校正）</td>
+<td>6–12x</td>
+<td>双锚 30.72 亿（3,483）/63.4 亿元 CNY（7,188 百万 HKD）</td>
+<td style="text-align: right;"><strong>124–265</strong></td>
+<td>降级：双锚分裂（C12）；倍数为我的判断</td>
+</tr>
+<tr>
+<td>EV/S（ARR 折收入参考）</td>
+<td>8–12x</td>
+<td>71 亿元 CNY（8,050 百万 HKD）全额视同收入</td>
+<td style="text-align: right;"><strong>218–287</strong></td>
+<td>降级：ARR≠收入（92.2% 时点确认，ch3.3 口径桥）</td>
+</tr>
+<tr>
+<td>市值对照</td>
+<td>—</td>
+<td>MiniMax 1,167 亿 HKD（智谱=其 4.2 倍）/商汤 612 亿（7.9 倍）</td>
+<td style="text-align: right;">定性</td>
+<td>MiniMax 2026-08-18 盘前；商汤 2026-07-31 陈旧</td>
+</tr>
+<tr>
+<td>寒武纪情绪锚</td>
+<td>208.5x PE</td>
+<td>智谱市值 ÷ 该 PE = 需净利 20.5 亿元 CNY 才匹配</td>
+<td style="text-align: right;">定性</td>
+<td>2026-08-13 收盘；A 股情绪锚，非可比组</td>
+</tr>
+</tbody>
+</table>
+<p>3 月→7 月 ARR 相差 4.2 倍（17→71 亿元，未经审计）是相对区间宽达 121–339 的直接原因；红队旁证（钛媒体/东财：按上半年 run-rate 年化约 31 倍 P/S vs OpenAI 约 28 倍 2026E）支持"倍数已计入垄断预期"的读法。<strong>相对估值区间 121–339</strong>：采信 DCF 为主（稀释/消耗/路径完整），相对法作上界交叉验证；综合区间上限（300）取 P/ARR 7 月口径带（252–339）中位偏下并低于其顶，避免单点依赖未经审计 ARR。</p>
+<h3>6.10 中概结构风险定价（cn_adr；C30 更正后口径）</h3>
+<p>按 <code>markets-cn-hk.md</code> §8 五查（ch4.3 详表）：<strong>H 股架构非 VIE、无 SEC 登记证券（EDGAR 无 F-6/20-F）、无受托 ADR 计划</strong>；OTC Pink 的非受托 ADR KNWAY（1 ADR=0.5 股）及 KATJF 为发行人不参与的场外报价，其 −19% 折价系时点/流动性不可比，不作估值锚（C30 裁决）。<strong>定价处理（情景概率路径，非折价路径）</strong>：结构端实质风险是股权高度集中（未上市 50.36%+控股股东 30.22%）、2027-01-08 全流通解禁与连环再融资节奏——已显性入模为①稀释链 12–18%（6.4）②熊情景 35% 概率 ③A 股募资不计入现金的保守偏差。红队 F10 补入的反向样本（2026-07-08 首批解禁超六成基石续持、当周 +13%，财新 Tier 3-4）修正了"解禁=必然供给冲击"的单边读法，已由 ch8 时间线吸收，估值端不重复计惩。不施加额外 VIE/ADR 折价的依据即五查负面证据；若出现 VIE 专节或受托 ADR 设立，本节重开。港股流动性折价按手册作风险提示项（红队：流通盘约 2.67% 的"资本幻觉"反而解释价格-价值背离的持续性——这是标签被流动力证伪的路径风险，非公允价值修正项）。</p>
+<h3>6.11 估值汇总与 Football Field</h3>
+<p>表 6-4 方法汇总（每股 HKD；现价 1,043.00）</p>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>合理价值区间</th>
+<th style="text-align: right;">隐含上行/下行</th>
+<th>权重/可信度</th>
+<th>关键假设/分歧</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>反向 DCF + PVGO</td>
+<td>（证伪现价用：隐含 5 年 CAGR +206%~+239%）</td>
+<td style="text-align: right;">—</td>
+<td>框架性</td>
+<td>市场隐含远超任何 base rate 分布</td>
+</tr>
+<tr>
+<td>情景加权 DCF（主）</td>
+<td>60.6–250.8（加权 141.6）</td>
+<td style="text-align: right;">−94%~−76%</td>
+<td>高</td>
+<td>双锚/稀释链/CFO 双值显性；F1 迁移后基准仍受窄护城河终局约束</td>
+</tr>
+<tr>
+<td>蒙特卡洛</td>
+<td>P10–P90 = −348.8–213.0（均值 −26.8）</td>
+<td style="text-align: right;">—</td>
+<td>形状参考</td>
+<td>均匀 FCF 率+无稀释的偏差方向已披露</td>
+</tr>
+<tr>
+<td>三要素/EPV</td>
+<td>底价 74.3｜EPV −7.3</td>
+<td style="text-align: right;">−93%</td>
+<td>底价可信度高</td>
+<td>常态亏损（含 SBC），EPV 层退化</td>
+</tr>
+<tr>
+<td>EVA/剩余收益</td>
+<td>一致性校验（当前深负；2030 态 g=RR×ROIIC 自洽）</td>
+<td style="text-align: right;">—</td>
+<td>校验性</td>
+<td>模块对负 NOPAT 的适用边界已披露</td>
+</tr>
+<tr>
+<td>相对估值（降级证据）</td>
+<td>121–339</td>
+<td style="text-align: right;">−88%~−67%</td>
+<td>中低</td>
+<td>ARR 口径分裂（3 月/7 月差 4.2 倍、未经审计）</td>
+</tr>
+<tr>
+<td><strong>综合区间 [L, H]</strong></td>
+<td><strong>[65, 300]</strong></td>
+<td style="text-align: right;"><strong>−93.8% ~ −71.2%</strong></td>
+<td>—</td>
+<td>L=理性熊市（熊 DCF 60.6 与资产底价 74.3 之间取整）；H=P/ARR 7 月口径带（252–339）中位偏下，覆盖 DCF 牛 250.8 与 EV/S 上沿 264.8</td>
+</tr>
+</tbody>
+</table>
+<pre><code class="language-text">Football field（每股 HKD，1 格 ≈ 20；现价超出图幅，右端标注）
+反向DCF(证伪)     隐含 5y 营收 CAGR +206%~+239%/yr —— 无法落入任何方法区间（图幅外）
+情景DCF-熊(35%)   ▓▓▓ 60.6
+情景DCF-基准(40%) ▓▓▓▓▓▓▓ 144.1
+情景DCF-牛(25%)   ▓▓▓▓▓▓▓▓▓▓▓▓▓ 250.8
+概率加权          ▓▓▓▓▓▓▓ 141.6
+蒙特卡洛P10–P90   左尾为负（−348.8）至 ▓▓▓▓▓▓▓▓▓▓▓ 213.0（P50 50.4）
+三要素/EPV        底价 ▓▓▓▓ 74.3（EPV −7.3，常态亏损退化）
+相对估值          ▓▓▓▓▓▓ 121————————————339（ARR 口径分裂致宽）
+综合区间          [▓▓▓ 65—————————————300]
+                                          现价 1,043.0 ▼（高于 H 3.5 倍，图幅外）
+</code></pre>
+<p><strong>标定（预注册规则，脚本原文）</strong>：<code>综合区间 [65, 300] × 现价 1043.0 → **显著高估**</code>（P=1,043 &gt; 1.5×H=450）。动作矩阵映射、不确定性与否决项核验由第九章执行（等级 B 无否决；护城河非"无"）。卖方目标价区间 906–2,043（台账 §2.6）仍全部落在我的区间上方——<strong>最大单一分歧见 ch7.5</strong>（留存质量与毛利率口径被低估；本节 6.2 的隐含增长要求是该分歧的估值语言——两处已归一，红队 F6）。</p>
+<h3>6.12 预期差方向、承重假设与验证信号</h3>
+<p><strong>净预期差方向：偏空</strong>（维持；F1 修正使加权值 122.4→141.6，量级收敛但不改方向——现价仍高于区间上限 3.5 倍）。未来 1–3 个月市场最可能先交易 <strong>2026-08-31 中报</strong>（H1 收入/ARR 审计口径、应收背离、云端毛利率）与 A 股受理进度——一級证伪点；事件方向可能与内在价值标签相反，属节奏变量不改标签（供第一章决策三分法使用）。</p>
+<p>三个最承重假设（红队攻击面；v2 更新，详见 <code>valuation/valuation-notes.md</code> thesis brief）：
+1. <strong>基准 2026 收入 63.4 亿元 CNY（预注册迁移后）</strong>——上推条件：中报确认 H1 收入 ≥11.2 亿且 ARR 经审计口径证实（牛权重加大）；回摆条件：ARR 证实含大额未签约/背书口径或 H1 收入 &lt;8 亿（基准回撤至 45 亿下方）；
+2. <strong>稳态 FCF 率 16%（P60–70）</strong>——上调条件：云端分部毛利率连续两期 &gt;30%+订阅 mix 上升（pre-mortem ②兑现线）；下调条件：云端连续两期 &lt;20% 或总毛利率 &lt;40%（ch3 阈值）；
+3. <strong>净现金 370 亿 HKD 与消耗路径</strong>——恶化条件：中报年化消耗 &gt;40 亿元且无已确认融资；回补条件：A 股 2026Q4 前后定价落地（保守偏差回补 +20~32/股）。</p>
+<p>监控对齐（EQ 监控清单②⑤⑧ + 红队 pre-mortem）：CFO 分类终核、SBC 摊销表、A 股受理→定价、8-31 中报 ARR/NRR 首披，触发即重跑模型。</p>
+<hr>
+<h2>七、分析师评价汇总</h2>
+<p>本章要点：卖方评级近乎一面倒看多（19 家 = 15 强推 + 4 买入，2026-07-01），JPM 于 08-17 将目标价上调至 1,800 港元，但可聚合盈利预测仅 1 家、2026E 收入锚分裂为 30.7 亿与 63.4 亿人民币（相差 2.1 倍），"一致预期"本身不构成可靠基准。我的判断：与共识的最大分歧在增长质量与利润口径——留存类 KPI（NRR/RPO）零披露、毛利率被云端业务结构性稀释（64.6%→41.0%）、非 IFRS 口径遮蔽 SBC（占收入 77%）与年约 22.5 亿的经营现金消耗，验证窗口即 2026-08-31 中期业绩。</p>
+<blockquote>
+<p>单位约定：行情与目标价为 HKD；一致预期收入为 CNY（公司申报币种）。</p>
+</blockquote>
+<h3>7.1 覆盖结构与评级分布</h3>
+<table>
+<thead>
+<tr>
+<th>评级档</th>
+<th style="text-align: right;">家数</th>
+<th style="text-align: right;">占比</th>
+<th>来源/时间</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>强力推荐</td>
+<td style="text-align: right;">15</td>
+<td style="text-align: right;">78.95%</td>
+<td>富途评级分布（Tier 5 转述，2026-07-01；家数由占比×19 反推，我的推算）</td>
+</tr>
+<tr>
+<td>买入</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">21.05%</td>
+<td>同上</td>
+</tr>
+<tr>
+<td><strong>合计</strong></td>
+<td style="text-align: right;"><strong>19</strong></td>
+<td style="text-align: right;">100.0%</td>
+<td>ledger §2.5</td>
+</tr>
+<tr>
+<td>持有/卖出</td>
+<td style="text-align: right;">0（该分布内）</td>
+<td style="text-align: right;">0.0%</td>
+<td>同上；但富瑞为"持有"（见 7.2），未体现在本分布——时点或样本口径差异，解释未获取到</td>
+</tr>
+</tbody>
+</table>
+<p>关键元结论：<strong>可聚合盈利预测的家数仅 1</strong>（富途/标普口径，ledger §2.5）——评级家数多、盈利预测样本极薄，"一致预期"的统计意义有限，引用时必须带家数与时点。</p>
+<h3>7.2 目标价区间、隐含空间与近期调整</h3>
+<p>现价基准 HK$1,043.00（2026-08-18 港交所收盘，当日 -13.30%），较上市以来高点 2,980.00（2026-06-22 盘中）回撤 <strong>-65.0%</strong>（我的推算，ledger §1 输入）。</p>
+<table>
+<thead>
+<tr>
+<th>机构</th>
+<th>评级</th>
+<th style="text-align: right;">目标价（HKD）</th>
+<th style="text-align: right;">较现价隐含空间</th>
+<th>时点</th>
+<th>来源</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>区间低端（机构名未获取到）</td>
+<td>未获取到</td>
+<td style="text-align: right;">906</td>
+<td style="text-align: right;">-13.1%</td>
+<td>未获取到</td>
+<td>ledger §2.5（Tier 5 转述）</td>
+</tr>
+<tr>
+<td>富瑞</td>
+<td>持有</td>
+<td style="text-align: right;">912.55</td>
+<td style="text-align: right;">-12.5%</td>
+<td>未获取到</td>
+<td>同上</td>
+</tr>
+<tr>
+<td>摩根大通（JPM）</td>
+<td>未获取到</td>
+<td style="text-align: right;">1,800</td>
+<td style="text-align: right;">+72.6%</td>
+<td>2026-08-17 上调</td>
+<td>同上；C13：初始目标价 400 vs 800 系转述失真未裁决，"400/800→…→1,800"时间线仅作叙事</td>
+</tr>
+<tr>
+<td>国证国际</td>
+<td>买入</td>
+<td style="text-align: right;">2,043</td>
+<td style="text-align: right;">+95.9%</td>
+<td>未获取到</td>
+<td>同上</td>
+</tr>
+<tr>
+<td><strong>区间 / 中位数</strong></td>
+<td>—</td>
+<td style="text-align: right;">906–2,043 / <strong>中位数未获取到</strong></td>
+<td style="text-align: right;">-13.1% ~ +95.9%</td>
+<td>—</td>
+<td>19 家中仅 3 家具名目标价</td>
+</tr>
+</tbody>
+</table>
+<p>隐含空间为我的推算（目标价÷1,043−1）。<strong>近期调整主线</strong>：2026-06→07 间发生 GLM-5.2 发布（6 月中旬，6/17 上线开源无争议）与 API 提价（幅度有两种口径并存，见裁决 C15，引用须注明口径）等事件，JPM 随之上调（幅度 26–42%，上调对象口径未获取到），并于 08-17 将目标价升至 1,800（ledger §3 C12/C16）。</p>
+<p>持仓面与评级面显著背离：8/14 卖空 88.52 万股 / 11.60 亿港元创阶段新高，证监会淡仓 7/17→8/7 三周 <strong>+37%</strong>（7 月中曾回落、8 月再创新高，C07 时序）；08-18 当日股价 -13.30%。卖方评级与卖空/淡仓数据来源与口径各异，方向分歧本身是本标的定价分歧的证据（我的判断）。</p>
+<h3>7.3 一致预期关键数字：一档分裂的 2026E</h3>
+<table>
+<thead>
+<tr>
+<th>指标</th>
+<th>值（CNY）</th>
+<th>口径/时点</th>
+<th>来源</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2026E 收入·低锚</td>
+<td>30.72 亿</td>
+<td>彭博一致预期，2026-06（经钛媒体转述，Tier 5）</td>
+<td>ledger §2.5</td>
+</tr>
+<tr>
+<td>2026E 收入·高锚</td>
+<td>约 63.4 亿（H1 11.158 + H2 52.235）</td>
+<td>标普源单分析师，2026-07-24 缓存（Tier 4）</td>
+<td>同上</td>
+</tr>
+<tr>
+<td>裁决状态</td>
+<td><strong>保留区间 30.7–63.4 亿，无法归一</strong>（◐ C12：时点差＋样本差双重原因）</td>
+<td>—</td>
+<td>ledger §3</td>
+</tr>
+<tr>
+<td>2027E / 2028E 收入</td>
+<td>72.14 亿 / 173.79 亿</td>
+<td>彭博口径（Tier 5 转述）</td>
+<td>ledger §2.5</td>
+</tr>
+</tbody>
+</table>
+<p>隐含增速（我的推算，基准 FY2025 收入 7.243 亿，Tier 1 业绩公告）：低锚路径 2026E <strong>+324.0%</strong> → 2027E +134.9% → 2028E +140.9%；高锚路径 2026E <strong>+775.4%</strong> → 2027E +13.8%。两档路径无法同时自洽——共识内部对"2026 年是线性减速年还是跳变年"没有统一答案。裁决 C12 已将该分裂标注为估值敏感度"极高"；以人民币口径市值 4,283–4,386 亿（ledger §1）计，两档 2026E 锚对应 forward P/S 约 <strong>68x–143x</strong>（我的推算；倍数取舍属第六章）。</p>
+<p>参照系事实（非共识）：2H25 收入同比 +99.4%，较 1H25 的 +325.0% 明显减速（ledger §5 缺口表）；公司口径 ARR 17 亿（截至 2026-03，<strong>未经审计</strong>）支撑高锚方向，但 ARR→收入转化未经任何期数验证。</p>
+<h3>7.4 共识 vs 我的分歧点（与第一章 Gap 表同骨架）</h3>
+<p>本表与第一章预期差 Gap 表逻辑呼应，登记分歧驱动与验证信号；"我的预期"仅给方向与依据，定量标签与区间由第六章估值、第九章结论落定。</p>
+<table>
+<thead>
+<tr>
+<th>关键驱动</th>
+<th>共识/市场隐含</th>
+<th>我的预期（方向）</th>
+<th>分歧依据（forensic 证据）</th>
+<th>验证信号与时点</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2026E 收入路径</td>
+<td>分裂：30.7 亿 ↔ 63.4 亿（相差 2.1 倍）</td>
+<td>我的判断：以 2H25 减速证据与未经审计 ARR 校准，两档分别偏保守与偏激进；区间留估值章</td>
+<td>2H25 +99.4% vs 1H25 +325.0%（减速明确）；ARR 17 亿为公司口径未经审计（2026-03）</td>
+<td>2026-08-31 中期业绩：H1 收入落在单分析师 H1 锚 11.158 亿（隐含同比 +484.6%）的哪一侧</td>
+</tr>
+<tr>
+<td>毛利率轨迹</td>
+<td>上调逻辑含"调低经调整净亏损预测"（JPM，转述），隐含利润率改善</td>
+<td>我的判断：毛利率下行是结构性的，41.0% 未必是底</td>
+<td>毛利率 54.6%→64.6%→56.3%→<strong>41.0%</strong>；云端部署毛利率 18.9%、收入 +292.6%、占比升至 26.3%</td>
+<td>中期毛利率与云端占比（earnings-quality 监控指标③）</td>
+</tr>
+<tr>
+<td>亏损与稀释口径</td>
+<td>叙事以"经调整净亏损收窄"为主线</td>
+<td>我的判断：非 IFRS 口径剔除 SBC 与 FV 变动，真实经济亏损与稀释更大</td>
+<td>FY2025 经调整净亏损 31.82 亿 vs IFRS 47.18 亿（加回 15.36 亿）；SBC 558,265 = 收入 <strong>77%</strong></td>
+<td>中报 SBC 与 2026-03 股份激励计划摊销明细（监控⑤）</td>
+</tr>
+<tr>
+<td>增长质量（留存类 KPI）</td>
+<td>默认类 SaaS 高留存、给软件式溢价</td>
+<td>我的判断：NRR/gross retention/RPO 零披露，质量假设缺一手证据，不给溢价</td>
+<td>仅 B 端续约率 95% 单一口径（Tier 5）；SaaS 附录红旗：关键 KPI 停止披露/口径不明</td>
+<td>中报是否首次披露 NRR/ARR 定义；ARR 增速与 API 预收结构（监控④）</td>
+</tr>
+<tr>
+<td>风险折价（融资/稀释/集中度）</td>
+<td>19 家全为强推/买入，折价未被定价</td>
+<td>我的判断：连环融资与治理观察项应计入折价而非脚注</td>
+<td>上市 6 个月内 IPO 50 亿 + 配售 314 亿（解禁次日启动、折让 12.99%、完成后一周股价 -28%）+ 拟 A 股 150 亿；未上市股份 50.36%、股权高度集中；独董辞任（2026-05-06）</td>
+<td>2027-01-08 控股股东解禁；A 股辅导进展（C10）；后续配售节奏</td>
+</tr>
+</tbody>
+</table>
+<p><strong>净预期差方向：偏谨慎（相对共识高锚与利润率改善叙事；定量标签见第六/九章）。</strong></p>
+<p>市场交易变量：未来 1–3 个月，市场最可能先交易 <strong>2026-08-31 董事会审议的中期业绩</strong>——H1 收入相对两档锚的位置、毛利率走向、以及应收背离是否连续第二年出现（earnings-quality 预注册升级触发：再现背离 → 财报可信度 B 降 C）。上行证伪：H1 收入贴近高锚且毛利率企稳；下行证伪：收入滑向低锚之下且 DSO 继续抬升（106→153 天后再恶化）。</p>
+<h3>7.5 独立观点检验（三问）</h3>
+<ol>
+<li><strong>最大单一分歧（一句话）</strong>：市场按"高锚收入 + 经调整亏损收窄"定价，我的判断是留存质量零披露与毛利率结构性压制（云端 18.9% 毛利业务 +292.6%）被低估。</li>
+<li><strong>分歧为何存在</strong>：外推（用 1H25 +325% 与 ARR 叙事线性外推）＋口径依赖（非 IFRS 剔除 SBC 77%、单一续约率 95%、未经审计 ARR）＋样本薄（可聚合预测仅 1 家，修正成本低的预期最容易单边化）。</li>
+<li><strong>如果我错了，何时、凭什么发现</strong>：最早 2026-08-31 中报——若 H1 收入 ≥11.2 亿、整体毛利率企稳于 41% 以上（云端占比上升而不稀释）、或首次披露的 NRR/ARR 口径强劲，我的毛利率压制论与质量折价论点即被削弱，应上调预期并重估方向。</li>
+</ol>
+<hr>
+<h2>八、最新新闻与催化剂</h2>
+<p>本章要点：未来两周唯一的硬日程是 2026-08-31 董事会审议 2026 中期业绩，它一次性裁决两项核心悬念——2026E 收入锚（一致预期 30.7–63.4 亿元、宽 2.1 倍）与应收背离是否连续第二年出现（财报可信度 B 级的降级触发）；未来 6 个月最大空头日程是 2027-01-07/08 控股股东禁售期满叠加全流通解禁窗口，7 月配售"解禁次日启动、折让 12.99%、完成后一周股价 -28%"已给出供给压力的行为样本。</p>
+<p><strong>口径与来源</strong>：市场行情为 HKD，财务数据为 RMB（亿元，另有标注除外）；百分比保留 1 位小数。除标注"我的判断/我的推算"外均为事实数据，来源为 <code>forensic/ledger.md</code>（2026-08-18 对账版，Tier 1 回源核验）与 <code>forensic/earnings-quality.md</code>；另有一处红队补采数据（财新，见 07-07 行）已显式标注来源。基准时点：2026-08-18 收盘 HK$1,043.00（-13.30%）、总市值 4,856.4 亿港元、总股本 465,623,090 股（ledger §1）。</p>
+<h3>近 1–3 个月要事（2026-05-19 至 2026-08-18）</h3>
+<table>
+<thead>
+<tr>
+<th>时间</th>
+<th>事件</th>
+<th>多/空</th>
+<th>影响逻辑</th>
+<th>确认状态/来源</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2026-05-22</td>
+<td>恒生科技指数检讨公布纳入</td>
+<td>多</td>
+<td>被动资金与港股通预期启动，生效日 2026-06-08</td>
+<td>已确认（裁决 C17 分层核验）</td>
+</tr>
+<tr>
+<td>2026-06-08</td>
+<td>恒生科技指数变更生效（含港股通资格）</td>
+<td>多</td>
+<td>南向资金可参与，流通盘资金面扩容</td>
+<td>已确认（C17）</td>
+</tr>
+<tr>
+<td>2026-06-13/15 → 06-17</td>
+<td>GLM-5.2 预热/官宣并上线开源</td>
+<td>多</td>
+<td>旗舰模型迭代支撑 API 提价与调用量份额（2025 年 MaaS 调用量份额 49.5%，IDC 原文核验）</td>
+<td>已确认（官宣日双值保留 C16；份额 C21）</td>
+</tr>
+<tr>
+<td>2026-06-22</td>
+<td>盘中 2,980.00（上市以来高点）</td>
+<td>价格事实</td>
+<td>较 8/18 收盘回撤 -65.0%（我的推算）</td>
+<td>已确认（富途＋钛媒体互证，C03）</td>
+</tr>
+<tr>
+<td>2026-07-01</td>
+<td>19 家评级：78.95% 强推 / 21.05% 买入</td>
+<td>多（情绪面）</td>
+<td>覆盖热度高，但可聚合盈利预测仅 1 家，目标价区间 906–2,043 宽达 2.3 倍</td>
+<td>Tier 5/4（ledger §2.5）</td>
+</tr>
+<tr>
+<td>2026-07-07 届满（财新 07-08 报道）</td>
+<td>首批禁售期满：约 2,568 万股（占配售前股本 5.76%）基石禁售届满，超六成基石投资者选择续持，当周股价 +13%</td>
+<td>多</td>
+<td>解禁日不必然对应抛压的多头侧对照样本；与紧随其后的配售启动（空头侧对照，见下行）构成同窗口两组行为证据</td>
+<td>财新（红队 F10 补采，Tier 3-4；非 forensic 台账源）</td>
+</tr>
+<tr>
+<td>2026-07-08 → 07-13</td>
+<td>配售 19,780,000 股 @1,588（较 7/08 收盘 1,825 折让 12.99%），毛额 314.106 亿港元</td>
+<td>空</td>
+<td>解禁次日启动、大额折让；完成后一周股价 -28%；现价较配售价再低 34.3%（我的推算）</td>
+<td>已完成（配售事实 Tier 5 双源，待月报表 Tier 1，C11；"解禁次日/后一周 -28%"为 Tier 5 市场行为观察）</td>
+</tr>
+<tr>
+<td>2026-08-14</td>
+<td>卖空 88.52 万股 / 11.60 亿港元，创新高</td>
+<td>空</td>
+<td>淡仓三周 +37.0%（07-17→08-07），空头趋势成形</td>
+<td>Tier 4/5（C07 时序排布）</td>
+</tr>
+<tr>
+<td>2026-08-17</td>
+<td>JPM 上调目标价至 1,800</td>
+<td>多</td>
+<td>卖方锚上移（7 月已上调预测 26–42%），与卖空新高几乎同步出现</td>
+<td>Tier 5 转述（ledger §2.5/C12；初始 TP 未裁决 C13）</td>
+</tr>
+<tr>
+<td>2026-08-18</td>
+<td>收盘 1,043.00（-13.30%），当日区间 990–1,211；卖空再创新高</td>
+<td>空</td>
+<td>单日振幅 21.2%（我的推算）；驱动归因未采集到——我的判断：与卖空新高及 2027-01 解禁/再融资担忧相关，待中报裁决</td>
+<td>价格 Tier 4 收盘快照（C02）；归因缺数据</td>
+</tr>
+</tbody>
+</table>
+<p>两项略早于 3 个月窗口的治理事项沿用 earnings-quality 定性并保持监控：2026-05-06 独立非执行董事辞任（上市后不足 4 个月，姓名与原因未获取到，黄旗待核）；2026-03-31 采纳股份激励计划（细则未获取到，FY2025 SBC/收入已达 77%）。两者均属监控项，尚无已确认的后续日程。</p>
+<h3>未来 6–12 个月催化剂时间表（三分）</h3>
+<p><strong>其一：已确认日程（日期由公告或规则确定）</strong></p>
+<table>
+<thead>
+<tr>
+<th>时间</th>
+<th>事件</th>
+<th>多/空</th>
+<th>影响逻辑</th>
+<th>确认状态</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2026-08-31</td>
+<td>董事会审议并披露 2026 中期业绩</td>
+<td>双向（数据裁决）</td>
+<td>一次裁决三件事：① 收入锚——1H26 实际值对照 30.7/63.4 亿元两锚的隐含路径；② 应收背离是否连续第二年（可信度 B→C 触发，见 8.1 行 R4）；③ 现金与 CFO 披露（修复 FY2025 CFO 仅 Tier 5 的缺口）；另须披露 ARR 定义与数值以裁决 17 亿 vs 71 亿口径分裂（见 8.1 行 R1 悬置声明）</td>
+<td>已确认（董事会日程，ledger §5）</td>
+</tr>
+<tr>
+<td>2026-09 上半月</td>
+<td>下一份月结股份报表（8 月月结后 14 天内）</td>
+<td>中性</td>
+<td>以 Tier 1 落地总股本 465,623,090（配售 19,780,000 股现为 Tier 5 双源）</td>
+<td>已确认节奏（7 月报表检索 5 次未获，ledger §5）</td>
+</tr>
+<tr>
+<td>2027-01-07/08</td>
+<td>控股股东禁售期满（集团 30.22%）＋全流通解禁窗口</td>
+<td>空</td>
+<td>供给端集中解锁，实际弹性取决于持股人行为；2026-07 同窗口两组对照——基石超六成续持、当周 +13%（多头侧，财新/红队 F10）vs 配售解禁次日启动、折让 12.99%、完成后一周 -28%（空头侧）</td>
+<td>已确认（Tier 1 禁售条款；earnings-quality 监控清单⑦；对照样本见 07-07/07-13 行）</td>
+</tr>
+<tr>
+<td>2027-03-31 前后</td>
+<td>FY2026 年度业绩＋经审计年报</td>
+<td>双向</td>
+<td>补齐 D&amp;A（M-Score 目前无法计算）、审计意见类型、CFO 终核、G&amp;A +278.3% 的约 33 亿元增量明细</td>
+<td>已确认（年度节奏；FY2025 公告日为 2026-03-31）</td>
+</tr>
+</tbody>
+</table>
+<p><strong>其二：管理层目标与公司行动（无确认日期）</strong></p>
+<table>
+<thead>
+<tr>
+<th>时间</th>
+<th>事件</th>
+<th>多/空</th>
+<th>影响逻辑</th>
+<th>确认状态</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>日程未定</td>
+<td>A 股二次上市（拟募约 150 亿元；2026-08 辅导验收）</td>
+<td>双向</td>
+<td>成长资本与双市场流动性 vs 稀释；参照 7 月配售后一周 -28% 的市场反应</td>
+<td>未确认（Tier 5 线索；辅导券商中金/国泰海通未裁决 C10；无证监局一手公示）</td>
+</tr>
+<tr>
+<td>持续</td>
+<td>API 提价与模型迭代节奏（提价 83% 双口径并存）</td>
+<td>多</td>
+<td>提价＋GLM-5.2 商业化是 2026 年收入加速的核心驱动（云端部署 FY2025 +292.6%）</td>
+<td>部分确认（产品发布已证实；提价口径公司未澄清，C15）</td>
+</tr>
+<tr>
+<td>持续</td>
+<td>股份激励计划授予</td>
+<td>空（稀释）</td>
+<td>SBC/收入 77%（FY2025）；授予节奏决定 2026–2027 年稀释与费用路径</td>
+<td>未确认（2026-03-31 采纳，细则未获取到）</td>
+</tr>
+<tr>
+<td>持续</td>
+<td>算力采购服务化（capex -83.8%，购置设备转服务采购）</td>
+<td>双向</td>
+<td>前置资本开支下降改善 FCF 口径，但算力成本费用化进研发（1H25 算力服务费 11.451 亿元）压制利润率</td>
+<td>已确认（Tier 1 业绩公告）</td>
+</tr>
+</tbody>
+</table>
+<p><strong>其三：市场预期（由共识与资金行为构成，无公司日程）</strong></p>
+<table>
+<thead>
+<tr>
+<th>时间</th>
+<th>事件</th>
+<th>多/空</th>
+<th>影响逻辑</th>
+<th>确认状态</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2026-09 起</td>
+<td>中报后一致预期重锚</td>
+<td>双向</td>
+<td>2026E 收入 30.7 亿（彭博，6 月）↔ 63.4 亿（单分析师，7 月）双锚并存，对应 forward P/S 约 68x–143x（@0.882–0.9031，我的推算，与第七章 7.3 同口径）；ledger C12 原文"59x↔139x"中 59x 实为 2027E 彭博锚 72.14 亿元隐含（4,283÷72.14，跨年口径混排，引用须带年份标注）；彭博口径 2028E 173.79 亿隐含持续翻倍以上增长，中报决定哪一锚胜出</td>
+<td>市场预期（可聚合预测仅 1 家，样本极薄）</td>
+</tr>
+<tr>
+<td>持续</td>
+<td>卖空与淡仓趋势</td>
+<td>空</td>
+<td>8/14、8/18 卖空新高，淡仓三周 +37.0%；若中报证伪空头叙事，高卖空反而提供回补弹性</td>
+<td>市场数据（Tier 4/5，C07）</td>
+</tr>
+<tr>
+<td>持续</td>
+<td>恒生科技指数与港股通资金流</td>
+<td>多</td>
+<td>6/8 生效后南向资金可买入；6/22 高点与纳入时点相邻——我的判断：6 月冲高以资金面驱动为主、非基本面增量</td>
+<td>已生效；港股通持股比例未获取到</td>
+</tr>
+<tr>
+<td>2026 内</td>
+<td>行业价格与巨头资本开支</td>
+<td>双向</td>
+<td>DeepSeek 价格 V 型（Q1 +83% → 4–5 月大降 → 8 月再涨）企稳利好 API 毛利率叙事；字节 2026 年资本开支 1,600 亿→2,000 亿元+ 加剧模型军备竞赛</td>
+<td>行业数据（04 线；C22/C23）</td>
+</tr>
+</tbody>
+</table>
+<p>催化剂密度呈"近多远空"结构：30 天内唯一硬日程（中报）是多空双向的数据裁决点，9–12 月为预期重锚期，2027-01 起进入供给窗口——7 月同窗口已有正反两组行为样本（基石超六成续持、当周 +13% vs 配售折让 12.99%、后一周 -28%），我的判断：供给弹性取决于控股股东与基石行为而非机械抛压。现价较 6 月高点已回撤 -65.0%（我的推算）。我的判断：短期事件博弈的不对称性略偏多（空头持仓拥挤＋硬催化在即），但 2027-01 供给日程约束任何估值重估的持续性——此判断可由 8.1 行 R7 的区间追踪到期验证。</p>
+<h3>8.1 预测与验证登记</h3>
+<p>首次登记（prior_report=none，无旧报告）。登记时间 2026-08-19，数据截止 2026-08-18。后续更新只追加实际结果、命中状态（命中/部分命中/未命中/无法验证）与误差归因，不得改写原预测；唯一例外为修正轮 v2 对 R1/R2 的显式改写（编排者裁决，见下方 v2 修正记录），此后恢复只追加。经营 KPI、催化剂路径、估值倍数与股价回报按行分开记录。</p>
+<table>
+<thead>
+<tr>
+<th>预测对象</th>
+<th>基准值/截止日</th>
+<th>预测区间或方向</th>
+<th>验证日期</th>
+<th>先行指标与阈值</th>
+<th>上/下行失效条件</th>
+<th>状态</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>R1 经营：1H26 收入</td>
+<td>1H25 1.909 亿元（截至 2025-06-30，Tier 1）</td>
+<td>8–13 亿元（同比 +319.1%~+581.1%，我的判断；v2 口径）</td>
+<td>2026-08-31（中报）</td>
+<td>ARR 口径分裂并存：17 亿元（未经审计公司口径，2026-03，ledger C05）vs 约 71 亿元（Tier 4 多源转述，2026-07，红队 F1；ARR≠收入、公司定义未披露）。<strong>8-31 悬置声明</strong>：中报披露 ARR 定义与数值前，71 亿按悬置证据使用；若中报口径显著低于 71 亿或定义不可比，v2 迁移回摆并再次显式改写登记。云端部署收入增速（FY2025 +292.6%）</td>
+<td>上行失效：中报收入 &gt;14 亿元；下行失效：&lt;6 亿元</td>
+<td>待验证（v2 修正，G3/F1）</td>
+</tr>
+<tr>
+<td>R2 经营：FY2026 全年收入</td>
+<td>FY2025 7.243 亿元（+131.9%，Tier 1）</td>
+<td>50–70 亿元（同比 +590.3%~+866.4%，我的判断：以 v2 基准锚 63.4 亿为中心带；熊/牛情景 26/75 亿为估值尾部输入、非预测中心）</td>
+<td>2027-03-31（FY2026 业绩公告）</td>
+<td>R1 结果；ARR→收入转化率（口径分裂与悬置声明见 R1）；H2 提价与 GLM-5.2 转化（区间角点隐含 H2/H1 约 4.4–5.3 倍、中值 4.7，vs 2025 年实际 2.8 倍、单分析师拆分 4.68 倍）</td>
+<td>下行失效：全年 &lt;45 亿元（落入熊情景域，v2 迁移回摆）；上行失效：&gt;75 亿元（超越牛情景，上修并重开情景概率）</td>
+<td>待验证（v2 修正，G3/F1）</td>
+</tr>
+<tr>
+<td>R3 经营：FY2026 毛利率</td>
+<td>FY2025 41.0%（本地化 48.8% / 云端 18.9%，Tier 1）</td>
+<td>36–42%（我的判断：云端占比上升稀释，提价部分对冲）</td>
+<td>2027-03-31</td>
+<td>中报分部毛利率；云端收入占比（FY2025 26.3%）；行业 API 价格方向</td>
+<td>下行失效：&lt;33%（价格战/云端稀释超预期）；上行失效：&gt;45%（提价全传导，届时上修 R2）</td>
+<td>待验证</td>
+</tr>
+<tr>
+<td>R4 财报质量：应收背离（可信度 B 的升级触发）</td>
+<td>FY2025 应收 +232.7% vs 收入 +131.9%（背离 +100.8pp）、DSO 153 天（脚本 P2 红旗）</td>
+<td>背离收敛至 ≤+30pp、DSO 稳定于 150–165 天（合同资产→应收机械转仓消退，我的判断）</td>
+<td>2026-08-31（中报附注）</td>
+<td>账龄 3 个月内占比（基准 80.3%）；坏账准备率（基准 10.6%）；(AR+合同资产)/收入（基准 99.0%）</td>
+<td>恶化失效：背离 &gt;+50pp 或 DSO &gt;180 天 → 连续第二年背离，按预注册规则提请可信度降 C 复评（动作上限转"观望"）</td>
+<td>待验证</td>
+</tr>
+<tr>
+<td>R5 催化剂：H 股再融资节奏</td>
+<td>上市以来（至 2026-07-13）股权融资毛额累计约 364.11 亿港元；备考现金超 300 亿元人民币量级（我的推算）</td>
+<td>2026-12-31 前不再有 &gt;100 亿港元级 H 股股权再融资（我的判断：现金充裕）</td>
+<td>2026-12-31（公告记录）</td>
+<td>月报表股本变化；A 股辅导进展（若提速则 H 股配售概率下降）；解禁相关续持/减持公告（参照 2026-07-07 基石超六成续持样本，财新/红队 F10）</td>
+<td>上行失效：出现新的大额配售（稀释＋时机信号）；A 股递表属约 150 亿元量级独立事件，不并入本条</td>
+<td>待验证</td>
+</tr>
+<tr>
+<td>R6 估值：2026E 收入锚收敛</td>
+<td>2026E 一致预期 30.7–63.4 亿元（双锚，C12）；现市值 4,856.4 亿港元、静态 P/S 591x（@0.882）</td>
+<td>2026-12-31 前可聚合预测家数升至 ≥3 家且区间收敛至 ±30% 以内</td>
+<td>2026-12-31</td>
+<td>中报后 30 天内预测修订家数与方向（JPM 已先行：7 月上调 26–42%、8/17 目标价 1,800）</td>
+<td>失效：区间仍 &gt;2 倍宽 → 共识锚不可用，估值置信度下调</td>
+<td>待验证</td>
+</tr>
+<tr>
+<td>R7 股价（与经营判断分开记录，非投资动作）</td>
+<td>2026-08-18 收盘 1,043.00；52 周区间 116.10–2,980（25.7 倍宽）</td>
+<td>未来 6 个月（至 2027-02-18）区间 700–1,800（我的判断，低置信度：锚为卖方目标价区间 906–2,043、配售价 1,588 与已实现波动率——8/18 单日 -13.3%；方向判断属第一/九章决策三分法，本行仅作可追踪记录）</td>
+<td>2027-02-18</td>
+<td>卖空余额拐点；港股通持股变化；中报事件窗口反应</td>
+<td>失效：期内收盘 &lt;700 或 &gt;1,800</td>
+<td>待验证</td>
+</tr>
+</tbody>
+</table>
+<p><strong>v2 修正记录（显式改写裁决，G3/F1）</strong>：R1/R2 已按修正轮 v2 显式改写——2026-07 ARR 约 71 亿元（Tier 4 多源）触发 thesis brief 预注册的承重假设①迁移条件（ARR 上穿 30 亿元），基准 2026 收入锚由 32 亿（v1）迁至 63.4 亿元（牛锚），三情景 熊 26 / 基准 63.4 / 牛 75 亿元（概率 35/40/25），标定"显著高估"区间 [65, 300] HKD；v1 轨迹（R1 5–9 亿元、R2 25–40 亿元）见 valuation-notes。改写时间 2026-08-19。</p>
+<p><strong>命中判定与分轨规则</strong>：① 空档判定（R1）——实际值落在 13–14 亿元（区间上界与上行失效阈值之间）判"部分命中（上偏）"，不判失效，但触发 R2 上修复评；对称地，6–8 亿元判"部分命中（下偏）"，触发 R2 下修与 v2 迁移回摆评估；仅 &lt;6 亿元或 &gt;14 亿元判失效（未命中）。R2 同理：45–50 亿元判部分命中（下偏，熊情景权重上调），70–75 亿元判部分命中（上偏，牛情景权重上调）。② 情景分轨——第六章估值（v2）三情景 2026 年收入为 熊 26 / 基准 63.4 / 牛 75 亿元：情景是概率加权估值的输入、非预测中心，两者判定规则分开（情景按实际落档回写概率权重，R2 按区间与空档规则判命中）；熊情景 26 亿元低于 R2 下沿 50 亿元、牛情景 75 亿元高于 R2 上沿 70 亿元，情景覆盖尾部而 R2 为中心带，互不构成事前否定。</p>
+<p>注：R2 的重加速假设有明确前置条件——2H25 同比增速已回落至 +99.4%（vs 1H25 +325.0%），v2 区间隐含 2026 年重新大幅加速（H2/H1 约 4.4–5.3 倍），兑现依赖 ARR→收入转化率与 6/17 上线的 GLM-5.2、API 提价的 H2 集中确认；若 R1 落在下限，R2 应同向下修并重估 v2 迁移而非维持。R4 是 earnings-quality.md 预注册升级触发的首次到期检验，其结果直接进入第五章可信度复评与第九章否决项；R5 与已确认日程"2027-01-07/08 解禁窗口"构成供给端的双重监控。</p>
+<hr>
+<h2>九、投资结论、反方论证与仓位</h2>
+<p>本章要点：决策三分法——<strong>内在价值：显著高估（脚本原文 <code>综合区间 [65, 300] × 现价 1043.0 → 显著高估</code>）｜1–3 个月市场方向：宽幅震荡、事件驱动｜动作：规避（持有者减持，不建议做空）</strong>；否决链核验通过（grade=B 无估值限制、红队三问通过、护城河"窄"非"无"），动作由动作矩阵"显著高估"行直接给出。赔率结构（EV −86%、不对称比 0.0、P(错)=100%）不支持任何多头仓位；8-31 中报是本结论的第一个到期检验点。</p>
+<h3>9.1 结论：三分法复述、为何三者不同、现金测试</h3>
+<p><strong>三分法（与第一章逐字一致）</strong>：</p>
+<table>
+<thead>
+<tr>
+<th>分法</th>
+<th>结论</th>
+<th>依据</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>内在价值判断</td>
+<td><strong>显著高估</strong>：综合区间 HK$65–300，概率加权 141.6（−86%）；现价 1,043 &gt; 1.5×H=450</td>
+<td>dcf-output.v2.txt 标定行（逐字复述）；对任意概率组合稳健（100% 牛=250.8 &lt; 450）</td>
+</tr>
+<tr>
+<td>未来 1–3 个月市场交易方向</td>
+<td><strong>宽幅震荡、事件驱动</strong>：8-31 中报一次性裁决收入锚/ARR 口径/应收背离；短期博弈不对称略偏多（卖空 8/14、8/18 连创新高、空头拥挤＋硬催化在即），但 2027-01 供给窗口压制任何估值重估的持续性</td>
+<td>ch8 催化剂密度"近多远空"结构（我的判断，低置信度，R7 可追踪）</td>
+</tr>
+<tr>
+<td>投资动作</td>
+<td><strong>规避：未持有者不建仓；持有者减持；默认不建议做空</strong></td>
+<td>动作矩阵"显著高估"行（高不确定性列同）；否决链无触发（见下）</td>
+</tr>
+</tbody>
+</table>
+<p><strong>三者为何可能不同</strong>：价值回答"值多少钱"（区间与标签由模型与证据定），方向回答"市场接下来先交易哪个变量"（由事件日程、资金结构与持仓拥挤度定），动作回答"在该赔率与不确定性下怎么做"。本标的正是三者分立的典型——价值维度现价高出区间上限 3.5 倍，但流通盘约 2.67%＋指数/通道资金＋A+H 叙事构成的价格-价值背离路径（红队 pre-mortem ③）可以使偏空的价值判断长期"看起来错误"；因此动作取"规避"而非"做空"：逼空结构与事件不确定性下，做空的赔率与价值纪律同样不符。</p>
+<p><strong>否决链核验（valuation-methods §9 逐条）</strong>：① grade=B（veto_action=null）→ 无动作上限压制；② 红队三问裁定"通过"（2026-08-19）→ 不降"观望"；③ ch3 护城河"窄（偏弱）"≠"无" → 不触发"高估+无护城河→直接规避"的加强项（本例规避来自标签本身）；④ action_cap=none，矩阵输出无冲突。不确定性自评：高（Morningstar 评级缺失；ARR 口径悬置＋留存 KPI 零披露＋一致预期可聚合样本 1 家）→ 动作矩阵"显著高估×高不确定性"列：规避，持有者减持，不建议做空。</p>
+<p><strong>如果今天这是一笔现金，我会买入它吗？——不会。</strong> 三个层次：① 情景层：熊/基准/牛 60.6/144.1/250.8 全部低于现价，最优情景（牛，需 71 亿 ARR 全额转化＋行业性提价兑现＋2030 年收入 320 亿元）仍较现价 −76%；② 赔率层：EV=−86%、不对称比 0.0、P(内在价值&lt;现价)=100%（蒙特卡洛 n=3,000）；即便把 A 股募资约 150 亿元计入（v2 保守偏差回补 +20~32/股），加权值约 155–170，仍 −84% 以上；③ 现金的机会成本层：这笔现金的正确去处是等待——或者价格先跌（&lt;450 脱离"显著高估"、&lt;345 脱离"高估"，届时仅为标签降级、多数情形仍非买点），或者证据先到（"2030 年收入 &gt;600 亿元＋FCF 率 &gt;20%＋留存 KPI 强劲"的证据组合才会重开区间——该组合与 ch3 窄护城河直接冲突，届时须先重开第三章而非直接改结论）。第一检验点：2026-08-31 中报。</p>
+<h3>9.2 反方论证 / Pre-mortem 与红队回写</h3>
+<p>首次覆盖（coverage=initiation，prior_report=none、forecast_review=none），无旧预测可复盘；预测登记见 ch8 表 8.1（R1–R7），其 2027 年到期复盘将按"经营 KPI／催化剂／估值倍数／总回报"分轨回填。</p>
+<p><strong>表 9-1 Pre-mortem（一年后这笔"规避"被判错误的最可能原因；行与证据强度直取红队）</strong>：</p>
+<table>
+<thead>
+<tr>
+<th>失败情景</th>
+<th>触发机制</th>
+<th>当前证据强度</th>
+<th>监控信号</th>
+<th>证伪时点</th>
+<th>当前处置（本报告）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>①承重假设①被中报正面击穿：H1 收入贴近/超过单分析师 H1 锚 11.16 亿、ARR 口径继续翻倍（年化收入 &gt;45 亿），基准证伪、迁牛锚，公允价值上修至 150–180+ HKD；若同时披露留存类 KPI 强劲，熊 35% 概率失去依据，护城河判定亦须重开</td>
+<td>提价 83%×调用量 +400% 的 Q1 动能延续到 H2；GLM-5.2/5.3 商业化与海外订阅放量；ARR 转化率高于模型隐含</td>
+<td><strong>中强</strong>（ARR $1bn 多源 Tier 4；Q1 调用量为单一业绩会转述 Tier 5）</td>
+<td>2026-08-31 中报：H1 收入、ARR 定义与数值、NRR 是否首披；海外订阅价</td>
+<td>2026-08-31（一级证伪点）；2027-03-31（全年定局）</td>
+<td>已部分吸收：v2 按预注册规则完成基准迁移（32→63.4 亿元），加权值 122.4→141.6；8-31 证实则牛权重加大、加权值向 170–200，标签大概率仍为高估类——处置为"重开区间"而非机械维持（监控①②）</td>
+</tr>
+<tr>
+<td>②承重假设②被击穿：行业性提价环境＋Coding 订阅 mix 改善令云端毛利率回到 30%+，"结构性压制、41% 未必是底"论失效 → 稳态 FCF 率上修、22% 的 P85+ 定位失效；价格-份额-毛利三升构成定价权证据，ch3"窄（偏弱）"须重开</td>
+<td>API 连续提价＋推理单位成本下降快于价格下降；订阅制占比上升改变 mix</td>
+<td><strong>中</strong>（21财经"云端毛利率改善趋势已确立"为转述 Tier 4；反向证据：本地化毛利率 2024 66.0%→2025 48.8% 也在恶化，方向未定）</td>
+<td>中报云端分部毛利率（连续两期 &lt;20% 为草稿证伪线，&gt;30% 为本 pre-mortem 兑现线）；Coding Plan 积分制改版后 ARPU/流失</td>
+<td>2026-08-31 与 2027-03-31 两期</td>
+<td>未达兑现线：改善证据仅 Tier 4 转述（中级强度），v2 稳态率维持 16%；两期 &gt;30% 触发即上调稳态并同步重开 ch3（监控③）</td>
+</tr>
+<tr>
+<td>③净现金/稀释链时点错配＋价格-价值背离路径：A 股受理快于预期（150 亿元 2026Q4 前后定价，未计现金的保守偏差回补 +20~32 HKD/股）；另一端中报年化消耗 &gt;40 亿则熊情景生存假设重开；流通盘约 2.67%＋恒科/港股通资金＋A+H 双平台叙事可使价格长期偏离修复后的价值水平，"规避"判意在价格维度被流动力证伪</td>
+<td>静默期→受理→定价链条快于"CSRC 受理前"表述；指数与通道资金持续净流入</td>
+<td><strong>中</strong>（静默期为 Tier 5 线索；流通盘 2.67% 为钛媒体 Tier 4-5）</td>
+<td>上交所受理公告（硬日程）；中报现金流量表与借款；月报表股本；港股通持股比例</td>
+<td>2026-09~12（受理/定价）；2027-01-08 解禁窗口（压力测试点）</td>
+<td>已写入第一章"最大风险"与 R7 区间追踪；A 股定价落地按保守偏差回补处理（不改变标签与动作）；消耗 &gt;40 亿触发熊情景重开（监控④）</td>
+</tr>
+</tbody>
+</table>
+<p><strong>表 9-2 红队回写映射表（中强/强发现强制回写；中等与弱项列出呈现折入去向）</strong>：</p>
+<table>
+<thead>
+<tr>
+<th>红队发现（强度）</th>
+<th>修正轮状态</th>
+<th>回写位置（ch1 风险／情景概率／动作节奏）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>F1（强）ARR 71 亿元触发 v1 预注册推翻条件</td>
+<td><strong>已经过修正轮 v2</strong>：基准 32→63.4 亿元、熊 20→26、牛 63.4→75，概率 40/35/25→35/40/25；ch8 R1/R2 显式改写</td>
+<td>ch1：ARR 为第一验证事件＋悬置声明＋预注册回摆条件（下行证伪行）；情景概率已更新（表 9-1①）；动作节奏：基准证据定级"中"（Tier 4 多源被 Tier 5 低锚转述与样本 1 家压回，F7），规避动作不因 ARR 放松、以 8-31 为裁决点</td>
+</tr>
+<tr>
+<td>F2（强）净现金分项加总算术不符</td>
+<td><strong>已经过修正轮 v2</strong>：36,000→37,000 百万 HKD（37,612−529=37,083 取整）</td>
+<td>ch1 Tearsheet 净现金行；估值底价 74.3 的依赖项同步更新</td>
+</tr>
+<tr>
+<td>F3（强）EPV/PVGO 的 SBC 口径与加回桥相反</td>
+<td><strong>已经过修正轮 v2</strong>：常态化亏损 −31.82→−37.40 亿元（含 SBC）；EPV +3.52→−7.26；PVGO 107%→108%</td>
+<td>ch1 Gap 表"再投资回报"行与空头逻辑 2（EPV/净资产 −0.10x）</td>
+</tr>
+<tr>
+<td>F4（中强）ch8 R2 失效条件标签上下颠倒</td>
+<td>呈现回写（ch8 v2 改写＋空档判定规则）</td>
+<td>ch1 Gap 表验证信号列（R1 8–13 亿元、&lt;6/&gt;14 亿元判失效；R2 50–70 亿元、&lt;45/&gt;75 亿元判失效）</td>
+</tr>
+<tr>
+<td>F5（中强）蒙特卡洛增长分布与情景矩阵脱节</td>
+<td><strong>已经过修正轮 v2</strong>：40%±15%→81%±25%（对齐情景带，σ 覆盖熊+39%~牛+113%）</td>
+<td>ch1/9.3 引用 P(内在价值&lt;现价)=100% 时的构造披露（均匀 FCF 率偏悲观＋无稀释偏乐观，双向偏差已声明）</td>
+</tr>
+<tr>
+<td>F6（中）"最大单一分歧"双答案</td>
+<td>呈现折入（ch6.11 归一至 ch7.5）</td>
+<td>ch1 1.2 节末"最大单一分歧"为全文唯一锚（留存质量＋毛利率口径，不引隐含增长要求版本）</td>
+</tr>
+<tr>
+<td>F7（中）基准证据定级与锚源 Tier 不匹配</td>
+<td><strong>已经过修正轮 v2</strong>：基准定级"中强"→"中"、牛"弱"</td>
+<td>本节动作节奏措辞（见表 9-2 F1 行与 9.1）——不以"中强证据"口吻表述基准迁移可靠性</td>
+</tr>
+<tr>
+<td>F8（中）反向 DCF 行业参照口径极不稳定</td>
+<td>呈现折入（口径敏感表述）</td>
+<td>ch1 Gap 表行 1 分歧依据（所需营收绝对额口径无关）</td>
+</tr>
+<tr>
+<td>F9（中）熊情景 20 亿元低于 R2 下沿 25 亿元</td>
+<td><strong>已经过修正轮 v2</strong>：熊上移至 26 亿元 ≥ 25 亿元下沿＋情景/预测分轨钩连句</td>
+<td>情景≠预测中心的判定规则（ch8），2027-03 复盘不打架</td>
+</tr>
+<tr>
+<td>F10（弱）解禁行为样本只记空头侧</td>
+<td>呈现折入（ch8 时间线；估值端不重复计惩）</td>
+<td>ch1 多头逻辑 3＋本报告监控④（解禁多头/空头双侧信号）</td>
+</tr>
+<tr>
+<td>F11（弱）forward P/S 口径漂移</td>
+<td>呈现折入（ch8 口径标注）</td>
+<td>ch1 Tearsheet 倍数行口径注明</td>
+</tr>
+</tbody>
+</table>
+<h3>9.3 仓位思维（数值全部重述 valuation-notes／dcf-output.v2 脚本输出）</h3>
+<table>
+<thead>
+<tr>
+<th>指标</th>
+<th>脚本输出（v2）</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>概率加权期望收益 EV</td>
+<td><strong>−86%</strong>（Σ p×(V/P−1)，三情景全部低于现价）</td>
+<td>期望维度无多头理由</td>
+</tr>
+<tr>
+<td>上行/下行不对称比</td>
+<td>上行幅度（牛）+0%｜下行幅度（熊）−94%｜<strong>不对称比 0.0</strong>（&lt;1.5：赔率结构不支持重仓）</td>
+<td>无任何情景高于现价</td>
+</tr>
+<tr>
+<td>P(loss)=P(内在价值&lt;现价)</td>
+<td><strong>100%</strong>（蒙特卡洛 n=3,000，增长分布已对齐情景带）</td>
+<td>"现价买入是错误"的模型概率</td>
+</tr>
+<tr>
+<td>Kelly-lite</td>
+<td>脚本因无上行情景未输出（p_up=0）</td>
+<td>解释为"该赔率结构支持<strong>零/规避仓位</strong>"，与动作矩阵一致</td>
+</tr>
+</tbody>
+</table>
+<p>量级结论：<strong>小/中/标准仓位均不支持——零仓位（规避）</strong>；持有者的减持为价值纪律动作而非时点判断，节奏可结合 8-31 事件窗口与 2027-01 供给日程分批执行。本表为赔率结构描述，<strong>不构成配置建议</strong>。敏感性：A 股募资计入（+20~32/股）或 ARR 证实上修（加权值向 170–200）均不改变量级结论。</p>
+<h3>9.4 监控清单（阈值化；以 forensic 8 项清单为基，纳入 F10 双侧信号与 CFO 终核）</h3>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>指标/事件（验证时点）</th>
+<th>方向</th>
+<th>阈值与动作</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>2026-08-31 中报：H1 收入＋ARR 审计口径＋NRR 是否首披</td>
+<td><strong>上行证伪</strong></td>
+<td>H1 ≥11.2 亿＋ARR 经审计证实 → 牛权重加大、加权值向 170–200、熊 35% 失据须重开 ch3 与本结论；NRR 首披强劲同向；H1 &gt;14 亿另触发 R1 上行失效（预测层复核）</td>
+</tr>
+<tr>
+<td>2</td>
+<td>同日反向组合</td>
+<td><strong>下行证伪</strong></td>
+<td>ARR 证实含大额未签约/背书口径或 H1 &lt;8 亿 → v2 迁移回摆（基准回撤至 45 亿下方、加权值回 ~125）；H1 &lt;6 亿 = R1 失效、下修 R2</td>
+</tr>
+<tr>
+<td>3</td>
+<td>云端分部毛利率（8-31 与 2027-03-31 两期）＋总毛利率</td>
+<td>双向（阈值分列）</td>
+<td>上调线：连续两期 &gt;30%（稳态 FCF 率上修、区间上移、ch3 重开）；下调线：连续两期 &lt;20% 或总毛利率 &lt;40%（稳态降至个位数、区间下移 30–50%）</td>
+</tr>
+<tr>
+<td>4</td>
+<td>应收背离与 CFO 分类终核（8-31 中报附注／2027-03 年报）</td>
+<td>下行（可信度）</td>
+<td>背离 &gt;+50pp 或 DSO &gt;180 天 → 连续第二年背离，提请可信度 B→C 复评（动作上限转"观望"）；CFO 双值终核（−23.2↔−33.5 亿元口径差），年化消耗 &gt;40 亿且无已确认融资 → 熊情景生存假设重开</td>
+</tr>
+<tr>
+<td>5</td>
+<td>供给窗口与估值锚（2027-01-07/08 解禁；月报表；A 股受理→定价；卖空与共识）</td>
+<td>双向（分侧）</td>
+<td>空头侧：解禁后 6 个月内 &gt;100 亿港元级新融资或大额折让配售（R5 失败，稀释链 12–18% 落地）；多头侧：控股股东/基石续持公告（参照 2026-07-08 超六成续持、当周 +13%，F10）；另跟踪 R6（家数 ≥3 家且区间 ±30% 内收敛）、现价 &lt;450/&lt;345 的标签复评触发（非买入触发）</td>
+</tr>
+</tbody>
+</table>
+<h3>9.5 置信度自评表</h3>
+<table>
+<thead>
+<tr>
+<th>维度</th>
+<th>评分（高/中/低）</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>数据完整度</td>
+<td>中</td>
+<td>Tier 1 财务四期勾稽完整、KPMG 100% 续聘；但 NRR/RPO 零披露、D&amp;A 缺失（M-Score 不可算）、审计意见类型未核、ARR 定义未披露、2026 中期现金未披露、同业 KPI 未采集</td>
+</tr>
+<tr>
+<td>估值收敛度</td>
+<td>中</td>
+<td>主方法 60.6–250.8 与相对估值 121–339 重叠于 121–250.8；MC 左尾深负已归因（增长兑现×稳态经济性×ARR 口径带宽）；标签对任意概率组合稳健（100% 牛=250.8 &lt; 450）</td>
+</tr>
+<tr>
+<td>预期差清晰度</td>
+<td>中高</td>
+<td>单一分歧已归一（留存质量＋毛利率，F6）；验证信号带明确时点（8-31／2027-03-31）与预注册回摆条件，可证伪、可复盘</td>
+</tr>
+<tr>
+<td>财报可信度</td>
+<td>B</td>
+<td>forensic/grade.json（2026-08-19 维持）；红旗①应收背离单年有解释，升级触发在监控④</td>
+</tr>
+<tr>
+<td><strong>综合置信度</strong></td>
+<td><strong>中</strong></td>
+<td>方向置信度较高（标签稳健、Gap 偏空 3.5 倍于区间上限），点位置信度低（ARR 悬置使区间端点带宽大）；中置信度＋差赔率 → 规避而非做空，亦不支持"等待翻多"的任何抢跑</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>附录</h2>
+<h3>附录 A：来源与时间戳清单</h3>
+<p>本报告全部数字可追溯至 W2 对账权威台账 <code>forensic/ledger.md</code>（底稿；2026-08-18 主体对账＋2026-08-19 补采轮）。冲突裁决累计 31 组（C01–C31：已裁决 20、保留双值/区间 10、无法判断 1）全部显式记录，无静默选值。来源分层与关键时间戳：</p>
+<table>
+<thead>
+<tr>
+<th>来源层</th>
+<th>内容</th>
+<th>时间戳（快照/刊发）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Tier 1（法定披露）</td>
+<td>招股书（2025-12-30）；FY2025 年度业绩公告 PDF（2026-03-31 刊发，2026-08-18 22:15 回源下载至 forensic/_src 并逐页解析核验）；股东会投票结果公告（2026-06-22，激励/A 股授权/审计师续聘/独董委任）；股本月报表与配发结果公告</td>
+<td>见台账 §2 各行</td>
+</tr>
+<tr>
+<td>Tier 3（卖方标准化）</td>
+<td>东吴证券研报（Wind 标准化现金流；C29 经营现金流替代值来源）</td>
+<td>2026-07-05</td>
+</tr>
+<tr>
+<td>Tier 4（行情与媒体镜像）</td>
+<td>富途行情页（现价/市值/同业倍数，快照 2026-08-18 16:07）；搜狐港股、新浪公告直引；钛媒体＋36氪＋华尔街见闻＋雪球（2026-07 ARR ≈71 亿元多源交叉；公司口径、未经审计、定义未披露）</td>
+<td>2026-08-18／19</td>
+</tr>
+<tr>
+<td>Tier 5（转述与观点）</td>
+<td>观点网等转述、公司业绩会口述（Q1 提价 83% 等），仅作方向性佐证、不作数值锚</td>
+<td>见台账各行标注</td>
+</tr>
+</tbody>
+</table>
+<p>行情与折算基准：2026-08-18 港交所收盘 HK$1,043.00（当日 −13.30%）；估值构建与检查时点 2026-08-19；汇率锚 0.882 CNY/HKD（业绩公告隐含锚 0.9031 为敏感区间上沿，两者差 2.4%）。财务数据原币 RMB 千元（IFRS，12-31 自然年结）。</p>
+<h3>附录 B：估值关键假设摘要（assumptions.v2.json，v2 修正轮）</h3>
+<table>
+<thead>
+<tr>
+<th>假设项</th>
+<th>取值</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>现价／总股本</td>
+<td>1,043.00 HKD／465,623,090 股</td>
+<td>台账 §1（C01 三重印证）</td>
+</tr>
+<tr>
+<td>净现金</td>
+<td>37,000 百万 HKD</td>
+<td>F2 修正算术：分项加总 37,612 − 2025 年新增借款 529 = 37,083，取整 37,000（保守 0.2%）</td>
+</tr>
+<tr>
+<td>WACC／永续 g</td>
+<td>10.5%／3.0%</td>
+<td>rf 3.6%（联系汇率近似）＋β 1.30 × 中国 ERP 5.3%；g 低于中国名义 GDP 增速假设带</td>
+</tr>
+<tr>
+<td>三情景（概率）</td>
+<td>熊 35%／基准 40%／牛 25%</td>
+<td>2026 年收入 26／63.4／75 亿元 CNY；5 年 FCF 率路径收于 5%／16%／22%；年化稀释 3.4%／2.6%／1.8%（A 股 2–8%＋激励 10%/10 年 ≈ 合计潜在稀释 12–18% 当前股本，A 股募资约 150 亿元不计入现金流入＝保守偏差）</td>
+</tr>
+<tr>
+<td>蒙特卡洛</td>
+<td>n=3,000；增长分布 81%±25%</td>
+<td>F5 修正后对齐情景带（±1σ 覆盖熊 +39% 至牛 +113%）；利润率三角分布 −50%/10%/20%</td>
+</tr>
+<tr>
+<td>v1→v2 关键变更</td>
+<td>基准 2026 收入 32→63.4 亿元（F1：ARR 71 亿元触发预注册迁移）；净现金 36,000→37,000（F2）；EPV 改扣真实 SBC 口径（F3）；MC 增长分布 40%±15%→81%±25%（F5）；基准证据定级"中强"→"中"（F7）</td>
+<td>完整审计轨迹见 valuation-notes.md 修正轮节</td>
+</tr>
+</tbody>
+</table>
+<p>脚本输出（dcf-output.v2.txt 摘要）：熊/基准/牛每股 60.6／144.1／250.8 HKD，概率加权 <strong>141.6（较现价 −86%）</strong>；综合估值区间 <strong>[65, 300]</strong>，标定标签<strong>显著高估</strong>（现价 1,043 &gt; 1.5×H=450，且对任意概率组合稳健：100% 牛情景 250.8 仍 &lt; 450）；反向 DCF 隐含 5 年营收 CAGR +206%~+239%；PVGO 占现价 108%（零增长价值 −86.76/股）；EPV −7.26/股（EPV/净资产 −0.10x）；EVA 剩余收益 49.78/股；蒙特卡洛 P50 50.4、P90 213.0、P(内在价值 &lt; 现价)=100%。</p>
+<h3>附录 C：检查与校验结果摘要</h3>
+<p><strong>契约 lint（orchestration/lint_contract.py，2026-08-19）</strong>：8 项提示，逐项处置——</p>
+<ol>
+<li><code>FINANCIALS_ROWS_SHORT</code>（financials.csv 数据行 4 &lt; 5）：公司 2019-06 设立、申报报表期自 FY2022 起，公开披露仅存在 FY2022–FY2025 四个财年，无第 5 年数据可补录。属<strong>客观数据边界而非缺写</strong>，不做虚构补行；影响已由"数据完整度：中"（9.5 节）与 M-Score 不可算（ch5 检查二）显性吸收。</li>
+<li><code>GRADE_MISMATCH</code> ×7：lint 的等级字母正则将<strong>讨论评级规则</strong>的正文行（否决链预注册表述"若等级为 C→观望、若 D→规避"、"D&amp;A 缺失"字样等）误判为等级行所致。grade.json＝B、veto_action=null，与 ch5"可信度等级：B"及 forensic 结论一致（GRADE_NOT_EMBEDDED 未触发），非真实等级不一致。</li>
+</ol>
+<p><strong>研究输出检查器（check_research_output.py，--assumptions 采用修正轮 v2）</strong>：<strong>P0=0、P1=0</strong>；P2=4、P3=4，全部显式处置、无静默项：</p>
+<table>
+<thead>
+<tr>
+<th>级别</th>
+<th>发现</th>
+<th>处置与解释</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>P2</td>
+<td>EPS 与"净利润/股本"直除值不符（FY2024 −8.72 vs −18.5；FY2025 −12.03 vs −29.6）</td>
+<td>口径差异非错误：CSV 之 EPS 为 Tier 1 法定披露口径——分子为分担金融工具亏损后的<strong>归母</strong>亏损（−1,394,042／−1,918,476 千元）÷<strong>加权平均</strong>股数（159,875／159,522 千股），与台账 §2.1 脚本复算一致；检查器直除用的是含金融工具公允价值亏损的年内亏损总额÷股本，非法定口径</td>
+</tr>
+<tr>
+<td>P2</td>
+<td>应收增速 233% 超收入增速 132% 逾 15pp</td>
+<td>报告正文已作第一红旗处理：ch5 检查一/检查三、可信度 B 的扣分项、9.4 监控④阈值化（背离 &gt;+50pp 或 DSO&gt;180 天→连续第二年背离，提请 B→C 复评）；单年背离的可解释性见 forensic 结论</td>
+</tr>
+<tr>
+<td>P2</td>
+<td>讨论 AI/cloud capex 但未拆维护性/成长性 capex</td>
+<td>公司未披露该拆分（<strong>未获取到</strong>）；capex 绝对额小且趋降（FY2024 4.62 亿→FY2025 0.75 亿元 CNY，占收入 14.8%→1.0%），FCF 口径直接采用 CFO−总 capex，拆分缺失不构成实质口径偏差</td>
+</tr>
+<tr>
+<td>P3</td>
+<td>三情景未在 JSON 标注证据强度</td>
+<td>证据强度已写入报告 ch6.3 假设总表（基准"中"、牛"弱"，F7 修正后口径）；JSON 为 dcf.py 内部配置文件、不含叙述性字段</td>
+</tr>
+<tr>
+<td>P3</td>
+<td>M-Score 因缺失/零值跳过</td>
+<td>D&amp;A（折旧摊销）未披露所致；ch5 检查二已显式声明"无法计算"并计入 9.5 数据完整度短板与监控清单，不假装可算</td>
+</tr>
+</tbody>
+</table>
+<h3>附录 D：免责声明</h3>
+<p>本报告由自动化投研流水线生成，仅供研究方法演示与内部参考，<strong>不构成任何证券的投资建议、投资要约或要约邀请</strong>。撰写方非持牌投资顾问，不对任何人因使用本报告全部或部分内容而产生的直接或间接损失承担责任。报告所载数据来自公开渠道（分层与时间戳见附录 A），其中 Tier 3–5 来源存在转述失真风险；ARR 等公司口径数据未经审计且定义未披露，在其经审计证实前按"悬置锚"处理（见第一章与第九章预注册回摆条件）。标的具有高波动性与重大不确定性（流通盘约 2.67%、潜在稀释 12–18%、留存类 KPI 零披露），过往表现不代表未来表现。读者应独立判断并自担风险；本报告结论（含"显著高估"标签与"规避"动作）均附明确证伪条件与验证时点（见第一章上行/下行证伪行、9.4 监控清单），届时结论可能被修正或推翻。</p></body></html>

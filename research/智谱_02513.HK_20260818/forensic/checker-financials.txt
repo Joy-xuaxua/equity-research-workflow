@@ -1,0 +1,8 @@
+财务/估值一致性检查发现 4 项：P0=0 P1=0 P2=3 P3=1
+
+[P2] EPS_RECONCILIATION_MISMATCH [forensic/financials.csv]: FY2024 的 EPS 与净利润/股本不一致，请确认单位。
+    expected=-18.501998436278342, provided=-8.72, net_income=-2958007.0, shares=159875.0
+[P2] EPS_RECONCILIATION_MISMATCH [forensic/financials.csv]: FY2025 的 EPS 与净利润/股本不一致，请确认单位。
+    expected=-29.576904752949435, provided=-12.03, net_income=-4718167.0, shares=159522.0
+[P2] FORENSIC_DSO_DIVERGENCE [forensic/financials.csv]: 应收增速 233% 超收入增速 132% 逾 15pp，警惕塞货/放宽信用/提前确认。
+[P3] FORENSIC_MSCORE_SKIPPED [forensic/financials.csv]: M-Score 所需列存在但含缺失/零值，跳过计算。

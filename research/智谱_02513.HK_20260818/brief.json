@@ -1,0 +1,21 @@
+{
+  "company": "智谱",
+  "ticker": "02513.HK",
+  "exchange": "港交所主板",
+  "mode": "full",
+  "language": "zh",
+  "format": "pdf",
+  "currency": "HKD",
+  "fiscal_year": "",
+  "fiscal_period": "",
+  "industry": "saas",
+  "ah_listing": false,
+  "cn_adr": true,
+  "prior_report": "none",
+  "forecast_review": "none",
+  "coverage": "initiation",
+  "workdir": "C:/Users/joyli/Documents/code_repo/equity-research-workflow/research/智谱_02513.HK_20260818",
+  "skill_root": "C:/Users/joyli/Documents/code_repo/equity-research-workflow/.claude/skills/equity-research-skill",
+  "orch_root": "C:/Users/joyli/Documents/code_repo/equity-research-workflow/.claude/skills/equity-research-orchestration",
+  "created": "2026-08-18"
+}
