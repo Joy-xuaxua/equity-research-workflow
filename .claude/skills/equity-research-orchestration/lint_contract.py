@@ -229,18 +229,21 @@ def has_new_pipeline(workdir):
 
 
 def check_reconciled(workdir, issues):
-    """新流水线专属：reconciled/ 副本与 collection/01–04 同名、含头部章、adjudications 非空时有 ≥1 个 ▶ 戳。"""
+    """新流水线专属：reconciled/ 副本与 collection/01–04 同名、含头部章；adjudications 指向的文件须有 ≥1 个 ▶ 戳。"""
     cdir = os.path.join(workdir, "collection")
     rdir = os.path.join(workdir, "reconciled")
     if not os.path.isdir(rdir):
         add(issues, "RECONCILED_MISSING", "缺少 reconciled/ 目录（应由 W2 跑 reconcile_merge.py 生成）")
         return
-    stamps_required = False
+    stamp_targets = set()
     adj_path = os.path.join(workdir, "forensic", "adjudications.json")
     if os.path.isfile(adj_path):
         try:
             adj = json.loads(read_text(adj_path))
-            stamps_required = bool(adj.get("adjudications"))
+            for rec in adj.get("adjudications", []):
+                for fref in rec.get("files", []):
+                    if isinstance(fref, dict) and fref.get("file"):
+                        stamp_targets.add(fref["file"])
         except (ValueError, UnicodeDecodeError) as e:
             add(issues, "ADJUDICATIONS_UNPARSEABLE", f"forensic/adjudications.json 解析失败：{e}")
     for f in sorted(glob.glob(os.path.join(cdir, "[0-9][0-9]-*.md"))):
@@ -254,8 +257,8 @@ def check_reconciled(workdir, issues):
         head = nonempty_lines(text)[:10]
         if not any("【对账后副本】" in ln for ln in head):
             add(issues, "RECONCILED_HEADER_MISSING", f"{rel} 首 10 行缺【对账后副本】头部章（应由脚本生成）")
-        if stamps_required and not any(ln.startswith("▶ ") for ln in text.splitlines()):
-            add(issues, "RECONCILED_STAMP_MISSING", f"{rel} 无任何 ▶ 裁决戳（adjudications 非空时应至少 1 个）")
+        if base in stamp_targets and not any(ln.startswith("▶ ") for ln in text.splitlines()):
+            add(issues, "RECONCILED_STAMP_MISSING", f"{rel} 无任何 ▶ 裁决戳（adjudications 指向此文件）")
 
 
 def main():
