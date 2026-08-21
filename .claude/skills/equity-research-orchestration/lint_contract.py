@@ -14,6 +14,9 @@
   6. ch05 章与 forensic/earnings-quality.md 中的可信度等级均与 grade.json 一致。
   7. 结构存在：brief.json、ledger、earnings-quality、grade.json、估值四件套（assumptions/dcf-output/valuation-notes/估值章）、
      redteam-feedback、ch01/ch09、draft/_header.md、report-draft.md、report-final.md。
+  8. 新流水线标记（forensic/adjudications.json 存在或 quality/ 目录存在）时：质量产物在 quality/（grade.json、
+     earnings-quality.md）；reconciled/ 含与 collection/01–04 同名 4 文件、首 10 行含【对账后副本】头部章、
+     adjudications 非空时每副本 ≥1 个 ▶ 裁决戳。标记不存在（旧 workdir）按旧布局检查，零影响。
 """
 import argparse
 import csv
@@ -129,10 +132,11 @@ def check_financials(workdir, mode, issues):
             f"financials.csv 数据行 {len(data_rows)} < 最低要求 {need}（mode={mode}）")
 
 
-def check_grade(workdir, issues):
-    path = os.path.join(workdir, "forensic", "grade.json")
+def check_grade(workdir, issues, new_pipeline=False):
+    rel = "quality/grade.json" if new_pipeline else "forensic/grade.json"
+    path = os.path.join(workdir, *rel.split("/"))
     if not os.path.isfile(path):
-        add(issues, "GRADE_JSON_MISSING", "缺少 forensic/grade.json")
+        add(issues, "GRADE_JSON_MISSING", f"缺少 {rel}")
         return None
     try:
         g = json.loads(read_text(path))
@@ -166,11 +170,12 @@ def grade_letter_hits(text):
     return hits
 
 
-def check_grade_consistency(workdir, grade, issues):
+def check_grade_consistency(workdir, grade, issues, new_pipeline=False):
     if grade is None:
         return
+    eq_rel = "quality/earnings-quality.md" if new_pipeline else "forensic/earnings-quality.md"
     targets = [
-        ("forensic/earnings-quality.md", glob.glob(os.path.join(workdir, "forensic", "earnings-quality.md"))),
+        (eq_rel, glob.glob(os.path.join(workdir, *eq_rel.split("/")))),
         ("chapters/ch05-*", glob.glob(os.path.join(workdir, "chapters", "ch05-*.md"))),
     ]
     for label, hits in targets:
@@ -188,16 +193,19 @@ def check_grade_consistency(workdir, grade, issues):
                     f"{os.path.relpath(hits[0], workdir)} 等级行与 grade.json 不一致：{letters} vs {grade}｜行：{line[:60]}")
 
 
-def check_structure(workdir, mode, issues):
+def check_structure(workdir, mode, issues, new_pipeline=False):
+    eq_rel = "quality/earnings-quality.md" if new_pipeline else "forensic/earnings-quality.md"
     required_files = [
         "brief.json",
         "forensic/ledger.md",
-        "forensic/earnings-quality.md",
+        eq_rel,
         "redteam/redteam-feedback.md",
         "draft/_header.md",
         "draft/report-draft.md",
         "draft/report-final.md",
     ]
+    if new_pipeline:
+        required_files.append("forensic/adjudications.json")
     for rel in required_files:
         if not os.path.isfile(os.path.join(workdir, rel)):
             add(issues, "FILE_MISSING", f"缺少 {rel}")
@@ -212,6 +220,42 @@ def check_structure(workdir, mode, issues):
     ]:
         if not glob.glob(os.path.join(workdir, pat)):
             add(issues, "FILE_MISSING", f"缺少 {label}（{pat}）")
+
+
+def has_new_pipeline(workdir):
+    """新流水线标记：forensic/adjudications.json 存在，或 quality/ 目录存在（其一即按新布局检查）。"""
+    return (os.path.isfile(os.path.join(workdir, "forensic", "adjudications.json"))
+            or os.path.isdir(os.path.join(workdir, "quality")))
+
+
+def check_reconciled(workdir, issues):
+    """新流水线专属：reconciled/ 副本与 collection/01–04 同名、含头部章、adjudications 非空时有 ≥1 个 ▶ 戳。"""
+    cdir = os.path.join(workdir, "collection")
+    rdir = os.path.join(workdir, "reconciled")
+    if not os.path.isdir(rdir):
+        add(issues, "RECONCILED_MISSING", "缺少 reconciled/ 目录（应由 W2 跑 reconcile_merge.py 生成）")
+        return
+    stamps_required = False
+    adj_path = os.path.join(workdir, "forensic", "adjudications.json")
+    if os.path.isfile(adj_path):
+        try:
+            adj = json.loads(read_text(adj_path))
+            stamps_required = bool(adj.get("adjudications"))
+        except (ValueError, UnicodeDecodeError) as e:
+            add(issues, "ADJUDICATIONS_UNPARSEABLE", f"forensic/adjudications.json 解析失败：{e}")
+    for f in sorted(glob.glob(os.path.join(cdir, "[0-9][0-9]-*.md"))):
+        base = os.path.basename(f)
+        rel = f"reconciled/{base}"
+        rfile = os.path.join(rdir, base)
+        if not os.path.isfile(rfile):
+            add(issues, "RECONCILED_MISSING", f"缺少 {rel}（应与 collection/ 同名）")
+            continue
+        text = read_text(rfile)
+        head = nonempty_lines(text)[:10]
+        if not any("【对账后副本】" in ln for ln in head):
+            add(issues, "RECONCILED_HEADER_MISSING", f"{rel} 首 10 行缺【对账后副本】头部章（应由脚本生成）")
+        if stamps_required and not any(ln.startswith("▶ ") for ln in text.splitlines()):
+            add(issues, "RECONCILED_STAMP_MISSING", f"{rel} 无任何 ▶ 裁决戳（adjudications 非空时应至少 1 个）")
 
 
 def main():
@@ -248,13 +292,17 @@ def main():
     check_chapters(workdir, issues)
     check_ah(workdir, mode, ah_listing, issues)
     check_financials(workdir, mode, issues)
-    grade = check_grade(workdir, issues)
-    check_grade_consistency(workdir, grade, issues)
-    check_structure(workdir, mode, issues)
+    new_pipeline = has_new_pipeline(workdir)
+    grade = check_grade(workdir, issues, new_pipeline)
+    check_grade_consistency(workdir, grade, issues, new_pipeline)
+    check_structure(workdir, mode, issues, new_pipeline)
+    if new_pipeline:
+        check_reconciled(workdir, issues)
 
     if args.json:
         print(json.dumps({
             "workdir": workdir, "mode": mode, "ah_listing": ah_listing,
+            "new_pipeline": new_pipeline,
             "grade": grade, "issue_count": len(issues),
             "issues": [{"code": c, "message": m} for c, m in issues],
         }, ensure_ascii=False, indent=2))
@@ -262,7 +310,8 @@ def main():
         for code, msg in issues:
             print(f"[FAIL] {code}: {msg}")
         if not issues:
-            print(f"OK: 契约检查通过（workdir={workdir}, mode={mode}, ah_listing={ah_listing}）")
+            print(f"OK: 契约检查通过（workdir={workdir}, mode={mode}, ah_listing={ah_listing}, "
+                  f"new_pipeline={new_pipeline}）")
         else:
             print(f"共 {len(issues)} 项缺失/不一致")
     return 0 if not issues else 1
