@@ -160,6 +160,12 @@ Morningstar 不是必需来源。无法获得时，仍应独立完成护城河�
 - 公司不披露 KPI 时，不用缺乏证据的倒推值冒充事实；可做模型估计，但必须标“我的估算”并给区间。
 - 数据源有商业利益、样本选择或方法不透明时，降低权重并寻找独立验证。
 
+### 7.1 指标登记块与裁决戳（机器可读对账）
+
+- **采集端**：采集文件在 `## 发现` 与 `## 冲突` 之间加 `## 指标登记` 节，内含一个 YAML fenced 块，逐条登记 `references/collision-metrics.json` 清单内、本线采到的指标（无论有无冲突）：key/name/value/unit/period/scope/source/tier/ts/anchor。anchor＝本文件内唯一出现的原文片段（≥10 字符），供对账回写定位。清单外指标不登记；冲突表照旧人工填报，二者互补，机器以登记块为准。
+- **对账端**：对账员跑 `scripts/collision_check.py`（跨线同名对撞＋勾稽复算）产出冲突候选（`forensic/collision-report.txt`），裁决后写 `forensic/adjudications.json`，再跑 `scripts/reconcile_merge.py` 在 `reconciled/` 副本的锚点处插入单行裁决戳：`▶ 裁决@ledger Cxx｜…` / `▶ 双值@…` / `▶ 悬置@…`（可 grep）。
+- `collection/` 原件永不修改；补采后重跑 merge 脚本幂等重建 `reconciled/`。
+
 ## 8. 财年口径与市值计算
 
 ### 8.1 财年陷阱
