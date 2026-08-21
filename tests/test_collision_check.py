@@ -216,6 +216,19 @@ class LegacyDowngradeTests(unittest.TestCase):
         self.assertTrue(any(i.code == "REGISTRY_BLOCK_MISSING" and i.severity == "P2" for i in issues))
         self.assertTrue(any("降级" in i.message for i in issues))
 
+    def test_lines_without_expected_metrics_are_exempt(self):
+        """full 模式 04-industry 不在预期登记线内：无登记块不报 P2；earnings 模式 04-market 在预期内：报 P2。"""
+        legacy = "# 采集文件：旧版\n\n## 发现\n\n- 行业规模数据占位\n"
+        code, issues = run_on({
+            "01-disclosure.md": build_file([entry("revenue", "100", "万元", "FY2025", "营业收入100万元整句原文")]),
+            "04-industry.md": legacy})
+        self.assertFalse([i for i in issues if i.code == "REGISTRY_BLOCK_MISSING" and i.file == "04-industry.md"])
+        workdir = make_workdir({"04-market.md": legacy})
+        with open(os.path.join(workdir, "brief.json"), "w", encoding="utf-8") as f:
+            f.write('{"mode": "earnings"}')
+        code, issues = CC.run(workdir, out=os.path.join(workdir, "collision-report.txt"))
+        self.assertTrue(any(i.code == "REGISTRY_BLOCK_MISSING" and i.file == "04-market.md" for i in issues))
+
     def test_no_registry_block_strict_exits_one(self):
         legacy = "# 采集文件：旧版\n\n## 发现\n\n- 总股本4.66亿股\n"
         code, issues = run_on({"01-disclosure.md": legacy}, strict=True)

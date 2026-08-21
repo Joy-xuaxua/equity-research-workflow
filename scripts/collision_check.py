@@ -60,6 +60,24 @@ def load_registry(path: str = REGISTRY_PATH) -> Dict:
     return registry
 
 
+def expected_registry_lines(registry: Dict) -> Dict[str, set]:
+    """按 lines_by_mode 推导各模式下「应含登记指标」的采集线；不在其中的线（如 full 模式 04-industry）不要求登记块。"""
+    out: Dict[str, set] = {"full": set(), "earnings": set()}
+    for meta in registry["metrics"].values():
+        for mode, lines in meta.get("lines_by_mode", {}).items():
+            out[mode] |= set(lines or [])
+    return out
+
+
+def read_mode(workdir: str) -> str:
+    try:
+        with open(os.path.join(workdir, "brief.json"), encoding="utf-8") as f:
+            mode = json.load(f).get("mode")
+        return mode if mode in ("full", "earnings") else "full"
+    except (OSError, ValueError):
+        return "full"
+
+
 # ---------- 值 / 单位 / 期间解析 ----------
 
 def parse_number_loose(s: str) -> Tuple[Optional[float], Optional[float]]:
@@ -463,8 +481,15 @@ def run(workdir: str, out: Optional[str] = None, as_json: bool = False, strict: 
         return 1, issues
     all_entries: List[Dict] = []
     files_with_block = 0
+    scanned = 0
+    expected = expected_registry_lines(registry)
+    mode = read_mode(workdir)
+    expected_md = {slug + ".md" for slug in expected[mode]}
     for path in files:
         fname = os.path.basename(path)
+        if fname not in expected_md:
+            continue  # 本线按 registry 不含清单指标（如 full 模式 04-industry），不要求登记块
+        scanned += 1
         with open(path, "r", encoding="utf-8") as f:
             text = f.read()
         block, body = extract_registry_block(text)
@@ -483,7 +508,7 @@ def run(workdir: str, out: Optional[str] = None, as_json: bool = False, strict: 
         run_crosschecks(groups, registry, issues, contested)
     out_path = out or os.path.join(workdir, "forensic", "collision-report.txt")
     os.makedirs(os.path.dirname(out_path), exist_ok=True)
-    report = build_report(issues, len(files), files_with_block, degraded)
+    report = build_report(issues, scanned, files_with_block, degraded)
     with open(out_path, "w", encoding="utf-8", newline="\n") as f:
         f.write(report)
     if as_json:
