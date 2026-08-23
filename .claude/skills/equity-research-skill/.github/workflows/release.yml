@@ -1,0 +1,49 @@
+name: Release skill package
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+jobs:
+  build-and-release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build packages
+        run: |
+          VERSION="${GITHUB_REF_NAME}"
+          mkdir -p dist
+          # zip 的目录结构：equity-research/SKILL.md ...（可直接解压使用或上传）
+          mkdir -p "build/equity-research"
+          rsync -a \
+            --exclude ".git" \
+            --exclude ".github" \
+            --exclude ".DS_Store" \
+            --exclude "__pycache__" \
+            --exclude "*.pyc" \
+            --exclude "dist" \
+            --exclude "build" \
+            ./ "build/equity-research/"
+          (cd build && zip -qr "../dist/equity-research-skill-${VERSION}.zip" equity-research)
+          # .skill：同一 zip，供 Claude Desktop / Cowork 一键安装
+          cp "dist/equity-research-skill-${VERSION}.zip" "dist/equity-research-${VERSION}.skill"
+
+      - name: Verify packages
+        run: |
+          unzip -t "dist/equity-research-skill-${GITHUB_REF_NAME}.zip"
+          if unzip -Z1 "dist/equity-research-skill-${GITHUB_REF_NAME}.zip" | grep -E '(^|/)(\.DS_Store|__pycache__)(/|$)|\.pyc$'; then
+            echo "Release package contains forbidden generated files"
+            exit 1
+          fi
+          cmp "dist/equity-research-skill-${GITHUB_REF_NAME}.zip" "dist/equity-research-${GITHUB_REF_NAME}.skill"
+
+      - name: Create GitHub release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: dist/*
+          generate_release_notes: true
