@@ -4,9 +4,19 @@
 
 Covers US, Hong Kong and China A-share listed companies, including A/H dual listings and China concept stocks (VIE/ADR structures). Reports can be produced in English or Chinese — the workflow follows your language.
 
+## Contents
+
+- **[Installation](#installation) ← start here**
+- [Built on equity-research-skill](#built-on-equity-research-skill)
+- [How it works](#how-it-works)
+- [Running it](#running-it)
+- [Major differences from the original skill](#major-differences-from-the-original-skill)
+- [Repository layout](#repository-layout)
+- [Disclaimer](#disclaimer)
+
 ## Built on [equity-research-skill]
 
-Many thanks to [@rollingSirius](https://github.com/rollingSirius) for [equity-research-skill](https://github.com/rollingSirius/equity-research-skill), a great skill that automates equity research for a single stock. This repository is based on that skill: it embeds the skill **unmodified** (under `.claude/skills/equity-research-skill/`) as the methodological source of truth, and adds an orchestration layer on top that aims for:
+Many thanks to [@rollingSirius](https://github.com/rollingSirius) for [equity-research-skill](https://github.com/rollingSirius/equity-research-skill), a great skill that automates equity research for a single stock. This repository is based on that skill: it embeds the skill (under `.claude/skills/equity-research-skill/`) as the methodological source of truth, and adds an orchestration layer on top that aims for:
 
 - **Better report quality** — staged pipeline with quality gates, adversarial review, and script-computed valuations instead of one long free-form conversation;
 - **Fewer errors and less LLM hallucination** — through better context management (see below);
@@ -32,7 +42,7 @@ W8  Final checks and PDF delivery
 
 Everything each agent reads, writes and decides is saved in a per-run research directory, plus an append-only orchestration log — the full audit trail of how the report was produced. See the `archive/` folder for an example of the files a real run produces.
 
-## Installation (no technical background needed)
+## Installation
 
 You need three things: an AI coding agent to run it (Claude Code recommended), **Python 3** installed on your machine (used by the valuation and checking scripts — get it from [python.org](https://www.python.org/downloads/)), and internet access. A full run dispatches ~20 subagent tasks, so expect it to consume a noticeable amount of tokens/credits.
 
@@ -113,7 +123,7 @@ The result: disagreements between sources become visible and adjudicated, instea
 .claude/
   skills/
     equity-research-orchestration/   # the orchestrator skill (entry point of this workflow)
-    equity-research-skill/           # embedded upstream skill — used unmodified
+    equity-research-skill/           # embedded upstream skill
   agents/                            # 8 subagent definitions
 research/                            # one directory per run (created at runtime)
 archive/                             # archived previous runs
