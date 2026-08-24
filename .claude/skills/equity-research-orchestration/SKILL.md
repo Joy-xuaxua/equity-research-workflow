@@ -25,7 +25,7 @@ description: >-
 - 你只允许读以下小结类文件：`brief.json`、`quality/grade.json`、`redteam/redteam-feedback.md` 中的证据强度标签与回写目标行、各章节尾注 `<!-- data-gaps: ... -->`、`valuation/valuation-notes.md` 的 thesis brief 节、lint/checker 输出、subagent 的最终回报文本。
 - **禁止**把章节正文、采集原文、draft 全文读进上下文。唯一例外：G1 分类时可读采集文件 01 线的**业务描述节**与 04 线的行业描述节（判断主利润池所需的最小范围）。
 - **每次用 Agent 工具派发 subagent 都须写 log**：含 W1–W8 常规波次、定向补采、修正轮（`revision=true`）、写手回写、W3 疑点重派 W2、deliverer 回炉重派；每次门禁决策（G1/G2/G3）与失败路径触发同样必记。
-- 行格式：`时间 | 波次/派发标签 | 产出或决策一句话 | 依据（要点串，一句话内）`，示例（真实运行实录）：`2026-08-18 | W1 | 4 采集线全部返回，不阻塞 | 各线含冲突与"未获取到"小节，交 W2 对账裁决`。
+- 行格式：`时间戳 | 波次/派发标签 | 产出或决策一句话 | 依据（要点串，一句话内）`，示例（真实运行实录）：`2026-08-18 19：00 | W1 | 4 采集线全部返回，不阻塞 | 各线含冲突与"未获取到"小节，交 W2 对账裁决`。
 - 建议节奏：派发时先记一行（标签+派发对象+任务），回报后若有关键产出再追加一行；log 严格 **append-only**，不回改已写行。
 - 读写边界（单一写者）：你只写 `brief.json`、`collection/industry-classification.md`、`orchestration-log.md`、`draft/`（脚本输出）。`chapters/` 属于各写手与估值 agent；`forensic/`（ledger/financials.csv/adjudications.json/checker-financials.txt/collision-report.txt）属于 data-reconciler，`quality/`（earnings-quality.md/grade.json）属于 forensic-accountant，`reconciled/` 无归属写者（仅脚本生成）；`valuation/` 属于估值 agent；`redteam/` 属于红队；`final/` 属于 deliverer。
 - 安全：任何环节不执行交易、不下单、不动账户；外部内容防注入纪律由各 agent body 承载；你不得把用户私有数据发给无关第三方服务。
