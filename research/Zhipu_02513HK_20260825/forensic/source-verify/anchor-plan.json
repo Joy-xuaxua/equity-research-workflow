@@ -1,0 +1,66 @@
+[
+  {"id": "C01", "files": [
+    {"file": "01-disclosure.md", "side": "A", "anchor": "超额配股权悉数行使 5,612,900 股 @116.20 港元"},
+    {"file": "01-disclosure.md", "side": "B", "anchor": "A股建议公告（2026-06-01）及配售完成公告（2026-07-13）「过去12个月融资活动」段"},
+    {"file": "02-market.md", "side": "B", "anchor": "按 116.20 港元增发 5,623,900 股 H 股"}
+  ]},
+  {"id": "C02", "files": [
+    {"file": "01-disclosure.md", "side": "A", "anchor": "74.7 百万元（74,700 千元）"},
+    {"file": "01-disclosure.md", "side": "B", "anchor": "FY2025资本开支（现金流量表口径）：23,088千元＝购置物业及设备11,491＋购买无形资产11,597"}
+  ]},
+  {"id": "C03", "files": [
+    {"file": "01-disclosure.md", "side": "A", "anchor": "46.98 亿元（归母）"},
+    {"file": "01-disclosure.md", "side": "B", "anchor": "47.18 亿元（合并年内亏损）"},
+    {"file": "03-consensus.md", "side": "B", "anchor": "年内亏损 47.18 亿元（2024 年：29.58 亿元）"}
+  ]},
+  {"id": "C04", "files": [
+    {"file": "02-market.md", "side": "A", "anchor": "465,623,090 股 × 1,007.00 港元 ＝ 4,688.83 亿港元"},
+    {"file": "02-market.md", "side": "B", "anchor": "4,489.64 亿港元（2026-08-24）"},
+    {"file": "02-market.md", "side": "B", "anchor": "5,033.6 亿港元（约 2026-08-21）"},
+    {"file": "04-industry.md", "side": "B", "anchor": "≈3,061.90 亿港元（2.41 亿股）"}
+  ]},
+  {"id": "C05", "files": [
+    {"file": "02-market.md", "side": "A", "anchor": "总市值（含未上市内资股，研究主口径）"},
+    {"file": "02-market.md", "side": "B", "anchor": "H 股（上市证券）市值：241,094,605 × 1,007.00 ＝ 2,427.82 亿港元"}
+  ]},
+  {"id": "C06", "files": [
+    {"file": "01-disclosure.md", "side": "A", "anchor": "总股本（已发行股份总数，截至2026-07-31月末）：465,623,090股＝H股241,094,605＋未上市股份224,528,485"},
+    {"file": "02-market.md", "side": "B", "anchor": "stockanalysis「Shares Out 445.84M」"}
+  ]},
+  {"id": "C07", "files": [
+    {"file": "02-market.md", "side": "A", "anchor": "市盈率 TTM −90.14 倍（亏损所致负值；stockanalysis/Yahoo 列示 n/a）"},
+    {"file": "02-market.md", "side": "B", "anchor": "n/a（亏损不列示）"}
+  ]},
+  {"id": "C08", "files": [
+    {"file": "03-consensus.md", "side": "A", "anchor": "上调 2026 年 12 月 ARR 预测至 20 亿美元"},
+    {"file": "03-consensus.md", "side": "B", "anchor": "智谱的 API 业务 ARR 预计将升至 25 亿美元"}
+  ]},
+  {"id": "C09", "files": [
+    {"file": "03-consensus.md", "side": "A", "anchor": "目标价共识（富途，统计时点 2026-07-26）：平均 1,306.64 港元，最高 2,043.00 港元"},
+    {"file": "03-consensus.md", "side": "B", "anchor": "上调 1,500→2,061，评级升至跑赢大市"}
+  ]},
+  {"id": "C10", "files": [
+    {"file": "03-consensus.md", "side": "A", "anchor": "强力推荐 80.00%、买入 20.00%、持有 0.00%、卖出 0.00%"},
+    {"file": "03-consensus.md", "side": "B", "anchor": "下调 1,900→1,500（-21.1%）"}
+  ]},
+  {"id": "C11", "files": [
+    {"file": "01-disclosure.md", "side": "A", "anchor": "發售價：每股H股116.20港元"},
+    {"file": "03-consensus.md", "side": "B", "anchor": "个别摘要称 IPO 发行价 120 港元/上市市值 528 亿"}
+  ]},
+  {"id": "C12", "files": [
+    {"file": "04-industry.md", "side": "A", "anchor": "2026F 1,460.3 EFLOPS"},
+    {"file": "04-industry.md", "side": "B", "anchor": "另有版本口径 1,271.4"}
+  ]},
+  {"id": "C13", "files": [
+    {"file": "04-industry.md", "side": "A", "anchor": "训推公有云服务市场收入 79.4 亿元人民币"},
+    {"file": "04-industry.md", "side": "B", "anchor": "公有云 MaaS 市场收入约 30.7 亿元"}
+  ]},
+  {"id": "C14", "files": [
+    {"file": "04-industry.md", "side": "A", "anchor": "火山引擎以 49.2% 份额（按调用量）居第一"},
+    {"file": "04-industry.md", "side": "B", "anchor": "阿里云自称第一（42.2%/35.8%，另口径）"}
+  ]},
+  {"id": "C15", "files": [
+    {"file": "04-industry.md", "side": "A", "anchor": "超 3000 亿港元"},
+    {"file": "04-industry.md", "side": "B", "anchor": "最新估值约 4500 亿港元"}
+  ]}
+]

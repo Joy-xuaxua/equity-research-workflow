@@ -1,0 +1,47 @@
+{
+  "_meta": {
+    "company": "智谱 / Z.AI Co., Ltd. (02513.HK)",
+    "generated": "2026-08-25",
+    "revision": "v2-adjunct（红队 R4 量化）：『发行所得按公平价值计入』的等价处理——三情景 annual_dilution=0。经济学：期末新发 Δsh 股、发行价＝彼时每股内在价值 v 时，权益增量 Δsh×v 与股本增量精确对消，摊薄后每股不变，故『公平价值发行』≡ 零稀释算术（每股=(EV−净债)/当前股本）。这是 v2 主口径（稀释无现金对应＝发行价视为零的赠股下界）的上界对照，非替代口径。主口径理由与真值居间的论证见 ch6 §6.3 与 valuation-notes 修正轮节。",
+    "units": "同 assumptions.v2.json（金额=人民币百万元，每股=元；呈现按 0.8585 折港元）",
+    "price_basis": "同 v2：864.52 元（1,007.00 港元×0.8585，2026-08-24 收盘）",
+    "net_debt_basis": "同 v2：-310 亿（R1 更正后重建 309.88≈310 亿元）",
+    "range_rule": "同一规则套用于无稀释读数：L'＝ceil10(max(熊无稀释 76.1, EVA 50.8 港元))＝80 港元＝68.68 元；H'＝ceil10(牛无稀释 336.9 港元)＝340 港元＝291.89 元——检验标签是否翻转"
+  },
+  "price": 864.52,
+  "shares": 465.623,
+  "net_debt": -31000,
+  "wacc": 0.10,
+  "terminal_g": 0.03,
+  "range_low": 68.68,
+  "range_high": 291.89,
+  "scenarios": [
+    {
+      "name": "bear",
+      "prob": 0.35,
+      "revenue": [1303.8, 1825.3, 2190.4, 2409.4, 2529.9],
+      "fcf_margin": [-1.20, -0.60, -0.20, 0.02, 0.08],
+      "fade_years": 5,
+      "fade_g_start": 0.05,
+      "annual_dilution": 0.0
+    },
+    {
+      "name": "base",
+      "prob": 0.45,
+      "revenue": [4300, 7740, 11223, 14029, 16133],
+      "fcf_margin": [-0.35, -0.10, 0.05, 0.14, 0.20],
+      "fade_years": 5,
+      "fade_g_start": 0.12,
+      "annual_dilution": 0.0
+    },
+    {
+      "name": "bull",
+      "prob": 0.20,
+      "revenue": [6500, 12025, 18038, 23449, 27670],
+      "fcf_margin": [-0.25, 0.02, 0.15, 0.25, 0.30],
+      "fade_years": 5,
+      "fade_g_start": 0.15,
+      "annual_dilution": 0.0
+    }
+  ]
+}

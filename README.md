@@ -6,10 +6,11 @@ Covers US, Hong Kong and China A-share listed companies, including A/H dual list
 
 ## Contents
 
-- **[Installation](#installation) ← start here**
 - [Built on equity-research-skill](#built-on-equity-research-skill)
 - [How it works](#how-it-works)
+- **[Installation](#installation) ← jump here**
 - [Running it](#running-it)
+- [Example](#example)
 - [Major differences from the original skill](#major-differences-from-the-original-skill)
 - [Repository layout](#repository-layout)
 - [Disclaimer](#disclaimer)
@@ -62,7 +63,7 @@ The whole workflow is plain Markdown files — nothing to compile or serve:
 - `.claude/skills/equity-research-skill/` — the embedded upstream skill (research methodology);
 - `.claude/agents/*.md` — the 8 subagent definitions.
 
-To run it elsewhere, copy those folders into your agent's equivalent skills/agents locations (see your agent's documentation for "skills" and "subagents"). The host agent must support launching subagents with restricted tool sets. If it doesn't, you can still use the original [equity-research-skill](https://github.com/rollingSirius/equity-research-skill) on its own.
+To run it elsewhere, copy those folders into your agent's equivalent skills/agents locations (see your agent's documentation for "skills" and "subagents"). The host agent must support launching subagents with restricted tool sets. 
 
 ## Running it
 
@@ -94,6 +95,10 @@ Earnings mode keeps the full pipeline depth (4 collection lines, reconciliation,
 ### What you get with every run
 
 Besides the report itself, the run directory keeps: collected source excerpts with citations and timestamps, the reconciliation ledger with every conflict adjudication, the data-quality grade, valuation assumptions and raw script outputs, the red-team critique, and the orchestration log.
+
+## Example
+
+[`research/Zhipu_02513HK_20260825/`](research/Zhipu_02513HK_20260825/) is a real full-mode run produced by the current architecture (commit `5870a00`): a complete Chinese-language report on Zhipu (02513.HK), with all intermediate files kept alongside the final PDF.
 
 ## Major differences from the original skill
 

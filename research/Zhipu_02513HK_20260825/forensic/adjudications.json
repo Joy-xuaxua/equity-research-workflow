@@ -1,0 +1,205 @@
+{
+  "version": 1,
+  "generated": "2026-08-25 12:10",
+  "subject": "智谱 / Z.AI Co., Ltd.（02513.HK）",
+  "mode": "full",
+  "script_trace": {
+    "collision_check": "P1×0 P2×0 P3×0（登记文件3/3，机器侧无候选；本表15条均来自各线自报冲突表合并）",
+    "checker_financials": "P0=0 P1=0 P2=2 P3=1（EPS口径与DSO背离已在 ledger §4 解释）",
+    "source_verify": [
+      {
+        "url": "https://www1.hkexnews.hk/listedco/listconews/sehk/2026/0204/2026020402111_c.pdf",
+        "method": "curl -L with UA（网络策略拦截 WebFetch 后的用户指示替代路径）",
+        "ts": "2026-08-25 11:24",
+        "result": "5,612,900×4次、5,623,900×0次、43,032,400×1、445,843,090×1、440,230,190×1",
+        "evidence": "forensic/source-verify/2026020402111_c.pdf"
+      }
+    ]
+  },
+  "adjudications": [
+    {
+      "id": "C01",
+      "status": "resolved",
+      "metric": "超额配股权行使股数（2026-02-04）",
+      "value": "5,612,900 股",
+      "note": "回源2026-02-04公告原文：5,612,900×4次、5,623,900×0次；勾稽440,230,190+5,612,900=445,843,090；后三份公告为笔误",
+      "ledger_ref": "ledger §3 C01",
+      "files": [
+        {"file": "01-disclosure.md", "anchor": "超额配股权悉数行使 5,612,900 股 @116.20 港元", "side": "A"},
+        {"file": "01-disclosure.md", "anchor": "A股建议公告（2026-06-01）及配售完成公告（2026-07-13）「过去12个月融资活动」段", "side": "B"},
+        {"file": "02-market.md", "anchor": "按 116.20 港元增发 5,623,900 股 H 股", "side": "B"}
+      ]
+    },
+    {
+      "id": "C02",
+      "status": "dual",
+      "metric": "FY2025 资本开支",
+      "value": "23,088千元（现金流量表口径，CSV采用）‖74,700千元（MD&A口径含使用权资产）",
+      "note": "口径差非数据错误：CSV用现金流量表口径与FCF勾稽；MD&A 74.7百万含使用权资产新增51,649千元",
+      "ledger_ref": "ledger §3 C02",
+      "files": [
+        {"file": "01-disclosure.md", "anchor": "74.7 百万元（74,700 千元）", "side": "A"},
+        {"file": "01-disclosure.md", "anchor": "FY2025资本开支（现金流量表口径）：23,088千元＝购置物业及设备11,491＋购买无形资产11,597", "side": "B"}
+      ]
+    },
+    {
+      "id": "C03",
+      "status": "resolved",
+      "metric": "FY2025 净亏损（媒体转述口径）",
+      "value": "两值为不同口径非矛盾；CSV采用合并年内亏损-4,718,167千元（归母-4,698,203）",
+      "note": "媒体两值分别对应归母与合并口径，Tier 1已并列披露；CSV采用合并年内亏损-4,718,167千元",
+      "ledger_ref": "ledger §3 C03",
+      "files": [
+        {"file": "01-disclosure.md", "anchor": "46.98 亿元（归母）", "side": "A"},
+        {"file": "01-disclosure.md", "anchor": "47.18 亿元（合并年内亏损）", "side": "B"},
+        {"file": "03-consensus.md", "anchor": "年内亏损 47.18 亿元（2024 年：29.58 亿元）", "side": "B"}
+      ]
+    },
+    {
+      "id": "C04",
+      "status": "resolved",
+      "metric": "总市值（2026-08-24）",
+      "value": "4,688.82 亿港元（465,623,090×1,007.00＝468,882,451,630）",
+      "note": "Tier1股本×四源一致收盘价复算；Yahoo/stockanalysis旧股本过时不采；老虎4,692.62亿同口径微差；2026-08-25按W3更正乘积笔误",
+      "ledger_ref": "ledger §3 C04",
+      "files": [
+        {"file": "02-market.md", "anchor": "465,623,090 股 × 1,007.00 港元 ＝ 4,688.83 亿港元", "side": "A"},
+        {"file": "02-market.md", "anchor": "4,489.64 亿港元（2026-08-24）", "side": "B"},
+        {"file": "02-market.md", "anchor": "5,033.6 亿港元（约 2026-08-21）", "side": "B"},
+        {"file": "04-industry.md", "anchor": "≈3,061.90 亿港元（2.41 亿股）", "side": "B"}
+      ]
+    },
+    {
+      "id": "C05",
+      "status": "dual",
+      "metric": "市值口径（同日同价）",
+      "value": "总股本口径4,688.82亿港元（研究主口径）‖H股上市证券口径2,427.82亿港元",
+      "note": "H股公司双重市值口径非错误；HKEX站内与流通值仅计上市H股；报告主口径用总股本口径",
+      "ledger_ref": "ledger §3 C05",
+      "files": [
+        {"file": "02-market.md", "anchor": "总市值（含未上市内资股，研究主口径）", "side": "A"},
+        {"file": "02-market.md", "anchor": "H 股（上市证券）市值：241,094,605 × 1,007.00 ＝ 2,427.82 亿港元", "side": "B"}
+      ]
+    },
+    {
+      "id": "C06",
+      "status": "resolved",
+      "metric": "总股本",
+      "value": "465,623,090 股（2026-07-31）",
+      "note": "Tier1月报表2026-08-04呈交为准；聚合站445,843,090未反映2026-07-13配售新增19,780,000股",
+      "ledger_ref": "ledger §3 C06",
+      "files": [
+        {"file": "01-disclosure.md", "anchor": "总股本（已发行股份总数，截至2026-07-31月末）：465,623,090股＝H股241,094,605＋未上市股份224,528,485", "side": "A"},
+        {"file": "02-market.md", "anchor": "stockanalysis「Shares Out 445.84M」", "side": "B"}
+      ]
+    },
+    {
+      "id": "C07",
+      "status": "resolved",
+      "metric": "市盈率TTM",
+      "value": "亏损不适用（n/a）",
+      "note": "亏损期PE无经济含义；富途-90.14为机械负值；估值用PS/PCF或远期倍数",
+      "ledger_ref": "ledger §3 C07",
+      "files": [
+        {"file": "02-market.md", "anchor": "市盈率 TTM −90.14 倍（亏损所致负值；stockanalysis/Yahoo 列示 n/a）", "side": "A"},
+        {"file": "02-market.md", "anchor": "n/a（亏损不列示）", "side": "B"}
+      ]
+    },
+    {
+      "id": "C08",
+      "status": "dual",
+      "metric": "2026年底智谱ARR预测",
+      "value": "汇丰20亿美元（公司整体，约2026-07-27）‖高盛25亿美元（API业务，2026-08-06）",
+      "note": "口径（公司整体vs API业务）与时点（7-27 vs 8-6）不同，均Tier 5转述；并存不互斥，引用须注明口径",
+      "ledger_ref": "ledger §3 C08",
+      "files": [
+        {"file": "03-consensus.md", "anchor": "上调 2026 年 12 月 ARR 预测至 20 亿美元", "side": "A"},
+        {"file": "03-consensus.md", "anchor": "智谱的 API 业务 ARR 预计将升至 25 亿美元", "side": "B"}
+      ]
+    },
+    {
+      "id": "C09",
+      "status": "resolved",
+      "metric": "目标价共识最高值",
+      "value": "共识均值1,306.64港元（富途20家，2026-07-26）；已知最高单一TP 2,061（里昂）",
+      "note": "富途最高2,043为聚合样本/映射口径滞后；已知最高单一TP为里昂2,061（7-13上调、8-19重申）",
+      "ledger_ref": "ledger §3 C09",
+      "files": [
+        {"file": "03-consensus.md", "anchor": "目标价共识（富途，统计时点 2026-07-26）：平均 1,306.64 港元，最高 2,043.00 港元", "side": "A"},
+        {"file": "03-consensus.md", "anchor": "上调 1,500→2,061，评级升至跑赢大市", "side": "B"}
+      ]
+    },
+    {
+      "id": "C10",
+      "status": "resolved",
+      "metric": "评级分布「持有」占比",
+      "value": "强力推荐80%/买入20%（富途20家）＋汇丰一家持有（约2026-07-27起）",
+      "note": "富途评级映射/统计滞后未含汇丰7-27下调至持有；分布引用须附注汇丰持有，不得表述为无持有评级",
+      "ledger_ref": "ledger §3 C10",
+      "files": [
+        {"file": "03-consensus.md", "anchor": "强力推荐 80.00%、买入 20.00%、持有 0.00%、卖出 0.00%", "side": "A"},
+        {"file": "03-consensus.md", "anchor": "下调 1,900→1,500（-21.1%）", "side": "B"}
+      ]
+    },
+    {
+      "id": "C11",
+      "status": "resolved",
+      "metric": "IPO发行价",
+      "value": "116.20 港元",
+      "note": "Tier1配发结果公告原文116.20港元；120港元为个别检索摘要误报不采",
+      "ledger_ref": "ledger §3 C11",
+      "files": [
+        {"file": "01-disclosure.md", "anchor": "發售價：每股H股116.20港元", "side": "A"},
+        {"file": "03-consensus.md", "anchor": "个别摘要称 IPO 发行价 120 港元/上市市值 528 亿", "side": "B"}
+      ]
+    },
+    {
+      "id": "C12",
+      "status": "pending",
+      "metric": "2026年中国智能算力规模预测",
+      "value": "1,460.3 或 1,271.4 EFLOPS（区间保留）",
+      "note": "疑IDC+浪潮不同版本/换算口径，原文未获取到无法判断；行业背景数据，估值敏感度低",
+      "ledger_ref": "ledger §3 C12",
+      "files": [
+        {"file": "04-industry.md", "anchor": "2026F 1,460.3 EFLOPS", "side": "A"},
+        {"file": "04-industry.md", "anchor": "另有版本口径 1,271.4", "side": "B"}
+      ]
+    },
+    {
+      "id": "C13",
+      "status": "dual",
+      "metric": "2025年中国大模型公有云/MaaS市场收入",
+      "value": "79.4亿元（IDC训推公有云服务口径）‖30.7亿元（IDC公有云MaaS口径）",
+      "note": "IDC两统计口径并存互不可比（训推公有云服务 vs 公有云MaaS收入）；引用须注明口径不得混用",
+      "ledger_ref": "ledger §3 C13",
+      "files": [
+        {"file": "04-industry.md", "anchor": "训推公有云服务市场收入 79.4 亿元人民币", "side": "A"},
+        {"file": "04-industry.md", "anchor": "公有云 MaaS 市场收入约 30.7 亿元", "side": "B"}
+      ]
+    },
+    {
+      "id": "C14",
+      "status": "resolved",
+      "metric": "中国大模型公有云份额第一",
+      "value": "火山引擎49.2%（IDC 2025H1按调用量）",
+      "note": "采信IDC第三方2025H1按调用量口径；阿里云自宣为另口径且非独立来源不采",
+      "ledger_ref": "ledger §3 C14",
+      "files": [
+        {"file": "04-industry.md", "anchor": "火山引擎以 49.2% 份额（按调用量）居第一", "side": "A"},
+        {"file": "04-industry.md", "anchor": "阿里云自称第一（42.2%/35.8%，另口径）", "side": "B"}
+      ]
+    },
+    {
+      "id": "C15",
+      "status": "dual",
+      "metric": "MiniMax市值（同业参照）",
+      "value": "超3,000亿港元（上市43天后市值）‖约4,500亿港元（最新估值口径）",
+      "note": "市值与估值混用、时点不同，均Tier5线索级；同业参照仅作背景不进入估值锚",
+      "ledger_ref": "ledger §3 C15",
+      "files": [
+        {"file": "04-industry.md", "anchor": "超 3000 亿港元", "side": "A"},
+        {"file": "04-industry.md", "anchor": "最新估值约 4500 亿港元", "side": "B"}
+      ]
+    }
+  ]
+}

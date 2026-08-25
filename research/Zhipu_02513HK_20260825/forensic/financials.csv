@@ -1,0 +1,5 @@
+period,revenue,gross_profit,operating_income,net_income,cfo,capex,fcf,shares,eps,total_assets,receivables,ppe,current_assets,depreciation,sga,total_liabilities,deferred_revenue
+FY2022,57409,31360,,-143650,,,,,,361976,,,,,,542164,
+FY2023,124538,80482,,-787957,,,,,,2860153,,,,,,3842746,
+FY2024,312414,175889,,-2958007,-2244919,132760,-2377679,,,4375769,91135,,,,,8330914,75059
+FY2025,724334,296656,-3786750,-4718167,-2246123,23088,-2269211,159522220,-12.03,4853861,303208,,,,896226,12964843,148644

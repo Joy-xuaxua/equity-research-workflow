@@ -1,0 +1,103 @@
+{
+  "_meta": {
+    "company": "智谱 / Z.AI Co., Ltd. (02513.HK)",
+    "generated": "2026-08-25",
+    "units": "金额=人民币百万元(CNY M)，股本=百万股，每股=人民币元；呈现时按 HKD/CNY=0.8585(2026-08-23, ledger §1) 折港元",
+    "price_basis": "现价 1,007.00 港元(2026-08-24 收盘, ledger §1) × 0.8585 = 864.52 元",
+    "net_debt_basis": "净现金重建值：FY2025末现金类 2,745.0 + IPO净额 4,203.4 + 配售净额 26,946.3 - 有息负债 1,234.6 - 2026H1 烧钱估计 1,660 ≈ 31,000（Tier 1 事件推导，非披露值，±2,000 敏感）",
+    "grade_constraint": "财报可信度 C / 动作上限观望（quality/grade.json）",
+    "coverage": "initiation（首次覆盖基线，无旧模型）",
+    "robustness": "最不利概率组合：bear 0.10 / base 0.30 / bull 0.60（对结论最不利的检验）"
+  },
+  "price": 864.52,
+  "shares": 465.623,
+  "net_debt": -31000,
+  "wacc": 0.1,
+  "terminal_g": 0.03,
+  "range_low": 51.5,
+  "range_high": 274.7,
+  "scenarios": [
+    {
+      "name": "bear",
+      "prob": 0.1,
+      "revenue": [
+        1303.8,
+        1825.3,
+        2190.4,
+        2409.4,
+        2529.9
+      ],
+      "fcf_margin": [
+        -1.2,
+        -0.6,
+        -0.2,
+        0.02,
+        0.08
+      ],
+      "fade_years": 5,
+      "fade_g_start": 0.05,
+      "annual_dilution": 0.08,
+      "evidence": "中强",
+      "evidence_source": "DSO背离+100.85pp与KPMG点名(quality §3)、毛利率-15.3pp、云端毛利率18.9%、Kimi K3竞争与摩通下调(Tier 5)、自6-22高点最大回撤约70%、汇丰以竞争加剧压低FCF为由下调(Tier 5)"
+    },
+    {
+      "name": "base",
+      "prob": 0.3,
+      "revenue": [
+        4300,
+        7740,
+        11223,
+        14029,
+        16133
+      ],
+      "fcf_margin": [
+        -0.35,
+        -0.1,
+        0.05,
+        0.14,
+        0.2
+      ],
+      "fade_years": 5,
+      "fade_g_start": 0.12,
+      "annual_dilution": 0.05,
+      "evidence": "中",
+      "evidence_source": "FY2025经审计收入+131.9%(Tier 1)、API定价+83%/调用量+400%(Tier 5转述)、单分析师2026H1共识18.078亿元(Tier 4单源)；NRR/审计口径ARR缺失"
+    },
+    {
+      "name": "bull",
+      "prob": 0.6,
+      "revenue": [
+        6500,
+        12025,
+        18038,
+        23449,
+        27670
+      ],
+      "fcf_margin": [
+        -0.25,
+        0.02,
+        0.15,
+        0.25,
+        0.3
+      ],
+      "fade_years": 5,
+      "fade_g_start": 0.15,
+      "annual_dilution": 0.03,
+      "evidence": "弱",
+      "evidence_source": "ARR 2026-07破10亿美元(Tier 5，序列内部不自洽)、高盛2026底API ARR 25亿美元/汇丰整体20亿美元(▶双值@C08, Tier 5)、GLM-5.3基准位次修复(Tier 5转述)；无NRR/CAC payback支撑"
+    }
+  ],
+  "sensitivity": {
+    "scenario": "base",
+    "wacc": [
+      0.09,
+      0.1,
+      0.11
+    ],
+    "g": [
+      0.02,
+      0.03,
+      0.04
+    ]
+  }
+}

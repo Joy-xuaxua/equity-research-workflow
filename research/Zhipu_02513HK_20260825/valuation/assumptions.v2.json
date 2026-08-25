@@ -1,0 +1,101 @@
+{
+  "_meta": {
+    "company": "智谱 / Z.AI Co., Ltd. (02513.HK)",
+    "generated": "2026-08-25",
+    "revision": "v2（W5 修正轮，吸收红队 R1/R2/R4/R5/R7/R9/R10/R11/R12；v1 原件 assumptions.json 保留为审计轨迹，不覆盖）。情景假设、概率、敏感性、reverse/pvgo/epv/eva/montecarlo 块与 v1 完全一致；变化＝range_high（R5 规则化）＋披露字段（R1/R4）。",
+    "units": "金额=人民币百万元(CNY M)，股本=百万股，每股=人民币元；呈现时按 HKD/CNY=0.8585(2026-08-23, ledger §1) 折港元",
+    "price_basis": "现价 1,007.00 港元(2026-08-24 收盘, ledger §1) × 0.8585 = 864.52 元",
+    "net_debt_basis": "净现金重建值（R1 更正后口径，千元→亿）：FY2025末现金类 27.45（=现金及等价物 22.59＋定期存款 1.09＋FVPL 短期投资 3.77，即 2,259,147＋108,593＋377,287＝2,745,027 千元，Tier 1）＋IPO净额 42.03（4,896.2 百万港元×0.8585）＋配售净额 269.35（31,374.95 百万港元×0.8585）－有息负债 12.35（银行贷款 6.89＋租赁负债 5.45）－2026H1 烧钱估计 16.60 ＝ 309.88 ≈ 310 亿元。模型输入 net_debt＝-310 亿（差额 0.12 亿为取整，±2,000 百万敏感）。v1 ch6 行文曾误写「现金类 274.5 亿元」为 10 倍单位错误，模型输入本身（2,745.0 百万）自始正确。",
+    "dilution_disclosure": "R4：三情景 annual_dilution 只增期末股本、不计发行所得现金（dcf.py 期末股本摊薄机制）。『发行所得按公平价值计入』的等价处理＝annual_dilution=0（发行于内在价值处对存量股东中性），量化见 assumptions.v2-adjunct.json / dcf-output.v2-adjunct.txt：基准 113.3→144.7 元（保守口径低约 22%）、熊 44.5→65.3、牛 249.5→289.2、加权 116.5→145.8。v2 保留保守口径为主的三条理由与两侧标定检验见 ch6 §6.3。",
+    "range_rule": "R5 可复算化：L＝max(含稀释熊DCF 51.8, EVA 50.8 港元)＝51.8 →向上取整至 10 港元档＝60 港元＝51.51 元；H＝含稀释牛DCF 290.6 港元→向上取整至 10 港元档＝300 港元＝257.55 元。两端取整方向均为对结论不利（更高的 L 使低估更难、更高的 H 使高估更难）。MC P90 335 港元（未含稀释）不入 H，避免与含稀释的 L 混用口径；无稀释上界由 adjunct 单独披露。",
+    "grade_constraint": "财报可信度 C / 动作上限观望（quality/grade.json；G3 裁定：估值章不预设规避/减持类动作，风险升级只以条件路径「触发条件→等级重评」呈现）",
+    "coverage": "initiation（首次覆盖基线，无旧模型）"
+  },
+  "price": 864.52,
+  "shares": 465.623,
+  "net_debt": -31000,
+  "wacc": 0.10,
+  "terminal_g": 0.03,
+  "range_low": 51.51,
+  "range_high": 257.55,
+  "scenarios": [
+    {
+      "name": "bear",
+      "prob": 0.35,
+      "revenue": [1303.8, 1825.3, 2190.4, 2409.4, 2529.9],
+      "fcf_margin": [-1.20, -0.60, -0.20, 0.02, 0.08],
+      "fade_years": 5,
+      "fade_g_start": 0.05,
+      "annual_dilution": 0.08,
+      "evidence": "中强",
+      "evidence_source": "DSO背离+100.85pp与KPMG点名(quality §3)、毛利率-15.3pp、云端毛利率18.9%、Kimi K3竞争与摩通下调(Tier 5)、自6-22高点最大回撤约70%、汇丰以竞争加剧压低FCF为由下调(Tier 5)",
+      "note_v2": "R9 豁免论证：5 年 CAGR 28.4% 字面好于 base-rates §5 规则 3，豁免理由＝低基数（2025 收入 7.24 亿元）＋行业 CAGR 63.5% 下的『零增长熊市』意味着份额坍塌至近零；且熊每股价值由净现金锚定（EV -5.8 亿元≈0），收入路径对熊值近乎不敏感"
+    },
+    {
+      "name": "base",
+      "prob": 0.45,
+      "revenue": [4300, 7740, 11223, 14029, 16133],
+      "fcf_margin": [-0.35, -0.10, 0.05, 0.14, 0.20],
+      "fade_years": 5,
+      "fade_g_start": 0.12,
+      "annual_dilution": 0.05,
+      "evidence": "中",
+      "evidence_source": "FY2025经审计收入+131.9%(Tier 1)、API定价+83%/调用量+400%(Tier 5转述)、单分析师2026H1共识18.078亿元(Tier 4单源)；NRR/审计口径ARR缺失。R8 压力登记：已知 2026E 全年收入锚 30–86 亿元（雪球/媒体 30–40、国际投行约 70、单分析师 85.75，Tier 4/5）全部高于本情景 43 亿元"
+    },
+    {
+      "name": "bull",
+      "prob": 0.20,
+      "revenue": [6500, 12025, 18038, 23449, 27670],
+      "fcf_margin": [-0.25, 0.02, 0.15, 0.25, 0.30],
+      "fade_years": 5,
+      "fade_g_start": 0.15,
+      "annual_dilution": 0.03,
+      "evidence": "弱",
+      "evidence_source": "ARR 2026-07破10亿美元(Tier 5，序列内部不自洽：17亿元FY2025末‖0.4亿美元2026-01‖5亿元2026-02‖10亿美元2026-07)、高盛2026底API ARR 25亿美元/汇丰整体20亿美元(▶双值@C08, Tier 5)、GLM-5.3基准位次修复(Tier 5转述)；无NRR/CAC payback支撑"
+    }
+  ],
+  "sensitivity": {
+    "scenario": "base",
+    "wacc": [0.09, 0.10, 0.11],
+    "g": [0.02, 0.03, 0.04]
+  },
+  "reverse": {
+    "interim_fcf": [-1505, -774, 561, 1964, 3227],
+    "steady_margins": [0.20, 0.25, 0.30],
+    "base_revenue": 724.334
+  },
+  "pvgo": {
+    "earnings_ps": -8.03,
+    "r": 0.10
+  },
+  "epv": {
+    "earnings_basis": "NOPAT",
+    "normalized_earnings": -3740.2,
+    "coc": 0.10,
+    "net_debt": -31000,
+    "excess_cash": 0,
+    "shares": 465.623,
+    "asset_value": 31450,
+    "price": 864.52
+  },
+  "eva": {
+    "invested_capital": 2108.8,
+    "nopat": -3740.2,
+    "fade_years": 10,
+    "nopat_growth": 0.0
+  },
+  "montecarlo": {
+    "n": 3000,
+    "seed": 42,
+    "base_revenue": 724.334,
+    "years": 5,
+    "growth_mean": 0.70,
+    "growth_std": 0.30,
+    "margin_low": -0.35,
+    "margin_mode": 0.15,
+    "margin_high": 0.30,
+    "wacc_low": 0.09,
+    "wacc_high": 0.11,
+    "fade_years": 5
+  }
+}

@@ -1,0 +1,4 @@
+[FAIL] FINANCIALS_ROWS_SHORT: financials.csv 数据行 4 < 最低要求 5（mode=full）
+[FAIL] GRADE_MISMATCH: quality\earnings-quality.md 等级行与 grade.json 不一致：{'B', 'C'} vs C｜行：对下游的强制约束（源自 forensic-accounting.md §8）：W5 估值章节不得以低倍数论证安全边际；W
+[FAIL] GRADE_MISMATCH: chapters\ch05-financials.md 等级行与 grade.json 不一致：{'B', 'C'} vs C｜行：对下游的强制约束（源自 forensic-accounting.md §8）：W5 估值章节不得以低倍数论证安全边际；W
+共 3 项缺失/不一致
