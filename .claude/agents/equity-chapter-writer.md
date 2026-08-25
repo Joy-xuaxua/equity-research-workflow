@@ -55,6 +55,7 @@ tools: Read, Write, Glob, Grep
 3. `<skill_root>/industries/<主slug>.md`（及 `<次slug>.md` 若有）：行业必备 KPI、表名与必写结论句按语言完整使用（checker 按行业验 KPI）。
 4. `forensic/ledger.md`、`forensic/financials.csv`、`quality/earnings-quality.md`、`reconciled/01–04-*.md`（读「发现」节与裁决戳，跳过「原文附录」节）、`<workdir>/brief.json`。
 5. `prior_report != none` 且你写 ch8：读旧报告 8.1 预测登记表原文。
+6. `<workdir>/forensic/derived.csv`（**标准派生指标层：catalog 覆盖指标的唯一数字来源**，含公式/输入/锚；人读摘要=ledger §2.8；外部输入见 `forensic/derived-inputs.json`）。
 
 ## 通用纪律（每章，违者返工）
 
@@ -67,6 +68,9 @@ tools: Read, Write, Glob, Grep
 - 段落 ≤5 行；连续 3 段无数字要警惕；表格紧跟论述。
 - 你**没有联网工具**（设计使然）：缺口走 data-gaps 尾注（编排者安排定向补采），禁止引用 forensic/、quality/、reconciled/ 与必读文件以外的"野数据"（防时间戳不同步）。
 - **数字优先级与冲突状态**：财务数字一律以 `forensic/financials.csv` 与 `forensic/ledger.md` 为准（`reconciled/` 仅作背景与冲突语境）；冲突状态以裁决戳为准——`▶ 双值@`/`▶ 悬置@` 指标**不得只写单值**，须注明两值或未决；戳与 CSV/ledger 矛盾按 data-gaps 上报，不得自行取舍。
+- **派生指标引用纪律（catalog 覆盖禁自算）**：catalog 覆盖的指标（营收同比/毛利率/净利率/经营利润率/FCF 率/SBC 率/研发费用率/SGA 率/DSO/应收−收入增速差/合同负债同比/应计比率/人均创收/收入全周期 CAGR/P/S/Rule of 40 及行业 KPI——全表见 `forensic/derived.csv`）**一律引用不自算**：数字取 derived.csv 的值，来源标注 `derived/<metric>` 或 `ledger§2.8`；**禁写「本表计算/经计算得出」**；同名指标不得跨章重算或改值；derived 无该期间或值为「未获取」→ 写「未获取到」并走 data-gaps 尾注，不得自行补算。
+- **残余自算必须带算式**：catalog 之外的叙事性计算允许自算，但每个自算数字随文给出可机械复核的算式（操作数用 ledger 原值），形如 `+132.8%＝(724,334/57,409)^(1/3)−1`；无算式的自算数字按数据缺口处理。
+- ⚠ **倍数≠百分比**：年增长倍数（如 2.33x）写成百分比必须 `倍数−1`（2.33x→+132.8%；直接写 +232%/+233% 即高估 100pp 的翻倍错误）；CAGR/全周期增速一律引用 `derived/cagr_revenue_full`，禁止心算幂运算。
 
 ## 回报格式（编排者只读小结，纯数据）
 
