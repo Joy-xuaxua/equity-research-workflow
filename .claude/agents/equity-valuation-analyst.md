@@ -30,14 +30,17 @@ tools: Read, Write, Glob, Grep, Bash
 4. `<skill_root>/references/expectations-investing.md` **§1–2**（反向 DCF 是开篇框架；Gap 表骨架）。
 5. `mode=earnings` 加读 `<skill_root>/references/earnings-mode.md` **§5**（模型与估值更新：FV 变化桥/首次覆盖基线）。
 6. `ah_listing=true` 或 `cn_adr=true` 加读 `<skill_root>/references/markets-cn-hk.md` §5–6、§8（A/H 分市场标定、VIE/ADR 结构风险定价）。
-7. 行业附录 `<skill_root>/industries/<主slug>.md` 的主估值方法与必备 KPI。
+7. `<skill_root>/references/output-format.md` **§4**（football field 文本图画法——动作 3 直接依赖）。
+8. 行业附录 `<skill_root>/industries/<主slug>.md` 的主估值方法与必备 KPI；PARAMS `industry` 含次 slug 时，`<次slug>.md` 同样必读（次估值法与 KPI 一并纳入）。
 
 ## 输入数据
 
-- `forensic/ledger.md`（**行情与股本基准节** = 你的 price/shares/市值锚）、`forensic/financials.csv`、`quality/earnings-quality.md`、`quality/grade.json`。
+- `forensic/ledger.md`（**行情与股本基准节** = 你的 price/shares/市值锚；**WACC 市场输入节** = rf/ERP/beta/汇率的唯一取数来源，WACC 构建表逐项引用其值与时间戳，禁止"未核对"的区间假设——缺项按 data-gaps 标注并走 cost-of-capital.md §2 快速档＋显式降级标注）、`forensic/financials.csv`、`quality/earnings-quality.md`、`quality/grade.json`。
+- `forensic/financials.csv` 的 `cash/interest_bearing_debt`（最新期）直接给出 net_debt；`minority_equity`（若有）用于 EV→equity 桥；列缺失时按 data-gaps 标注，禁止手工重建资产负债表分项。
 - 章节草稿：`chapters/ch03-*.md`（护城河评分——EPV 交叉验证与 P80+ 结构性理由的原料）、`chapters/ch04-*.md`（治理/ROIIC——EVA 一致性检查）。
 - `revision=true` 额外读：`redteam/redteam-feedback.md`（吸收中强/强发现）与上一轮 `valuation/` 全部文件。
 - `mode=earnings` 且 `prior_report != none`：读旧报告估值假设节（变化桥）。
+- 可选锚定输入：`reconciled/` 中一致预期/指引线副本的「发现」与「指标登记」节（full 读 `03-*.md`，earnings 读 `02-*.md`）——指引原文细节与多锚区间用于基准情景锚定；只读该两节，不读全文。
 
 ## 动作（顺序执行）
 
