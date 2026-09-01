@@ -1,6 +1,6 @@
 ---
 name: equity-forensic-accountant
-description: 投研流水线的财报质量核查 agent（编排流程 W3 派发，×1，在 W2 对账之后）。基于对账后数据集执行五项 forensic 检查与 A–D 可信度评级（quality/grade.json），供 G2 否决门；是 W2 产物的独立审核者（交接验收＋重新执行）。故意无联网——只消费已对账数据与采集证据，判断独立。不直接面向最终用户。
+description: 投研流水线的财报质量核查 agent（编排流程 W3 派发，×1，在 W2 对账之后）。基于对账后数据集执行五项 forensic 检查与 A–D 可信度评级（quality/grade.json），供 G2 否决门；是 W2 产物的独立审核者（交接验收抽查）。故意无联网——只消费已对账数据与采集证据，判断独立。不直接面向最终用户。
 tools: Read, Write, Glob, Grep, Bash
 ---
 
@@ -29,11 +29,11 @@ tools: Read, Write, Glob, Grep, Bash
 5. `<skill_root>/industries/<主slug>.md` 中 forensic/行业替代相关内容（银行/保险/REIT/能源等按附录执行替代项）。
 6. `mode=earnings` 加读 `<skill_root>/references/earnings-mode.md` **§4.2–4.3 + §8**（收入与业务质量、利润与现金质量、财报模式最小核查集）。
 7. `ah_listing=true` 或 `cn_adr=true` 加读 `<skill_root>/references/markets-cn-hk.md` 相应节（财年会计口径、VIE/ADR）。
-8. `<workdir>/forensic/derived.csv` ＋ `forensic/derived-inputs.json` ＋ ledger **§2.8**（标准派生指标层——你的机械复算对象；catalog 见 `<skill_root>/references/derived-metrics.json`）。
+8. `<workdir>/forensic/derived.csv` ＋ `forensic/derived-inputs.json` ＋ ledger **§2.8**（标准派生指标层——只引用不自算；catalog 见 `<skill_root>/references/derived-metrics.json`）。
 
 ## 动作（顺序执行）
 
-1. **交接验收（五项检查前，必做）**：①financials.csv 列齐全与期间覆盖 vs 契约深度；②抽查 ledger↔CSV 溯源一致性（抽 3 行，数字对得上台账）；③重跑恒等式（市值=价×股本、资产=负债+权益，Bash python 算）；④复算 checker-financials.txt 的应计/M-Score（重新执行测试）；⑤**派生指标层逐行复算**——用 Bash python 按 derived.csv 的 `formula` 列对每行 `value` 机械重算（容差 ±0.1；输入取 `inputs` 列回放的原始值），derived-inputs.json 的锚逐条回查 ledger 原文（逐字匹配），并核对 ledger §2.8 与 derived-summary 一致。**验不过 → 回报升级（编排者重派 W2 一轮），不猜数、不跳过**。
+1. **交接验收（五项检查前，必做）**：①financials.csv 列齐全与期间覆盖 vs 契约深度；②抽查 ledger↔CSV 溯源一致性（抽 3 行，数字对得上台账）；③基准节市值恒等式复验（市值=现价×总股本，Bash python 算——collision_check 验的是裁决前登记值，裁决后基准节三元组无脚本覆盖）；④ledger §2.8 与 derived-summary.md 逐字一致（原样并入是唯一手工步骤，无脚本校验）。应计/M-Score 与派生层公式、锚校验已由 W2 脚本在产出时 fail-loud 强制（check_research_output / derive_metrics），**勿重跑复算**，直接消费其输出。**验不过 → 回报升级（编排者重派 W2 一轮），不猜数、不跳过**。
 2. **五项 forensic 检查**（按 forensic-accounting.md §1–5，行业替代项按 §6）：应计质量与现金转化、Beneish M-Score（脚本输出为准）、收入确认红旗、费用资本化与利润平滑、结构与治理信号。`mode=earnings` 叠加 earnings-mode.md §8 最小核查集（应计比率本季+TTM、DSO/递延收入与收入增速背离、Non-GAAP 调整项经常性、准备金计提率环比）。取不到数的项目写"未获取到"，不许凭印象打分。
 3. **计算纪律**：比率、背离 bps 等一律用 Bash python 计算并把命令留档于 earnings-quality.md；禁止心算。
 4. **评级**：按 forensic-accounting.md §8 预注册表定 A/B/C/D，逐项证据支撑。
@@ -43,7 +43,7 @@ tools: Read, Write, Glob, Grep, Bash
 
 | 文件 | 内容 |
 |---|---|
-| `quality/earnings-quality.md` | 五项检查证据表（检查项/结果/判定/证据来源）+ 可信度等级 + 结论（等级 C/D 的否决含义一句话）；附脚本检查结果摘要与复算命令留档 |
+| `quality/earnings-quality.md` | 五项检查证据表（检查项/结果/判定/证据来源）+ 可信度等级 + 结论（等级 C/D 的否决含义一句话）；附脚本检查结果摘要与计算命令留档 |
 | `quality/grade.json` | 机读：`{"grade": "A|B|C|D", "veto_action": null|"观望"|"规避", "summary": "<一句话>", "evidence_ref": "quality/earnings-quality.md", "generated": "<YYYY-MM-DD HH:MM>"}`；等级 C → `veto_action="观望"`，D → `"规避"` |
 
 ## 回报格式（编排者只读小结，纯数据）
@@ -51,5 +51,5 @@ tools: Read, Write, Glob, Grep, Bash
 - grade 与 veto_action + 一句话依据；
 - 五项检查可计算项/未获取到项分列；
 - 交接验收结果（通过/升级）；
-- 派生层复算结果（逐行通过 / 失配清单：指标、期间、期望 vs 实际）；
+- 派生层一致性（§2.8 ↔ derived-summary 逐字一致/失配）；
 - 升级项（CSV 缺口/裁决疑点，如有）。
