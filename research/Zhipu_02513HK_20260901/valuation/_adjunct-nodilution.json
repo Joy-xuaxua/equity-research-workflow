@@ -1,0 +1,9 @@
+{
+  "_meta": {"purpose": "稀释口径单侧检验（承上版 R4/adjunct）：annual_dilution=0（发行所得按公平价值计入＝对存量股东中性），其余与 assumptions.json 一致；仅核对牛情景上界，内部留档"},
+  "price": 1024.12, "shares": 465.623, "net_debt": -28784.0, "wacc": 0.11, "terminal_g": 0.03,
+  "scenarios": [
+    {"name": "bear", "prob": 0.35, "revenue": [2550, 4300, 6450, 8700, 10900], "fcf_margin": [-1.20, -0.50, -0.15, 0.00, 0.07], "fade_years": 5, "fade_g_start": 0.10, "annual_dilution": 0.0},
+    {"name": "base", "prob": 0.45, "revenue": [4600, 9800, 15600, 21000, 27000], "fcf_margin": [-0.60, -0.12, 0.06, 0.15, 0.20], "fade_years": 5, "fade_g_start": 0.15, "annual_dilution": 0.0},
+    {"name": "bull", "prob": 0.20, "revenue": [7500, 16500, 27000, 38000, 50000], "fcf_margin": [-0.40, -0.02, 0.14, 0.25, 0.30], "fade_years": 5, "fade_g_start": 0.18, "annual_dilution": 0.0}
+  ]
+}

@@ -1,0 +1,11 @@
+edge rc: 0
+edge stderr tail: tCEbRXho&session_state=009a7329-be61-66a4-5de9-ecda4aaf66f4
+1711024 bytes written to file C:\Users\zliu71\Documents\equity-research-workflow\research\Zhipu_02513HK_20260901\final\智谱_02513HK_2026财年中期_财报深度分析_20260901.pdf
+[153700:147504:0901/153744.689:ERROR:components\sync\engine\get_updates_processor.cc:424] PostClientToServerMessage() failed during GetUpdates with error Network error (ERR_ABORTED)
+pdf exists: True size: 1711024
+pages: 34
+contains '智谱': True
+contains '财报可信度': True
+contains '显著高估': True
+contains '附录': True
+contains '免责声明': True

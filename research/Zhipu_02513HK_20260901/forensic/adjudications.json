@@ -1,0 +1,238 @@
+{
+  "version": 1,
+  "generated": "2026-09-01 12:55",
+  "subject": "智谱 / Z.AI Co., Ltd.（02513.HK）FY2026 中期（2026H1）",
+  "mode": "earnings",
+  "script_trace": {
+    "collision_check": "P1×1 P2×0 P3×0（登记文件3/3；P1＝consensus_revenue_fwd/2026H1 同文件双值＝C16；勾稽复算全部通过或按规则跳过）",
+    "checker_financials": "P0=0 P1=0 P2=3 P3=1（EPS复算失配为IAS33分子口径+千元/股单位差，M-Score因2025H1列缺失跳过；ledger §4 逐条解释）",
+    "baseline_selfcheck": "465,623,090×1,195.00＝556,419,592,550港元＝5,564.20亿港元，与ledger §1登记值一致（差异0.0041亿=舍入）"
+  },
+  "adjudications": [
+    {
+      "id": "C16",
+      "status": "dual",
+      "metric": "2026H1 营收财报前一致预期",
+      "value": "18.078亿元（标普口径经富途，1位分析师，统计2026-07-26）‖13.55亿元（彭博平均，经Yahoo转载）",
+      "note": "脚本P1+02线自报同一事件；样本1位vs多家平均；实际9.54亿对两套均miss(-47.2%/-29.7%)；引用必并列双值",
+      "ledger_ref": "ledger §3 C16",
+      "files": [
+        {"file": "02-consensus.md", "anchor": "富途页面显示的 2026H1 营收预测值仍为 18.078 亿元", "side": "A"},
+        {"file": "02-consensus.md", "anchor": "彭博口径的 2026H1 市场平均预期为 13.55 亿元人民币", "side": "B"}
+      ]
+    },
+    {
+      "id": "C17",
+      "status": "resolved",
+      "metric": "本地化部署 2026H1 收入",
+      "value": "128,716千元（1.29亿元）；1.62亿元为上年同期基数（财联社误置）",
+      "note": "Tier1附注3：本期128,716千元；161,777为上年同期；财联社误置基数，02线转述沿用其误",
+      "ledger_ref": "ledger §3 C17",
+      "files": [
+        {"file": "03-communication.md", "anchor": "上半年收入 1.62 亿元，同比下降 20.5%", "side": "A"},
+        {"file": "03-communication.md", "anchor": "由 1.62 亿元缩水至 1.29 亿元，同比减少 20.5%", "side": "B"},
+        {"file": "02-consensus.md", "anchor": "本地化部署 1.62 亿元（-20.5%）", "side": "B"},
+        {"file": "01-disclosure.md", "anchor": "2026H1分部收入—本地化部署：128,716千元（占比13.5%，同比-20.5%，分部毛利率37.9%）", "side": "neutral"}
+      ]
+    },
+    {
+      "id": "C18",
+      "status": "dual",
+      "metric": "MaaS 用户规模（截至公告日期）",
+      "value": "企业及开发者用户总数超580万‖MaaS平台用户数超740万（较2026年初+144%）",
+      "note": "同一Tier1公告并列两口径未定义差异；判断：740万=注册用户、580万=企业及开发者子集；引用带原始措辞",
+      "ledger_ref": "ledger §3 C18",
+      "files": [
+        {"file": "01-disclosure.md", "anchor": "企业和开发者用户总数超过 **580 万**", "side": "A"},
+        {"file": "01-disclosure.md", "anchor": "MaaS 平台用户数超过 **740 万**", "side": "B"},
+        {"file": "03-communication.md", "anchor": "超过 740 万（2026-03 为超 400 万，旧报告 Tier 2 MD&A）", "side": "B"}
+      ]
+    },
+    {
+      "id": "C19",
+      "status": "resolved",
+      "metric": "2026H1 毛利率 24.6% 的口径归属",
+      "value": "24.6%＝开放平台及API（云端分部）毛利率；公司整体26.4%、同比下降23.6pp",
+      "note": "24.6%=开放平台及API分部毛利率；整体26.4%(251,611/953,892)且同比下降23.6pp；中金句读口径误植",
+      "ledger_ref": "ledger §3 C19",
+      "files": [
+        {"file": "02-consensus.md", "anchor": "24.6%，公司表示其单位算力", "side": "B"},
+        {"file": "01-disclosure.md", "anchor": "2026H1毛利：251,611千元（毛利率26.4%，2025H1为50.0%）", "side": "A"},
+        {"file": "01-disclosure.md", "anchor": "开放平台及 API 毛利率 24.6%，同比 +约 25pp", "side": "neutral"},
+        {"file": "03-communication.md", "anchor": "推动该业务毛利率由负转正至 24.6%", "side": "neutral"}
+      ]
+    },
+    {
+      "id": "C20",
+      "status": "resolved",
+      "metric": "技术服务及其他收入同比（2026H1）",
+      "value": "+1,166.7%（摘要表精确口径：6,118/483−1）",
+      "note": "表格6,118/483精确计算+1,166.7%；正文按约整百万数计算+1,120.0%；引用用表格口径",
+      "ledger_ref": "ledger §3 C20",
+      "files": [
+        {"file": "01-disclosure.md", "anchor": "+1,166.7%（表）/ +1,120.0%（正文）", "side": "A"},
+        {"file": "01-disclosure.md", "anchor": "+1,120.0% | 同一公告 MD&A 正文", "side": "B"}
+      ]
+    },
+    {
+      "id": "C21",
+      "status": "dual",
+      "metric": "2026-08 MaaS ARR（管理层业绩会口径）",
+      "value": "约16亿美元（月度收入×12）‖超20亿美元（单周收入×52，管理层自贴激进标签）",
+      "note": "公司同场主动并列双年化口径并自贴激进标签；Tier1公告ARR零命中，全为Tier5转述；引用必注明年化方式",
+      "ledger_ref": "ledger §3 C21",
+      "files": [
+        {"file": "02-consensus.md", "anchor": "智谱称，8月年度经常性收入达到 16 亿美元。", "side": "A"},
+        {"file": "02-consensus.md", "anchor": "按\"单周收入×52\"激进口径（同场业绩会，Tier 5）", "side": "B"},
+        {"file": "03-communication.md", "anchor": "约 16 亿美元（财新折合约 108 亿元人民币）", "side": "A"},
+        {"file": "03-communication.md", "anchor": "单周收入×52「激进」口径） | 超过 20 亿美元", "side": "B"}
+      ]
+    },
+    {
+      "id": "C22",
+      "status": "dual",
+      "metric": "卖方目标价共识均值（多池）",
+      "value": "富途1,306.64（20家,7-26）‖Moomoo 1,346（20家,约8-28）‖新浪1,642.28（18家,9-1）‖stockanalysis 1,653.90（21家,8-31）",
+      "note": "多池并存：样本18/20/21家、映射与统计时点不同；业绩后仅中金1572已发，各池均滞后；禁取单一均值为共识",
+      "ledger_ref": "ledger §3 C22",
+      "files": [
+        {"file": "02-consensus.md", "anchor": "目标价共识均值（9-01 快照）", "side": "A"},
+        {"file": "02-consensus.md", "anchor": "1,346 港元 | Moomoo AI（20 位；约 08-28 快照", "side": "B"},
+        {"file": "04-market.md", "anchor": "1,653.90 港元（21 家，Buy）", "side": "B"}
+      ]
+    },
+    {
+      "id": "C23",
+      "status": "pending",
+      "metric": "评级分布「卖出」计数",
+      "value": "富途0/20（2026-07-26）vs 新浪1/18（2026-09-01，17买入+1卖出）",
+      "note": "新浪9-1快照首次出现卖出计数、机构不可识别；可能为业绩后新增负面评级或映射差异；悬置待补采复查",
+      "ledger_ref": "ledger §3 C23",
+      "files": [
+        {"file": "02-consensus.md", "anchor": "强力推荐 80%、买入 20%、持有 0%、跑输 0%、卖出 0%", "side": "A"},
+        {"file": "02-consensus.md", "anchor": "首次出现卖出计数且机构无法识别", "side": "B"}
+      ]
+    },
+    {
+      "id": "C24",
+      "status": "resolved",
+      "metric": "市盈率TTM",
+      "value": "亏损不适用（n/a）",
+      "note": "亏损期PE无经济含义；富途-106.97基础不透明，自算TTM口径约-292；两负值均不作估值输入(承C07)",
+      "ledger_ref": "ledger §3 C24",
+      "files": [
+        {"file": "04-market.md", "anchor": "市盈率 TTM −106.97 倍（富途 8-31 快照口径）", "side": "A"},
+        {"file": "04-market.md", "anchor": "约 −292 倍（计算值）", "side": "B"}
+      ]
+    },
+    {
+      "id": "C25",
+      "status": "dual",
+      "metric": "市销率TTM",
+      "value": "≈321倍（Tier1公告推算TTM收入14.8735亿元，研究主口径）‖≈277倍（S&P GMI：TTM收入1.72B CNY）",
+      "note": "S&P口径TTM收入1.72B与公告推算1.49B差15%；主口径采Tier1可溯源计算值321倍，S&P口径并列",
+      "ledger_ref": "ledger §3 C25",
+      "files": [
+        {"file": "04-market.md", "anchor": "市销率 TTM 约 321 倍（8-31 收盘口径本线计算值）", "side": "A"},
+        {"file": "04-market.md", "anchor": "S&P GMI 经 stockanalysis（Revenue ttm 1.72B CNY", "side": "B"}
+      ]
+    },
+    {
+      "id": "C26",
+      "status": "resolved",
+      "metric": "2026H1 收入/期内亏损（媒体快照差异）",
+      "value": "953,892千元 / -2,071,992千元（Tier1中期公告）",
+      "note": "Tier1公告953,892/-2,071,992千元落定；网易快照20.83亿与任何披露口径不符，疑草稿误转，不采",
+      "ledger_ref": "ledger §3 C26",
+      "files": [
+        {"file": "03-communication.md", "anchor": "收入 94,854.1 万元；年内亏损 208,348.7 万元", "side": "B"},
+        {"file": "01-disclosure.md", "anchor": "2026H1期内亏损：-2,071,992千元（归母-2,071,326千元", "side": "A"}
+      ]
+    },
+    {
+      "id": "C27",
+      "status": "resolved",
+      "metric": "2026-09-01 上午涨幅口径",
+      "value": "＋6.9%（按8-31收盘1,195计算，可复算）",
+      "note": "按8-31收盘1,195计算+6.9%可复算采信；快讯升9%疑取更早参照价；当日未收盘，收盘值待补采",
+      "ledger_ref": "ledger §3 C27",
+      "files": [
+        {"file": "04-market.md", "anchor": "涨幅口径两说：快讯称\"升9%\"，按 8-31 收盘 1,195 计算为 ＋6.9%", "side": "A"},
+        {"file": "04-market.md", "anchor": "雅虎香港快讯（现价 1,277）", "side": "B"}
+      ]
+    },
+    {
+      "id": "C28",
+      "status": "dual",
+      "metric": "市值口径（同日同价 2026-08-31）",
+      "value": "总股本口径5,564.20亿港元（研究主口径）‖H股上市证券口径2,881.08亿港元",
+      "note": "承C05：H股公司双重市值口径非错误；主口径用总股本(与EV/PS一致)，H股口径引用须显式标注",
+      "ledger_ref": "ledger §3 C28",
+      "files": [
+        {"file": "04-market.md", "anchor": "＝ 5,564.20 亿港元（富途快照逐字一致）", "side": "A"},
+        {"file": "04-market.md", "anchor": "H 股（上市证券）口径流通值 2,881.08 亿港元", "side": "B"}
+      ]
+    },
+    {
+      "id": "C29",
+      "status": "resolved",
+      "metric": "招银国际重申目标价日期",
+      "value": "同一动作双登记（8-14列表录入日/8-17报道日），TP 1,503.9港元一致",
+      "note": "同一动作的列表录入日vs报道日，TP 1,503.9一致；双登记，对结论无影响",
+      "ledger_ref": "ledger §3 C29",
+      "files": [
+        {"file": "02-consensus.md", "anchor": "2026-08-14（新浪列表；另见 08-17 报道）", "side": "A"},
+        {"file": "02-consensus.md", "anchor": "新浪财经报道（旧档 2026-08-25 采集，Tier 5）", "side": "B"}
+      ]
+    },
+    {
+      "id": "C30",
+      "status": "resolved",
+      "metric": "中科加禾收购完成时点",
+      "value": "2026年6月完成（Tier1附注11）",
+      "note": "Tier1附注11：协议6-05、1.41亿6月已付、6月完成；媒体近日为报道/工商变更时点；商誉并表以Tier1为准",
+      "ledger_ref": "ledger §3 C30",
+      "files": [
+        {"file": "01-disclosure.md", "anchor": "该收购事项已于2026年6月完成", "side": "A"},
+        {"file": "01-disclosure.md", "anchor": "\"近日完成收购\"（报道时点 2026-07-21/22）", "side": "B"}
+      ]
+    },
+    {
+      "id": "C31",
+      "status": "dual",
+      "metric": "2026年底智谱ARR卖方预测",
+      "value": "汇丰20亿美元（公司整体,约7-27）‖中金24亿美元（9-1,口径未注明）‖高盛25亿美元（API业务,8-06）",
+      "note": "承C08：口径(整体vsAPI)与时点各异、均Tier5无原文；中金24亿新值落两旧值之间；引用须注明口径",
+      "ledger_ref": "ledger §3 C31",
+      "files": [
+        {"file": "02-consensus.md", "anchor": "上调 2026-12 ARR 预测至 20 亿美元", "side": "A"},
+        {"file": "02-consensus.md", "anchor": "智谱 API 25 亿美元", "side": "B"},
+        {"file": "02-consensus.md", "anchor": "该行预计，公司年底ARR有望实现24亿美元", "side": "neutral"}
+      ]
+    },
+    {
+      "id": "C32",
+      "status": "resolved",
+      "metric": "下一代旗舰模型命名",
+      "value": "非同物并存：GLM-6.0＝下一代基座（唐杰命名,在研未发布）；GLM-5.5＝卖方/市场预期的中间旗舰",
+      "note": "GLM-6.0=下一代基座(唐杰命名,在研)；GLM-5.5=卖方预期中间旗舰；非同物并存不互斥",
+      "ledger_ref": "ledger §3 C32",
+      "files": [
+        {"file": "03-communication.md", "anchor": "将 GLM-6.0 定义为 Full Self-Training（完全自训练）路线", "side": "A"},
+        {"file": "03-communication.md", "anchor": "GLM-5.5 尚未落地、同业模型性能差距缩小", "side": "B"}
+      ]
+    },
+    {
+      "id": "C33",
+      "status": "resolved",
+      "metric": "恒生科技指数 9-1 开盘点位",
+      "value": "4,608.48（雪球09:44带时间戳值，-0.25%）",
+      "note": "采信带时间戳雪球09:44值4,608.48；残片无时间戳无出处疑误配他日，弃用",
+      "ledger_ref": "ledger §3 C33",
+      "files": [
+        {"file": "04-market.md", "anchor": "09:44 报 4,608.48（−0.25%）", "side": "A"},
+        {"file": "04-market.md", "anchor": "开盘 4,665.28（+0.85%）", "side": "B"}
+      ]
+    }
+  ]
+}

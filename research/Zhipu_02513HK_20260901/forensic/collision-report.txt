@@ -1,0 +1,4 @@
+collision_check 报告｜登记文件 3/3｜registry v1
+== 对撞冲突（P1，需裁决）==
+[P1] SELF_CONTRADICTION [02-consensus.md]: consensus_revenue_fwd / 2026H1 同文件两个登记值不一致：1.8078e+09 vs 1.355e+09
+汇总：P1 × 1，P2 × 0，P3 × 0

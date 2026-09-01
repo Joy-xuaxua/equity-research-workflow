@@ -1,0 +1,50 @@
+metric,label,period,value,unit,formula,inputs,anchor
+yoy_revenue,营收同比,FY2023,116.9,%,yoy(revenue),revenue=124538; revenue[FY2022]=57409,csv@financials.csv（台账溯源）
+yoy_revenue,营收同比,FY2024,150.9,%,yoy(revenue),revenue=312414; revenue[FY2023]=124538,csv@financials.csv（台账溯源）
+yoy_revenue,营收同比,FY2025,131.9,%,yoy(revenue),revenue=724334; revenue[FY2024]=312414,csv@financials.csv（台账溯源）
+yoy_revenue,营收同比,2025H1,-73.6,%,yoy(revenue),revenue=190877; revenue[FY2025]=724334,csv@financials.csv（台账溯源）
+yoy_revenue,营收同比,2026H1,399.7,%,yoy(revenue),revenue=953892; revenue[2025H1]=190877,csv@financials.csv（台账溯源）
+gm_pct,毛利率,FY2022,54.6,%,gross_profit/revenue*100,gross_profit=31360; revenue=57409,csv@financials.csv（台账溯源）
+gm_pct,毛利率,FY2023,64.6,%,gross_profit/revenue*100,gross_profit=80482; revenue=124538,csv@financials.csv（台账溯源）
+gm_pct,毛利率,FY2024,56.3,%,gross_profit/revenue*100,gross_profit=175889; revenue=312414,csv@financials.csv（台账溯源）
+gm_pct,毛利率,FY2025,41.0,%,gross_profit/revenue*100,gross_profit=296656; revenue=724334,csv@financials.csv（台账溯源）
+gm_pct,毛利率,2025H1,50.0,%,gross_profit/revenue*100,gross_profit=95424; revenue=190877,csv@financials.csv（台账溯源）
+gm_pct,毛利率,2026H1,26.4,%,gross_profit/revenue*100,gross_profit=251611; revenue=953892,csv@financials.csv（台账溯源）
+net_margin,净利率（年内损益口径）,FY2022,-250.2,%,net_income/revenue*100,net_income=-143650; revenue=57409,csv@financials.csv（台账溯源）
+net_margin,净利率（年内损益口径）,FY2023,-632.7,%,net_income/revenue*100,net_income=-787957; revenue=124538,csv@financials.csv（台账溯源）
+net_margin,净利率（年内损益口径）,FY2024,-946.8,%,net_income/revenue*100,net_income=-2958007; revenue=312414,csv@financials.csv（台账溯源）
+net_margin,净利率（年内损益口径）,FY2025,-651.4,%,net_income/revenue*100,net_income=-4718167; revenue=724334,csv@financials.csv（台账溯源）
+net_margin,净利率（年内损益口径）,2025H1,-1235.3,%,net_income/revenue*100,net_income=-2357852; revenue=190877,csv@financials.csv（台账溯源）
+net_margin,净利率（年内损益口径）,2026H1,-217.2,%,net_income/revenue*100,net_income=-2071992; revenue=953892,csv@financials.csv（台账溯源）
+om_pct,经营利润率,FY2025,-522.8,%,operating_income/revenue*100,operating_income=-3786750; revenue=724334,csv@financials.csv（台账溯源）
+om_pct,经营利润率,2025H1,-995.0,%,operating_income/revenue*100,operating_income=-1899225; revenue=190877,csv@financials.csv（台账溯源）
+om_pct,经营利润率,2026H1,-225.0,%,operating_income/revenue*100,operating_income=-2146552; revenue=953892,csv@financials.csv（台账溯源）
+fcf_margin,FCF 率,FY2024,-761.1,%,fcf/revenue*100,fcf=-2377679; revenue=312414,csv@financials.csv（台账溯源）
+fcf_margin,FCF 率,FY2025,-313.3,%,fcf/revenue*100,fcf=-2269211; revenue=724334,csv@financials.csv（台账溯源）
+sbc_revenue,SBC/收入,FY2025,77.1,%,sbc/revenue*100,sbc=558265; revenue=724334,"csv@financials.csv（台账溯源）; sbc@FY2025 全年：558,265 千元"
+sbc_revenue,SBC/收入,2025H1,83.2,%,sbc/revenue*100,sbc=158852; revenue=190877,"csv@financials.csv（台账溯源）; sbc@2025H1：158,852 千元"
+sbc_revenue,SBC/收入,2026H1,9.0,%,sbc/revenue*100,sbc=85764; revenue=953892,"csv@financials.csv（台账溯源）; sbc@加回 SBC 85,764 千元"
+rd_revenue,研发费用/收入,FY2025,439.1,%,rd_expense/revenue*100,rd_expense=3180443; revenue=724334,"csv@financials.csv（台账溯源）; rd_expense@3,180,443"
+rd_revenue,研发费用/收入,2025H1,835.4,%,rd_expense/revenue*100,rd_expense=1594661; revenue=190877,"csv@financials.csv（台账溯源）; rd_expense@-1,594,661 千元"
+rd_revenue,研发费用/收入,2026H1,223.4,%,rd_expense/revenue*100,rd_expense=2131171; revenue=953892,"csv@financials.csv（台账溯源）; rd_expense@-2,131,171 千元"
+sga_revenue,SGA/收入,FY2025,123.7,%,sga/revenue*100,sga=896226; revenue=724334,csv@financials.csv（台账溯源）
+sga_revenue,SGA/收入,2025H1,206.3,%,sga/revenue*100,sga=393735; revenue=190877,csv@financials.csv（台账溯源）
+sga_revenue,SGA/收入,2026H1,29.5,%,sga/revenue*100,sga=281012; revenue=953892,csv@financials.csv（台账溯源）
+dso_net,应收周转天数（净额）,FY2024,106.5,天,receivables/revenue*365,receivables=91135; revenue=312414,csv@financials.csv（台账溯源）
+dso_net,应收周转天数（净额）,FY2025,152.8,天,receivables/revenue*365,receivables=303208; revenue=724334,csv@financials.csv（台账溯源）
+dso_net,应收周转天数（净额）,2026H1,299.6,天,receivables/revenue*365,receivables=782944; revenue=953892,csv@financials.csv（台账溯源）
+recv_growth_gap_pp,应收增速−收入增速,FY2025,100.9,pp,yoy(receivables)-yoy(revenue),receivables=303208; receivables[FY2024]=91135; revenue=724334; revenue[FY2024]=312414,csv@financials.csv（台账溯源）
+yoy_deferred,合同负债同比,2026H1,未获取,%,yoy(deferred_revenue),,
+accruals_ratio,应计比率,FY2024,-19.7,%,(net_income-cfo)/avg2(total_assets)*100,net_income=-2958007; cfo=-2244919; total_assets=4375769; total_assets[FY2023]=2860153,csv@financials.csv（台账溯源）
+accruals_ratio,应计比率,FY2025,-53.6,%,(net_income-cfo)/avg2(total_assets)*100,net_income=-4718167; cfo=-2246123; total_assets=4853861; total_assets[FY2024]=4375769,csv@financials.csv（台账溯源）
+rev_per_capita,人均创收,FY2025,66.2,万元,revenue/employees/10,revenue=724334; employees=1094,"csv@financials.csv（台账溯源）; employees@| 员工（期末正式雇员） | 1,094 人"
+rev_per_capita,人均创收,2025H1,21.6,万元,revenue/employees/10,revenue=190877; employees=883,csv@financials.csv（台账溯源）; employees@2025-06-30 为 883 人
+rev_per_capita,人均创收,2026H1,97.2,万元,revenue/employees/10,revenue=953892; employees=981,"csv@financials.csv（台账溯源）; employees@981 人**（较 2025-12-31 的 1,094 人减少 113 人"
+cagr_revenue_full,收入全周期 CAGR,FY2022→2026H1,75.4,%/年,cagr(revenue),revenue[FY2022]=57409; revenue[2026H1]=953892,csv@financials.csv（台账溯源）
+ps_fy,P/S（最新收盘×总股本/最新财年收入）,最新,499.9,倍,price_close*shares_outstanding*fx_hkd_cny/1000/last(revenue),price_close=1195; shares_outstanding=465623090; fx_hkd_cny=0.857; revenue[2026H1]=953892,"csv@financials.csv（台账溯源）; price_close@1,195.00 港元（2026-08-31 收盘; shares_outstanding@总股本 465,623,090 股（2026-07-31 月末口径; fx_hkd_cny@HKD/CNY＝0.857"
+rule_of_40,Rule of 40,FY2024,-610.2,%,yoy_revenue+fcf_margin,yoy_revenue=150.858; fcf_margin=-761.067,
+rule_of_40,Rule of 40,FY2025,-181.4,%,yoy_revenue+fcf_margin,yoy_revenue=131.851; fcf_margin=-313.282,
+arr,ARR（年化经常性收入）,2026-08,约16亿美元（月度收入×12年化，2026-08；另有单周×52口径超20亿美元——双口径并存见ledger C21，Tier 5业绩会转述未经审计）,美元/年（年化，MaaS平台口径）,转录（derived-inputs.json）,arr=约16亿美元（月度收入×12年化，2026-08；另有单周×52口径超20亿美元——双口径并存见ledger C21，Tier 5业绩会转述未经审计）,arr@按月度收入年化约 16 亿美元（财新折合约 108 亿元人民币）
+nrr,NRR / gross retention,最新,未获取,按转录,转录（derived-inputs.json）,,
+rpo,RPO / cRPO,最新,未获取,按转录,转录（derived-inputs.json）,,
+cac_payback,CAC payback / S&M efficiency,最新,未获取,按转录,转录（derived-inputs.json）,,

@@ -1,0 +1,21 @@
+{
+  "company": "智谱（Zhipu AI / Z.ai）",
+  "ticker": "02513.HK",
+  "exchange": "香港交易所主板（2026-01-08上市；A股科创板发行推进中，尚未上市）",
+  "mode": "earnings",
+  "language": "zh",
+  "format": "pdf",
+  "currency": "HKD（财务报表原币为CNY）",
+  "fiscal_year": "2026",
+  "fiscal_period": "中期 H1（截至2026-06-30止六个月）",
+  "industry": "saas",
+  "ah_listing": false,
+  "cn_adr": false,
+  "prior_report": "C:/Users/zliu71/Documents/equity-research-workflow/research/Zhipu_02513HK_20260825/final/智谱_02513HK_个股投资研究报告_20260825.md",
+  "forecast_review": "expected",
+  "coverage": "continuing",
+  "workdir": "C:/Users/zliu71/Documents/equity-research-workflow/research/Zhipu_02513HK_20260901",
+  "skill_root": "C:/Users/zliu71/Documents/equity-research-workflow/.claude/skills/equity-research-skill",
+  "orch_root": "C:/Users/zliu71/Documents/equity-research-workflow/.claude/skills/equity-research-orchestration",
+  "created": "2026-09-01"
+}

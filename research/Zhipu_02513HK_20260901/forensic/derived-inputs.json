@@ -1,0 +1,19 @@
+{
+  "industry": "saas",
+  "note": "外部输入由 W2 从 ledger.md 转录；每条 anchor 逐字出现在 ledger.md 原文（derive_metrics.py fail loud 校验）。sbc/研发为损益表口径（千元），employees 为期末正式雇员，price/shares/fx 为 §1 基准节。ARR 为公司业绩会 Tier 5 双口径（C21），未审计。",
+  "inputs": [
+    {"key": "price_close", "value": 1195.00, "unit": "港元/股", "period": "最新", "anchor": "1,195.00 港元（2026-08-31 收盘", "ts": "2026-09-01"},
+    {"key": "shares_outstanding", "value": 465623090, "unit": "股", "period": "最新", "anchor": "总股本 465,623,090 股（2026-07-31 月末口径", "ts": "2026-09-01"},
+    {"key": "fx_hkd_cny", "value": 0.857, "unit": "CNY/HKD（每港元兑人民币，9-1市场价）", "period": "最新", "anchor": "HKD/CNY＝0.857", "ts": "2026-09-01"},
+    {"key": "sbc", "value": 85764, "unit": "千元", "period": "2026H1", "anchor": "加回 SBC 85,764 千元", "ts": "2026-09-01"},
+    {"key": "sbc", "value": 158852, "unit": "千元", "period": "2025H1", "anchor": "2025H1：158,852 千元", "ts": "2026-09-01"},
+    {"key": "sbc", "value": 558265, "unit": "千元", "period": "FY2025", "anchor": "FY2025 全年：558,265 千元", "ts": "2026-09-01"},
+    {"key": "rd_expense", "value": 2131171, "unit": "千元", "period": "2026H1", "anchor": "-2,131,171 千元", "ts": "2026-09-01"},
+    {"key": "rd_expense", "value": 1594661, "unit": "千元", "period": "2025H1", "anchor": "-1,594,661 千元", "ts": "2026-09-01"},
+    {"key": "rd_expense", "value": 3180443, "unit": "千元", "period": "FY2025", "anchor": "3,180,443", "ts": "2026-09-01"},
+    {"key": "employees", "value": 981, "unit": "人", "period": "2026H1", "anchor": "981 人**（较 2025-12-31 的 1,094 人减少 113 人", "ts": "2026-09-01"},
+    {"key": "employees", "value": 883, "unit": "人", "period": "2025H1", "anchor": "2025-06-30 为 883 人", "ts": "2026-09-01"},
+    {"key": "employees", "value": 1094, "unit": "人", "period": "FY2025", "anchor": "| 员工（期末正式雇员） | 1,094 人", "ts": "2026-09-01"},
+    {"key": "arr", "value": "约16亿美元（月度收入×12年化，2026-08；另有单周×52口径超20亿美元——双口径并存见ledger C21，Tier 5业绩会转述未经审计）", "unit": "美元/年（年化，MaaS平台口径）", "period": "2026-08", "anchor": "按月度收入年化约 16 亿美元（财新折合约 108 亿元人民币）", "ts": "2026-09-01"}
+  ]
+}

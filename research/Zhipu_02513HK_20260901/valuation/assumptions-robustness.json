@@ -1,0 +1,44 @@
+{
+  "_meta": {
+    "company": "智谱 / Z.AI Co., Ltd. (02513.HK)",
+    "generated": "2026-09-01",
+    "purpose": "稳健性检验（valuation-methods.md §5）：把概率推向对结论最不利的组合 bear 0.10 / base 0.30 / bull 0.60（承上版 robustness 口径），检验标定标签是否翻转。其余输入与 assumptions.json 完全一致；本文件不作交付、仅内部留档",
+    "units": "金额＝人民币百万元（CNY M），股本＝百万股，每股＝人民币元；HKD/CNY＝0.857"
+  },
+  "price": 1024.12,
+  "shares": 465.623,
+  "net_debt": -28784.0,
+  "wacc": 0.11,
+  "terminal_g": 0.03,
+  "range_low": 51.42,
+  "range_high": 359.94,
+  "scenarios": [
+    {
+      "name": "bear",
+      "prob": 0.10,
+      "revenue": [2550, 4300, 6450, 8700, 10900],
+      "fcf_margin": [-1.20, -0.50, -0.15, 0.00, 0.07],
+      "fade_years": 5,
+      "fade_g_start": 0.10,
+      "annual_dilution": 0.08
+    },
+    {
+      "name": "base",
+      "prob": 0.30,
+      "revenue": [4600, 9800, 15600, 21000, 27000],
+      "fcf_margin": [-0.60, -0.12, 0.06, 0.15, 0.20],
+      "fade_years": 5,
+      "fade_g_start": 0.15,
+      "annual_dilution": 0.05
+    },
+    {
+      "name": "bull",
+      "prob": 0.60,
+      "revenue": [7500, 16500, 27000, 38000, 50000],
+      "fcf_margin": [-0.40, -0.02, 0.14, 0.25, 0.30],
+      "fade_years": 5,
+      "fade_g_start": 0.18,
+      "annual_dilution": 0.03
+    }
+  ]
+}
