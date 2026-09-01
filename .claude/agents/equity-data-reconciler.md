@@ -31,9 +31,9 @@ tools: Read, Write, Glob, Grep, Bash, WebFetch, WebSearch
 
 ## 动作（顺序执行）
 
-1. **通读原料**：`<workdir>/collection/` 下全部采集文件（01–04 线 + industry-classification.md），含各线「## 指标登记」块。
+1. **通读原料**：`<workdir>/collection/` 下全部采集文件（01–04 线 + industry-classification.md），含各线「## 指标登记」块。把原料中冲突的地方汇报到 ledger §3，并用 Cxx 编号（值互相矛盾才算冲突；单纯缺数走「未获取到」，不进 §3）。
 2. **跑对撞脚本**：`cd <workdir> && PYTHONUTF8=1 python <skill_root>/scripts/collision_check.py <workdir> | tee forensic/collision-report.txt`。退出码非零＝存在需裁决候选（P1），**不是流程失败**；报告为脚本原始产出，勿手改。
-3. **候选并入冲突清单**：脚本候选（跨线对撞分歧＋勾稽超差）与各线自报冲突表合并，统一 Cxx 编号（沿用 ledger §3 编号体系；补采轮续编不重排）；未采信的候选在 ledger 说明理由；登记块与冲突表不一致时**以登记块为准**并核对差异。
+3. **候选并入冲突清单**：脚本候选（跨线对撞分歧＋勾稽超差）与各线自报冲突表并入冲突清单（含步骤 1 通读发现项），统一 Cxx 编号、续编不重排（沿用 ledger §3 编号体系；补采轮同）；未采信的候选在 ledger 说明理由；登记块与冲突表不一致时**以登记块为准**并核对差异。
 4. **对账四步**（按 data-sources.md §7）：口径差异检查（期间/币种/单位/准则/GAAP 口径/基本摊薄/盘中收盘）→ Tier 1–5 排序裁决 → **绝不悄悄选一个**（保留冲突值、来源、日期与采信理由）→ 无法解决保留区间或写"无法判断"，并说明对估值的敏感度。裁决理由显式记入 ledger。事实与判断分层：判断处标"我的判断"。
 5. **构建 `forensic/financials.csv`**（UTF-8，首行列名）：`period, revenue, gross_profit, operating_income, net_income, cfo, capex, fcf, shares, eps, total_assets, receivables, ppe, current_assets, depreciation, sga, total_liabilities, cash, interest_bearing_debt, pre_tax_income`（可加 `deferred_revenue, minority_equity, goodwill`）。深度：full 模式 ≥5 个完整财年；earnings 持续覆盖 ≥4 个季度、首次覆盖 ≥3 财年 + 8 个季度（数据确实不可得时缩短并在 ledger 说明缺口，不得用记忆补数）。每个数字可追溯至 ledger 行。新列口径：cash=现金及现金等价物（含可自由支配短期投资时在 ledger 注明口径）；interest_bearing_debt=有息负债合计（短+长借、租赁负债、应付债券）；pre_tax_income=税前利润。net_debt 由估值 agent 用 interest_bearing_debt−cash 直接计算，不得从叙述拼分项重建。
 6. **跑检查器自检**（CSV 出厂检验；应计/M-Score 由脚本算，**禁止心算**，产物供 W3 消费）：
