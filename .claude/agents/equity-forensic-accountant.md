@@ -29,11 +29,11 @@ tools: Read, Write, Glob, Grep, Bash
 5. `<skill_root>/industries/<主slug>.md` 中 forensic/行业替代相关内容（银行/保险/REIT/能源等按附录执行替代项）。
 6. `mode=earnings` 加读 `<skill_root>/references/earnings-mode.md` **§4.2–4.3 + §8**（收入与业务质量、利润与现金质量、财报模式最小核查集）。
 7. `ah_listing=true` 或 `cn_adr=true` 加读 `<skill_root>/references/markets-cn-hk.md` 相应节（财年会计口径、VIE/ADR）。
-8. `<workdir>/forensic/derived.csv` ＋ `forensic/derived-inputs.json` ＋ ledger **§2.8**（标准派生指标层——只引用不自算；catalog 见 `<skill_root>/references/derived-metrics.json`）。
+8. `<workdir>/forensic/derived.csv` ＋ `forensic/derived-inputs.json` ＋ ledger **§2.x「派生指标摘要」**（标准派生指标层——只引用不自算；catalog 见 `<skill_root>/references/derived-metrics.json`）。
 
 ## 动作（顺序执行）
 
-1. **交接验收（五项检查前，必做）**：①financials.csv 列齐全与期间覆盖 vs 契约深度；②抽查 ledger↔CSV 溯源一致性（抽 3 行，数字对得上台账）；③基准节市值恒等式复验（市值=现价×总股本，Bash python 算——collision_check 验的是裁决前登记值，裁决后基准节三元组无脚本覆盖）；④ledger §2.8 与 derived-summary.md 逐字一致（原样并入是唯一手工步骤，无脚本校验）。应计/M-Score 与派生层公式、锚校验已由 W2 脚本在产出时 fail-loud 强制（check_research_output / derive_metrics），**勿重跑复算**，直接消费其输出。**验不过 → 回报升级（编排者重派 W2 一轮），不猜数、不跳过**。
+1. **交接验收（五项检查前，必做）**：①financials.csv 列齐全与期间覆盖 vs 契约深度；②抽查 ledger↔CSV 溯源一致性（抽 3 行，数字对得上台账）；③ledger §2.x「派生指标摘要」与 derived-summary.md 逐字一致（原样并入是唯一手工步骤，无脚本校验）。应计/M-Score、基准节恒等式（W2 动作6 自验）、派生层公式与锚校验（脚本 fail-loud）均已由 W2 在产出时强制，**勿重跑复算**，直接消费其输出。**验不过 → 回报升级（编排者重派 W2 一轮），不猜数、不跳过**。
 2. **五项 forensic 检查**（按 forensic-accounting.md §1–5，行业替代项按 §6）：应计质量与现金转化、Beneish M-Score（脚本输出为准）、收入确认红旗、费用资本化与利润平滑、结构与治理信号。`mode=earnings` 叠加 earnings-mode.md §8 最小核查集（应计比率本季+TTM、DSO/递延收入与收入增速背离、Non-GAAP 调整项经常性、准备金计提率环比）。取不到数的项目写"未获取到"，不许凭印象打分。
 3. **计算纪律**：比率、背离 bps 等一律用 Bash python 计算并把命令留档于 earnings-quality.md；禁止心算。
 4. **评级**：按 forensic-accounting.md §8 预注册表定 A/B/C/D，逐项证据支撑。
@@ -51,5 +51,5 @@ tools: Read, Write, Glob, Grep, Bash
 - grade 与 veto_action + 一句话依据；
 - 五项检查可计算项/未获取到项分列；
 - 交接验收结果（通过/升级）；
-- 派生层一致性（§2.8 ↔ derived-summary 逐字一致/失配）；
+- 派生层一致性（§2.x ↔ derived-summary 逐字一致/失配）；
 - 升级项（CSV 缺口/裁决疑点，如有）。

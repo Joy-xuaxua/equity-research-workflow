@@ -9,7 +9,7 @@
    <workdir>/forensic/ledger.md（锚校验底本，仅在外部输入存在时要求），
 按 references/derived-metrics.json 的公式计算派生指标（受控 AST 白名单求值，仅标准库、无网络、输出确定），
 写 <workdir>/forensic/derived.csv（长格式：metric,label,period,value,unit,formula,inputs,anchor；纯净无注释）与
-   <workdir>/forensic/derived-summary.md（并入 ledger §2.8 的底稿）。
+   <workdir>/forensic/derived-summary.md（并入 ledger §2「派生指标摘要」小节的底稿；小节号顺延，不固定——§2 小节数随标的不同）。
 不修改 financials.csv 与 ledger.md（加行不加列契约由 W2 保管）。
 
 行为要点：
@@ -374,7 +374,7 @@ def compute_rows(metrics, rows, entries):
 
 def write_summary(path, out_rows):
     lines = [
-        "# 派生指标摘要（ledger §2.8 底稿）",
+        "# 派生指标摘要（ledger §2 底稿）",
         "",
         "> 由 `scripts/derive_metrics.py` 按 `references/derived-metrics.json` 生成，勿手改；",
         "> 重跑：`PYTHONUTF8=1 python <skill_root>/scripts/derive_metrics.py <workdir>`。",

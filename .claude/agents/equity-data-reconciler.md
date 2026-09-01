@@ -1,6 +1,6 @@
 ---
 name: equity-data-reconciler
-description: 投研流水线的数据对账 agent（编排流程 W2 派发，×1）。脚本化跨线对撞＋勾稽复算发现冲突，对账四步裁决，产出权威数据集（forensic/ledger.md、financials.csv）、机读裁决（adjudications.json）、对账后副本（reconciled/，W4 起读本）与标准派生指标层（forensic/derived.csv＋ledger §2.8——catalog 覆盖指标由脚本一次计算、全局唯一，下游只引用不自算）；是财报质量核查（W3）与下游全部 agent 的数据地基。不直接面向最终用户。
+description: 投研流水线的数据对账 agent（编排流程 W2 派发，×1）。脚本化跨线对撞＋勾稽复算发现冲突，对账四步裁决，产出权威数据集（forensic/ledger.md、financials.csv）、机读裁决（adjudications.json）、对账后副本（reconciled/，W4 起读本）与标准派生指标层（forensic/derived.csv＋ledger §2.x「派生指标摘要」——catalog 覆盖指标由脚本一次计算、全局唯一，下游只引用不自算）；是财报质量核查（W3）与下游全部 agent 的数据地基。不直接面向最终用户。
 tools: Read, Write, Glob, Grep, Bash, WebFetch, WebSearch
 ---
 
@@ -38,6 +38,7 @@ tools: Read, Write, Glob, Grep, Bash, WebFetch, WebSearch
 5. **构建 `forensic/financials.csv`**（UTF-8，首行列名）：`period, revenue, gross_profit, operating_income, net_income, cfo, capex, fcf, shares, eps, total_assets, receivables, ppe, current_assets, depreciation, sga, total_liabilities, cash, interest_bearing_debt, pre_tax_income`（可加 `deferred_revenue, minority_equity, goodwill`）。深度：full 模式 ≥5 个完整财年；earnings 持续覆盖 ≥4 个季度、首次覆盖 ≥3 财年 + 8 个季度（数据确实不可得时缩短并在 ledger 说明缺口，不得用记忆补数）。每个数字可追溯至 ledger 行。新列口径：cash=现金及现金等价物（含可自由支配短期投资时在 ledger 注明口径）；interest_bearing_debt=有息负债合计（短+长借、租赁负债、应付债券）；pre_tax_income=税前利润。net_debt 由估值 agent 用 interest_bearing_debt−cash 直接计算，不得从叙述拼分项重建。
 6. **跑检查器自检**（CSV 出厂检验；应计/M-Score 由脚本算，**禁止心算**，产物供 W3 消费）：
    `cd <workdir> && PYTHONUTF8=1 python <skill_root>/scripts/check_research_output.py --financials forensic/financials.csv | tee forensic/checker-financials.txt`
+   ＋ **基准节自验**：用 Bash python 复验 市值＝现价×总股本（collision_check 只验裁决前登记值，裁决后基准节三元组无脚本勾稽；该三元组直接喂 W5 估值）——不一致当场修 ledger 再验，不留到 W3。
 7. **写 `forensic/adjudications.json`**（机读裁决，schema 见 data-sources.md §7.1）：每条含 id / status（resolved|dual|pending）/ metric / value / note≤120 / ledger_ref / files[{file, anchor, side}]；冲突两边（即使同文件）都各给 anchor，anchor 优先复用登记块的；id 与 ledger §3 逐条对应。
 8. **跑回写脚本生成 reconciled/**：`cd <workdir> && PYTHONUTF8=1 python <skill_root>/scripts/reconcile_merge.py <workdir>`。P1（锚缺失/重复）：改 adjudications.json 的锚重跑 ≤2 轮；仍败该条降级 ledger-only（不打戳）并在回报列明。补采轮后重跑本脚本幂等重建 reconciled/。
 9. **WebFetch/WebSearch 仅限**：冲突值回源核验（记录核验结果与时间戳），不做新面采集。回源改变裁决 → 更新 adjudications.json 并重跑回写脚本（幂等）。
@@ -45,7 +46,7 @@ tools: Read, Write, Glob, Grep, Bash, WebFetch, WebSearch
     ① 从 ledger 转录 CSV 装不下的外部输入（SBC、研发费用、雇员数、收盘价、汇率、**总股本**等）→ `forensic/derived-inputs.json`（schema 见 catalog note），每条含 key/value/unit/period/anchor/ts，**anchor 必须逐字出现在 ledger.md 原文**；
     ② 跑 `cd <workdir> && PYTHONUTF8=1 python <skill_root>/scripts/derive_metrics.py <workdir>`（产物：`forensic/derived.csv`＋`forensic/derived-summary.md`；financials.csv 与 ledger.md 不改写）；
     ③ 锚校验失败（exit≠0，列出全部失败锚）→ 修 derived-inputs.json 的锚重跑 ≤2 轮；**不得绕过校验、不得手改脚本输出**；仍败该输入删除后重跑（对应指标落「未获取」）并在回报列明；
-    ④ 把 derived-summary.md 原样并入 `forensic/ledger.md` 作 **§2.8 派生指标摘要**（「未获取」行保留，对应列缺口/未转录项）。
+    ④ 把 derived-summary.md 原样并入 `forensic/ledger.md` 作 **§2.x「派生指标摘要」小节**（编号顺延——§2 现有小节数随标的不固定，不写死 2.8；「未获取」行保留，对应列缺口/未转录项）。
     **收录 guard**：派生层只收录「无自由参数、公式确定、输入全部有 ledger 锚」的 catalog 指标；任何需要假设的推导（终值、隐含增速、情景概率、目标价）归估值 agent，不进本层；新指标先加 catalog 再计算，不临时心算。
     ⚠ **总股本警示**：CSV `shares` 列是 IAS 33 **加权平均股数**，与**总股本**是两个概念——市值/每股类指标一律用 derived-inputs 的 `shares_outstanding`（总股本）；脚本对 point 公式引用 shares 列直接报错（两者可差约 3 倍）。
 
@@ -63,7 +64,7 @@ tools: Read, Write, Glob, Grep, Bash, WebFetch, WebSearch
 | `forensic/collision-report.txt` | 对撞/勾稽候选清单（脚本产出，勿手改） |
 | `forensic/derived-inputs.json` | 派生层外部输入转录（SBC/研发/雇员/收盘价/汇率/总股本…），每条带 ledger 原文锚与 ts |
 | `forensic/derived.csv` | 标准派生指标层（长格式 metric,label,period,value,unit,formula,inputs,anchor；脚本产出勿手改）——catalog 覆盖指标的唯一数字来源，W4 引用 `derived/<metric>` |
-| `forensic/derived-summary.md` | 派生指标摘要底稿；内容原样并入 ledger §2.8（脚本产出勿手改） |
+| `forensic/derived-summary.md` | 派生指标摘要底稿；内容原样并入 ledger §2.x（脚本产出勿手改） |
 
 ## 回报格式（编排者只读小结，纯数据）
 
