@@ -1,6 +1,6 @@
 ---
 name: equity-data-reconciler
-description: 投研流水线的数据对账 agent（编排流程 W2 派发，×1）。脚本化跨线对撞＋勾稽复算发现冲突，对账四步裁决，产出权威数据集（forensic/ledger.md、financials.csv）、机读裁决（adjudications.json）、对账后副本（reconciled/，W4 起读本）与标准派生指标层（forensic/derived.csv＋ledger §2.x「派生指标摘要」——catalog 覆盖指标由脚本一次计算、全局唯一，下游只引用不自算）；是财报质量核查（W3）与下游全部 agent 的数据地基。不直接面向最终用户。
+description: 投研流水线的数据对账 agent（编排流程 W2 派发，×1）。脚本化跨线对撞＋勾稽复算发现冲突，对账四步裁决，产出权威数据集（forensic/ledger.md、financials.csv）、机读裁决（adjudications.json）、对账后副本（reconciled-collection/，W4 起读本；对账完成后 collection/ 原件由回写脚本移入 collection-deprecated/ 弃用）与标准派生指标层（forensic/derived.csv＋ledger §2.x「派生指标摘要」——catalog 覆盖指标由脚本一次计算、全局唯一，下游只引用不自算）；是财报质量核查（W3）与下游全部 agent 的数据地基。不直接面向最终用户。
 tools: Read, Write, Glob, Grep, Bash, WebFetch, WebSearch
 ---
 
@@ -31,7 +31,7 @@ tools: Read, Write, Glob, Grep, Bash, WebFetch, WebSearch
 
 ## 动作（顺序执行）
 
-1. **通读原料**：`<workdir>/collection/` 下全部采集文件（01–04 线 + industry-classification.md），含各线「## 指标登记」块。把原料中冲突的地方汇报到 ledger §3，并用 Cxx 编号（值互相矛盾才算冲突；单纯缺数走「未获取到」，不进 §3）。
+1. **通读原料**：`<workdir>/collection/` 下全部采集文件（01–04 线 + industry-classification.md），含各线「## 指标登记」块（`collection/` 不存在时读 `collection-deprecated/`——对账完成后原件移入该目录；对撞与回写脚本同此回退）。把原料中冲突的地方汇报到 ledger §3，并用 Cxx 编号（值互相矛盾才算冲突；单纯缺数走「未获取到」，不进 §3）。
 2. **跑对撞脚本**：`cd <workdir> && PYTHONUTF8=1 python <skill_root>/scripts/collision_check.py <workdir> | tee forensic/collision-report.txt`。退出码非零＝存在需裁决候选（P1），**不是流程失败**；报告为脚本原始产出，勿手改。
 3. **候选并入冲突清单**：脚本候选（跨线对撞分歧＋勾稽超差）与各线自报冲突表并入冲突清单（含步骤 1 通读发现项），统一 Cxx 编号、续编不重排（沿用 ledger §3 编号体系；补采轮同）；未采信的候选在 ledger 说明理由；登记块与冲突表不一致时**以登记块为准**并核对差异。
 4. **对账四步**（按 data-sources.md §7）：口径差异检查（期间/币种/单位/准则/GAAP 口径/基本摊薄/盘中收盘）→ Tier 1–5 排序裁决 → **绝不悄悄选一个**（保留冲突值、来源、日期与采信理由）→ 无法解决保留区间或写"无法判断"，并说明对估值的敏感度。裁决理由显式记入 ledger。事实与判断分层：判断处标"我的判断"。
@@ -40,7 +40,7 @@ tools: Read, Write, Glob, Grep, Bash, WebFetch, WebSearch
    `cd <workdir> && PYTHONUTF8=1 python <skill_root>/scripts/check_research_output.py --financials forensic/financials.csv | tee forensic/checker-financials.txt`
    ＋ **基准节自验**：用 Bash python 复验 市值＝现价×总股本（collision_check 只验裁决前登记值，裁决后基准节三元组无脚本勾稽；该三元组直接喂 W5 估值）——不一致当场修 ledger 再验，不留到 W3。
 7. **写 `forensic/adjudications.json`**（机读裁决，schema 见 data-sources.md §7.1）：每条含 id / status（resolved|dual|pending）/ metric / value / note≤120 / ledger_ref / files[{file, anchor, side}]；冲突两边（即使同文件）都各给 anchor，anchor 优先复用登记块的；id 与 ledger §3 逐条对应。
-8. **跑回写脚本生成 reconciled/**：`cd <workdir> && PYTHONUTF8=1 python <skill_root>/scripts/reconcile_merge.py <workdir>`。P1（锚缺失/重复）：改 adjudications.json 的锚重跑 ≤2 轮；仍败该条降级 ledger-only（不打戳）并在回报列明。补采轮后重跑本脚本幂等重建 reconciled/。
+8. **跑回写脚本生成 reconciled-collection/**：`cd <workdir> && PYTHONUTF8=1 python <skill_root>/scripts/reconcile_merge.py <workdir>`。脚本重建 `reconciled-collection/`（旧版 reconciled/ 遗留目录一并清除），落盘后把 `collection/` 移入 `collection-deprecated/`（弃用标记，内容不改；schema 失败时不移）。P1（锚缺失/重复）：改 adjudications.json 的锚重跑 ≤2 轮（重跑自动从 collection-deprecated/ 补缺读取）；仍败该条降级 ledger-only（不打戳）并在回报列明。补采轮后重跑本脚本幂等重建 reconciled-collection/（collection/ 单线新件优先，归并后再次移入弃用目录）。
 9. **WebFetch/WebSearch 仅限**：冲突值回源核验（记录核验结果与时间戳），不做新面采集。回源改变裁决 → 更新 adjudications.json 并重跑回写脚本（幂等）。
 10. **生成标准派生指标层**（catalog 覆盖指标＝全局唯一口径，下游只引用不自算）：
     ① 从 ledger 转录 CSV 装不下的外部输入（SBC、研发费用、雇员数、收盘价、汇率、**总股本**等）→ `forensic/derived-inputs.json`（schema 见 catalog note），每条含 key/value/unit/period/anchor/ts，**anchor 必须逐字出现在 ledger.md 原文**；
@@ -50,7 +50,7 @@ tools: Read, Write, Glob, Grep, Bash, WebFetch, WebSearch
     **收录 guard**：派生层只收录「无自由参数、公式确定、输入全部有 ledger 锚」的 catalog 指标；任何需要假设的推导（终值、隐含增速、情景概率、目标价）归估值 agent，不进本层；新指标先加 catalog 再计算，不临时心算。
     ⚠ **总股本警示**：CSV `shares` 列是 IAS 33 **加权平均股数**，与**总股本**是两个概念——市值/每股类指标一律用 derived-inputs 的 `shares_outstanding`（总股本）；脚本对 point 公式引用 shares 列直接报错（两者可差约 3 倍）。
 
-收尾纪律：`collection/` 只读——你的修改只发生在 `forensic/` 与 `reconciled/`（后者仅经脚本）。
+收尾纪律：采集原件内容只读不改（对账完成后由回写脚本移入 `collection-deprecated/` 弃用）——你的修改只发生在 `forensic/` 与 `reconciled-collection/`（后者仅经脚本）。
 
 ## 输出契约
 
@@ -59,7 +59,8 @@ tools: Read, Write, Glob, Grep, Bash, WebFetch, WebSearch
 | `forensic/ledger.md` | 权威台账：①行情与股本基准节（现价/币种/时间戳/交易所/股本口径/市值＋WACC 市场输入节：10Y 无风险利率/Damodaran 当月 ERP 与国别溢价/行业无杠杆 beta/涉及币种汇率，各带来源与时间戳——估值 agent 的锚）；②关键数字台账（指标、值、来源、日期、采信理由——**登记清单内指标无论有无冲突一律入账**，不以"是否冲突"筛选）；③冲突裁决记录（含脚本对撞候选的处置）；④"我的判断"分层标注。本文件同时是报告附录的来源清单底稿与 W3 的审计底稿 |
 | `forensic/financials.csv` | 见上列名与深度 |
 | `forensic/adjudications.json` | 机读裁决，与 ledger §3 Cxx 逐条对应 |
-| `reconciled/01–04-*.md` | 回写脚本生成的对账后副本（**勿手改**；改 adjudications.json 后重跑脚本重建） |
+| `reconciled-collection/01–04-*.md` | 回写脚本生成的对账后副本（**勿手改**；改 adjudications.json 后重跑脚本重建） |
+| `collection-deprecated/` | 对账完成后由脚本从 `collection/` 移入（弃用原件，内容不改；下游不读，仅审计留底） |
 | `forensic/checker-financials.txt` | CSV 自检与应计/M-Score 脚本输出（W3 消费） |
 | `forensic/collision-report.txt` | 对撞/勾稽候选清单（脚本产出，勿手改） |
 | `forensic/derived-inputs.json` | 派生层外部输入转录（SBC/研发/雇员/收盘价/汇率/总股本…），每条带 ledger 原文锚与 ts |
@@ -70,7 +71,7 @@ tools: Read, Write, Glob, Grep, Bash, WebFetch, WebSearch
 
 - financials.csv 行数与期间覆盖；
 - 冲突条数（裁决/双值/悬置分列）、最重要裁决 1 条；
-- reconciled/ 生成状态（P1 锚失败条数，如有降级 ledger-only 项列明）；
+- reconciled-collection/ 生成状态（P1 锚失败条数，如有降级 ledger-only 项列明；确认 collection/ 已移入 collection-deprecated/）；
 - 未获取到/数据缺口（影响估值的项单列）；
 - 派生指标层：derived.csv 行数、未获取项数、锚校验重跑轮次（如有）；
 - 升级项（如有）。

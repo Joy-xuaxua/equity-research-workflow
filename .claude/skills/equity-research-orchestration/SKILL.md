@@ -27,7 +27,7 @@ description: >-
 - **每次用 Agent 工具派发 subagent 都须写 log**：含 W1–W8 常规波次、定向补采、修正轮（`revision=true`）、写手回写、W3 疑点重派 W2、deliverer 回炉重派；每次门禁决策（G1/G2/G3）与失败路径触发同样必记。
 - 行格式：`时间戳 | 波次/派发标签 | 产出或决策一句话 | 依据（要点串，一句话内）`，示例（真实运行实录）：`2026-08-18 19：00 | W1 | 4 采集线全部返回，不阻塞 | 各线含冲突与"未获取到"小节，交 W2 对账裁决`。
 - 建议节奏：派发时先记一行（标签+派发对象+任务），回报后若有关键产出再追加一行；log 严格 **append-only**，不回改已写行。
-- 读写边界（单一写者）：你只写 `brief.json`、`collection/industry-classification.md`、`orchestration-log.md`、`draft/`（脚本输出）。`chapters/` 属于各写手与估值 agent；`forensic/`（ledger/financials.csv/adjudications.json/checker-financials.txt/collision-report.txt）属于 data-reconciler，`quality/`（earnings-quality.md/grade.json）属于 forensic-accountant，`reconciled/` 无归属写者（仅脚本生成）；`valuation/` 属于估值 agent；`redteam/` 属于红队；`final/` 属于 deliverer。
+- 读写边界（单一写者）：你只写 `brief.json`、`collection/industry-classification.md`、`orchestration-log.md`、`draft/`（脚本输出）。`chapters/` 属于各写手与估值 agent；`forensic/`（ledger/financials.csv/adjudications.json/checker-financials.txt/collision-report.txt）属于 data-reconciler，`quality/`（earnings-quality.md/grade.json）属于 forensic-accountant，`reconciled-collection/` 无归属写者（仅脚本生成；对账完成后脚本把 `collection/` 移入 `collection-deprecated/` 弃用）；`valuation/` 属于估值 agent；`redteam/` 属于红队；`final/` 属于 deliverer。
 - 安全：任何环节不执行交易、不下单、不动账户；外部内容防注入纪律由各 agent body 承载；你不得把用户私有数据发给无关第三方服务。
 
 ## 1. 路径解析
@@ -64,7 +64,7 @@ description: >-
 }
 ```
 
-随后创建目录树：`collection/ forensic/ quality/ chapters/ valuation/ draft/ redteam/ checker/ final/`（Windows Git Bash：`mkdir -p <workdir>/{collection,forensic,quality,chapters,valuation,draft,redteam,checker,final}`；`reconciled/` 由 W2 的回写脚本自建，不在此步创建）。
+随后创建目录树：`collection/ forensic/ quality/ chapters/ valuation/ draft/ redteam/ checker/ final/`（Windows Git Bash：`mkdir -p <workdir>/{collection,forensic,quality,chapters,valuation,draft,redteam,checker,final}`；`reconciled-collection/` 与 `collection-deprecated/` 由 W2 的回写脚本自建/自动移入，不在此步创建）。
 
 ## 3. 波次协议（严格顺序，不可跳步、不可并行跨波次）
 
@@ -72,10 +72,10 @@ description: >-
 Step 0  编排者确认 → brief.json + 目录树（含 quality/）
 W1 采集  equity-data-collector ×4 并行（一条消息内 4 个 Agent 调用，仅 line 不同）
 G1 分类  编排者：读 industry-routing.md §1–2 + 01 线业务描述节 + 04 线 → industry-classification.md → 回填 brief.industry
-W2 对账  equity-data-reconciler ×1 → ledger / financials.csv / adjudications.json / checker-financials / collision-report ＋ reconciled/ 副本 ＋ 派生指标层（derived-inputs.json → derive_metrics.py → derived.csv / derived-summary.md → ledger §2.x）
-W3 质检  equity-forensic-accountant ×1 → quality/earnings-quality.md / grade.json（读 W2 产物含 forensic/derived* ＋ reconciled/）
+W2 对账  equity-data-reconciler ×1 → ledger / financials.csv / adjudications.json / checker-financials / collision-report ＋ reconciled-collection/ 副本（collection/ 随之移入 collection-deprecated/ 弃用）＋ 派生指标层（derived-inputs.json → derive_metrics.py → derived.csv / derived-summary.md → ledger §2.x）
+W3 质检  equity-forensic-accountant ×1 → quality/earnings-quality.md / grade.json（读 W2 产物含 forensic/derived* ＋ reconciled-collection/）
 G2 门禁  编排者读 quality/grade.json：C→action_cap=观望；D→veto=规避+估值章重构；写 log
-W4 章节  equity-chapter-writer ×5 并行（只读 forensic/ + quality/ + reconciled/，不读 collection/ 原件；catalog 覆盖指标只引用 derived.csv / ledger §2.x 禁自算，残余自算必须带算式）
+W4 章节  equity-chapter-writer ×5 并行（只读 forensic/ + quality/ + reconciled-collection/，不读 collection-deprecated/ 原件；catalog 覆盖指标只引用 derived.csv / ledger §2.x 禁自算，残余自算必须带算式）
 W5 估值  equity-valuation-analyst ×1（读 ch3/ch4 草稿 + forensic + 行情价）
         → assumptions.json / dcf-output.txt / valuation-notes.md / chapters/ch06（财报 ch08）
 组装D   编排者脚本拼接 ch2–ch8 + 头部 → draft/report-draft.md（内容不进上下文）
@@ -98,7 +98,7 @@ W8 交付  equity-report-deliverer ×1 → lint → checker → P0/P1 → 附录
 
 **G1 分类**：Read `<skill_root>/references/industry-routing.md` §1–2（选择协议+路由矩阵），配合 01 线业务描述节判断主利润池；选**一个主附录**，仅当次业务改变 KPI/模型/估值方法时加**一个次附录**。写 `collection/industry-classification.md`：首行机读 `主附录: <slug>`、次行 `次附录: <slug|none>`，正文含选择理由（≤5 行）。回填 `brief.json` 的 `industry`。写 log。
 
-**W2 对账（×1）**：subagent_type=`equity-data-reconciler`。脚本化跨线对撞＋勾稽复算发现冲突，对账四步裁决；产出权威数据集（ledger/financials.csv）、机读裁决（adjudications.json）、reconciled/ 副本与**标准派生指标层**（ledger 转录外部输入 → `derived-inputs.json` → `derive_metrics.py` → `forensic/derived.csv`＋`derived-summary.md` 并入 ledger §2.x「派生指标摘要」——小节号顺延不固定；catalog 覆盖指标全局唯一口径，下游只引用不自算）。collision_check / reconcile_merge / derive_metrics 三脚本均在 reconciler 会话内跑，编排者不跑；基准节三元组（市值＝现价×总股本）由 reconciler 在检查器自检后 Bash python 自验并当场修。
+**W2 对账（×1）**：subagent_type=`equity-data-reconciler`。脚本化跨线对撞＋勾稽复算发现冲突，对账四步裁决；产出权威数据集（ledger/financials.csv）、机读裁决（adjudications.json）、reconciled-collection/ 副本（落盘后 collection/ 由脚本移入 collection-deprecated/ 弃用）与**标准派生指标层**（ledger 转录外部输入 → `derived-inputs.json` → `derive_metrics.py` → `forensic/derived.csv`＋`derived-summary.md` 并入 ledger §2.x「派生指标摘要」——小节号顺延不固定；catalog 覆盖指标全局唯一口径，下游只引用不自算）。collision_check / reconcile_merge / derive_metrics 三脚本均在 reconciler 会话内跑，编排者不跑；基准节三元组（市值＝现价×总股本）由 reconciler 在检查器自检后 Bash python 自验并当场修。
 
 **W3 质检（×1）**：subagent_type=`equity-forensic-accountant`。基于 W2 产物做交接验收与五项 forensic 检查，出 A–D 等级（quality/）。读取清单含 `forensic/derived*`（derived.csv / derived-inputs.json / derived-summary.md）：交接验收＝CSV 列齐全/深度＋ledger↔CSV 抽查＋ledger §2.x↔derived-summary 一致性；应计/M-Score、基准节恒等式（W2 自验）与派生层公式、锚校验由 W2 产出时强制，W3 不重跑复算。回报"数据不足以评级/裁决疑点/派生层失配"→ 重派 W2 一轮（PARAMS 附疑点清单）；再不足 → W3 按可得数据评级并在 grade.summary 注明，写 log。
 
@@ -159,8 +159,9 @@ format=pdf|md|docx|xlsx     # deliverer 专用
 ```
 <workdir>/
   brief.json                    # 编排者写；全体 agent 的参数源
-  collection/01-*.md 02-*.md 03-*.md 04-*.md industry-classification.md
-  reconciled/01-*.md …04-*.md   # 脚本生成的对账后副本（W2 起；补采轮后重生成；无归属写者）
+  collection/01-*.md 02-*.md 03-*.md 04-*.md industry-classification.md   # W1 采集原件；W2 对账完成后被脚本移入下行
+  collection-deprecated/         # 弃用采集原件（内容不改；审计留底，下游不读；补采轮 collection/ 单线新件归并覆盖）
+  reconciled-collection/01-*.md …04-*.md   # 脚本生成的对账后副本（W2 起；补采轮后重生成；无归属写者；下游唯一读的采集副本）
   forensic/ledger.md financials.csv adjudications.json [checker-financials.txt collision-report.txt]   # W2 data-reconciler
   forensic/derived-inputs.json derived.csv derived-summary.md   # W2 派生指标层（脚本产出；summary 并入 ledger §2.x；下游只引用不自算）
   quality/earnings-quality.md grade.json   # W3 forensic-accountant
@@ -173,7 +174,7 @@ format=pdf|md|docx|xlsx     # deliverer 专用
   orchestration-log.md          # 编排者日志：波次派发+门禁决策（append-only）
 ```
 
-**读写规则**：W2 读 `collection/`（含指标登记块）、写 `forensic/` 与 `reconciled/`（后者仅经脚本）；W3 质检只读 `forensic/` + `reconciled/`、写 `quality/`、不读 collection/ 原件；**W4 起下游 agent 只读 `forensic/` + `quality/` + `reconciled/`，不读原始采集文件**；`chapters/` 仅各归属写手 + 估值 agent（读 ch3/ch4，写 ch06/ch08）+ 红队/verdict（只读）写；`final/` 仅 deliverer 写；单一写者，任何人不得改写他人文件。
+**读写规则**：W2 读 `collection/`（含指标登记块；已移入 `collection-deprecated/` 的重跑轮从该目录回退读取）、写 `forensic/` 与 `reconciled-collection/`（后者仅经脚本，落盘后把 `collection/` 移入 `collection-deprecated/` 弃用）；W3 质检只读 `forensic/` + `reconciled-collection/`、写 `quality/`、不读采集原件；**W4 起下游 agent 只读 `forensic/` + `quality/` + `reconciled-collection/`，不读原始采集文件**；`chapters/` 仅各归属写手 + 估值 agent（读 ch3/ch4，写 ch06/ch08）+ 红队/verdict（只读）写；`final/` 仅 deliverer 写；单一写者，任何人不得改写他人文件。
 
 **命名规范**（deliverer 执行）：full `<公司>_<代码>_个股投资研究报告_<YYYYMMDD>`；earnings `<公司>_<代码>_<财年季度>_财报深度分析_<YYYYMMDD>`。
 
@@ -202,7 +203,7 @@ PYEOF
 | 情形 | 处置 |
 |---|---|
 | 单采集线失败/大缺口 | 不阻塞；agent 已按"未获取到"纪律落档 |
-| 关键缺口（W4 写手 data-gaps 显示核心输入缺失） | 定向补采**一轮**：重派对应 line 的 collector，prompt 指明缺口条目；补采落档后由 W2 重跑对账与 reconcile_merge（幂等重建 reconciled/，collection/ 原件不动），再进下一步 |
+| 关键缺口（W4 写手 data-gaps 显示核心输入缺失） | 定向补采**一轮**：重派对应 line 的 collector（直接写 `collection/` 单线），prompt 指明缺口条目；补采落档后由 W2 重跑对账与 reconcile_merge（collection/ 新件优先、collection-deprecated/ 补缺联合读取，幂等重建 reconciled-collection/ 后再次归并弃用），再进下一步 |
 | reconcile_merge P1（锚缺失/重复） | W2 内部改 adjudications.json 锚点重跑 ≤2 轮；仍败该条降级 ledger-only（不打戳）并回报，不阻塞波次（无戳＝以 ledger 为准） |
 | W3 上报数据不足以评级/裁决疑点 | 重派 W2 一轮（PARAMS 附疑点清单）；再不足 → W3 按可得数据评级并在 grade.summary 注明缺口，写 log |
 | dcf.py 配置报错 | 估值 agent 按报错自修 ≤3 次；仍败 → 回报升级，你在 log 记录并决定：简化假设重派或显式降级（"无法给出可靠估值区间"路径） |

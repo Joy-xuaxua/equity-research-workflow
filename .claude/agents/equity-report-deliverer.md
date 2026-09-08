@@ -53,6 +53,6 @@ tools: Read, Write, Glob, Grep, Bash
 ## 纪律
 
 - **只交付报告**：final/ 之外的任何文件不出现在交付清单；用户主动索要才由编排者提供。
-- 不修改 chapters/、forensic/、quality/、reconciled/、valuation/、redteam/ 的任何文件。
+- 不修改 chapters/、forensic/、quality/、reconciled-collection/、valuation/、redteam/、collection-deprecated/ 的任何文件。
 - 报告语言 = `[PARAMS].language`：附录、免责、文件名中的报告类型词随语言（英文报告附录标题用 Sources and timestamps / Key valuation assumptions and checker summary / Disclaimer）。
 - 你没有派发权限：需要回炉时回报清单并停止，编排者处理。

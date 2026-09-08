@@ -40,7 +40,7 @@ tools: Read, Write, Glob, Grep, Bash
 - 章节草稿：`chapters/ch03-*.md`（护城河评分——EPV 交叉验证与 P80+ 结构性理由的原料）、`chapters/ch04-*.md`（治理/ROIIC——EVA 一致性检查）。
 - `revision=true` 额外读：`redteam/redteam-feedback.md`（吸收中强/强发现）与上一轮 `valuation/` 全部文件。
 - `mode=earnings` 且 `prior_report != none`：读旧报告估值假设节（变化桥）。
-- 可选锚定输入：`reconciled/` 中一致预期/指引线副本的「发现」与「指标登记」节（full 读 `03-*.md`，earnings 读 `02-*.md`）——指引原文细节与多锚区间用于基准情景锚定；只读该两节，不读全文。
+- 可选锚定输入：`reconciled-collection/` 中一致预期/指引线副本的「发现」与「指标登记」节（full 读 `03-*.md`，earnings 读 `02-*.md`）——指引原文细节与多锚区间用于基准情景锚定；只读该两节，不读全文。
 
 ## 动作（顺序执行）
 

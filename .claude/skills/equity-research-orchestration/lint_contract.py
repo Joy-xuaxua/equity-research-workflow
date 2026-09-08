@@ -6,7 +6,8 @@
     PYTHONUTF8=1 python lint_contract.py <workdir> [--json]
 
 检查项（缺失/不一致 → 非零退出，输出缺失清单）：
-  1. collection/ 四条采集线文件齐（01–04），各含「冲突」「未获取到」小节；industry-classification.md 存在且含 主附录 行。
+  1. 采集线文件齐（01–04，目录 collection/ 优先、collection-deprecated/ 回退——对账完成后原件被移入后者），
+     各含「冲突」「未获取到」小节；industry-classification.md 存在且含 主附录 行。
   2. chapters/ch*.md：首非空行为章节标题（# 开头），次非空行为「本章要点：」/“Key takeaways:”，尾注 data-gaps 注释存在。
   3. ah_listing=true 时分市场结论块：full→ch01/04/06/09，earnings→ch01/04/08/09，各含「分市场」或「A/H」标记。
   4. forensic/financials.csv 列齐全（deferred_revenue 可选），行数 full≥5 / earnings≥4。
@@ -15,8 +16,8 @@
   7. 结构存在：brief.json、ledger、earnings-quality、grade.json、估值四件套（assumptions/dcf-output/valuation-notes/估值章）、
      redteam-feedback、ch01/ch09、draft/_header.md、report-draft.md、report-final.md。
   8. 新流水线标记（forensic/adjudications.json 存在或 quality/ 目录存在）时：质量产物在 quality/（grade.json、
-     earnings-quality.md）；reconciled/ 含与 collection/01–04 同名 4 文件、首 10 行含【对账后副本】头部章、
-     adjudications 非空时每副本 ≥1 个 ▶ 裁决戳。标记不存在（旧 workdir）按旧布局检查，零影响。
+     earnings-quality.md）；reconciled-collection/ 含与采集原件 01–04 同名 4 文件、首 10 行含【对账后副本】头部章、
+     adjudications 非空时每副本 ≥1 个 ▶ 裁决戳（兼容旧版 reconciled/ 目录名）。标记不存在（旧 workdir）按旧布局检查，零影响。
 """
 import argparse
 import csv
@@ -50,10 +51,19 @@ def add(issues, code, msg):
     issues.append((code, msg))
 
 
+def resolve_collection_dir(workdir):
+    """采集原件目录：collection/ 优先；对账完成后 reconcile_merge.py 把原件移入 collection-deprecated/，则回退。"""
+    for sub in ("collection", "collection-deprecated"):
+        d = os.path.join(workdir, sub)
+        if os.path.isdir(d):
+            return d
+    return None
+
+
 def check_collection(workdir, issues):
-    cdir = os.path.join(workdir, "collection")
-    if not os.path.isdir(cdir):
-        add(issues, "COLLECTION_DIR_MISSING", "缺少 collection/ 目录")
+    cdir = resolve_collection_dir(workdir)
+    if cdir is None:
+        add(issues, "COLLECTION_DIR_MISSING", "缺少 collection/ 目录（对账后应移入 collection-deprecated/，两者皆无）")
         return
     files = sorted(glob.glob(os.path.join(cdir, "[0-9][0-9]-*.md")))
     nums = sorted(os.path.basename(f)[:2] for f in files)
@@ -68,7 +78,8 @@ def check_collection(workdir, issues):
                 add(issues, "COLLECTION_SECTION_MISSING", f"{name} 缺「{sec}」小节")
     ic = os.path.join(cdir, "industry-classification.md")
     if not os.path.isfile(ic):
-        add(issues, "INDUSTRY_CLASSIFICATION_MISSING", "缺少 collection/industry-classification.md")
+        add(issues, "INDUSTRY_CLASSIFICATION_MISSING",
+            "缺少 industry-classification.md（collection/ 或 collection-deprecated/）")
     else:
         head = nonempty_lines(read_text(ic))[:3]
         if not any(ln.startswith("主附录:") for ln in head):
@@ -229,12 +240,18 @@ def has_new_pipeline(workdir):
 
 
 def check_reconciled(workdir, issues):
-    """新流水线专属：reconciled/ 副本与 collection/01–04 同名、含头部章；adjudications 指向的文件须有 ≥1 个 ▶ 戳。"""
-    cdir = os.path.join(workdir, "collection")
-    rdir = os.path.join(workdir, "reconciled")
+    """新流水线专属：reconciled-collection/ 副本与采集原件 01–04 同名、含头部章；adjudications 指向的文件须有 ≥1 个 ▶ 戳。
+
+    兼容旧版 reconciled/ 目录名（改名前的 workdir）；采集原件目录与 check_collection 同一回退。
+    """
+    cdir = resolve_collection_dir(workdir) or os.path.join(workdir, "collection")
+    rdir = os.path.join(workdir, "reconciled-collection")
     if not os.path.isdir(rdir):
-        add(issues, "RECONCILED_MISSING", "缺少 reconciled/ 目录（应由 W2 跑 reconcile_merge.py 生成）")
+        rdir = os.path.join(workdir, "reconciled")  # 旧版输出目录名，向后兼容
+    if not os.path.isdir(rdir):
+        add(issues, "RECONCILED_MISSING", "缺少 reconciled-collection/ 目录（应由 W2 跑 reconcile_merge.py 生成）")
         return
+    rname = os.path.basename(rdir)
     stamp_targets = set()
     adj_path = os.path.join(workdir, "forensic", "adjudications.json")
     if os.path.isfile(adj_path):
@@ -248,10 +265,10 @@ def check_reconciled(workdir, issues):
             add(issues, "ADJUDICATIONS_UNPARSEABLE", f"forensic/adjudications.json 解析失败：{e}")
     for f in sorted(glob.glob(os.path.join(cdir, "[0-9][0-9]-*.md"))):
         base = os.path.basename(f)
-        rel = f"reconciled/{base}"
+        rel = f"{rname}/{base}"
         rfile = os.path.join(rdir, base)
         if not os.path.isfile(rfile):
-            add(issues, "RECONCILED_MISSING", f"缺少 {rel}（应与 collection/ 同名）")
+            add(issues, "RECONCILED_MISSING", f"缺少 {rel}（应与采集原件同名）")
             continue
         text = read_text(rfile)
         head = nonempty_lines(text)[:10]

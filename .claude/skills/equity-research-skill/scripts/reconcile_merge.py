@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
-"""equity-research skill · 对账后副本生成器（collection → reconciled/ 打裁决戳）
+"""equity-research skill · 对账后副本生成器（采集原件 → reconciled-collection/ 打裁决戳）
 
 用法（Windows Git Bash 需 PYTHONUTF8=1）：
     PYTHONUTF8=1 python scripts/reconcile_merge.py <workdir> [--adjudications <path>] [--strict] [--strip-appendix]
 
 读 <workdir>/forensic/adjudications.json（手动 schema 校验，不引入 jsonschema）→ 整体重建
-<workdir>/reconciled/：逐个复制 collection/[0-9][0-9]-*.md（--strip-appendix 时截掉「## 原文附录」节），
+<workdir>/reconciled-collection/：逐个复制采集线原件 [0-9][0-9]-*.md（--strip-appendix 时截掉「## 原文附录」节），
 前置头部章，并在每条裁决的锚点行后插入单行戳：
     ▶ 裁决@ledger Cxx｜采信：<value>｜<note>
     ▶ 双值@ledger Cxx｜<value（含 ‖ 分隔）>｜<note>
@@ -13,17 +13,19 @@
 戳引用一律用 id（canonical、可 grep）；空段省略尾竖线。
 
 性质：
-- collection/ 原件只读，永不修改；
-- 幂等：每次全量重建；时间取 adj.generated、指纹取 adjudications 内容的规范序列化 sha256 前 8 位，
-  同一 json 重跑逐字节一致；
+- 原件定位：collection/ 优先、collection-deprecated/ 补缺（同名以 collection/ 为准——补采轮只重建
+  collection/ 单线时其余线从弃用目录补齐）；两目录均无采集文件 → P1 NO_COLLECTION；
+- 对账副本落盘后把 collection/ 并入 collection-deprecated/（同名覆盖、内容永不修改）——原件被
+  reconciled-collection/ 取代而弃用，下游只读 reconciled-collection/；schema 违规/无原件时不移入；
+- 幂等：每次全量重建（并清掉旧版 reconciled/ 遗留目录）；时间取 adj.generated、指纹取 adjudications
+  内容的规范序列化 sha256 前 8 位，同一 json 重跑逐字节一致；
 - 锚点口径：剔除「指标登记」块后的正文中出现且仅出现 1 次（与 collision_check 一致）；
   0 次 → P1 ANCHOR_NOT_FOUND，>1 → P1 ANCHOR_AMBIGUOUS，该条降级 ledger-only（不打戳），
-  其余戳照常写出（部分成功仍落盘便于核对）；
+  其余戳照常写出（部分成功仍落盘便于核对，弃用移入照常执行）；
 - 退出码：P0/P1 → 1；--strict 时 P2 也计入（当前无 P2 产出，预留对称性）。
 """
 
 import argparse
-import glob
 import hashlib
 import json
 import os
@@ -33,7 +35,7 @@ import sys
 from typing import Dict, List, Optional, Tuple
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from collision_check import Issue, add  # noqa: E402  复用 Issue/add 与 lint 家族惯例
+from collision_check import Issue, add, collection_md_files  # noqa: E402  复用 Issue/add 与 lint 家族惯例
 
 STATUS_VERB = {"resolved": "裁决", "dual": "双值", "pending": "悬置"}
 GEN_RE = re.compile(r"^\d{4}-\d{2}-\d{2} \d{2}:\d{2}$")
@@ -44,7 +46,7 @@ FILE_RE = re.compile(r"^0[1-4]-[a-z-]+\.md$")
 # ---------- adjudications 加载与校验 ----------
 
 def load_adjudications(path: str, issues: List[Issue]) -> Optional[Dict]:
-    """schema 违规 → P1 并返回 None（调用方不得重建，防止坏输入毁掉现有 reconciled/）。"""
+    """schema 违规 → P1 并返回 None（调用方不得重建，防止坏输入毁掉现有 reconciled-collection/）。"""
     if not os.path.isfile(path):
         add(issues, "P1", "ADJUDICATIONS_MISSING", f"找不到 {path}")
         return None
@@ -133,8 +135,8 @@ def compose_stamp(rec: Dict) -> str:
 def header_stamp(generated: str, sha8: str) -> List[str]:
     return [
         f"> 【对账后副本】本文件由 forensic/adjudications.json 经 scripts/reconcile_merge.py 自动生成",
-        f">（裁决指纹 sha256:{sha8}，生成于 {generated}）。内容与 collection/ 同名原件一致，",
-        f"> 仅在裁决锚点后追加「▶」单行裁决戳；collection/ 原件永不修改，冲突以本副本戳与 forensic/ledger.md 为准。",
+        f">（裁决指纹 sha256:{sha8}，生成于 {generated}）。内容与采集原件一致（对账完成后原件移入 collection-deprecated/），",
+        f"> 仅在裁决锚点后追加「▶」单行裁决戳；原件内容永不修改，冲突以本副本戳与 forensic/ledger.md 为准。",
         f"> 戳读法：▶ 裁决@ledger Cxx＝已裁决｜▶ 双值@＝两值并存引用须注明｜▶ 悬置@＝未决。",
         f"> 手改本文件即失效：改 adjudications.json 后重跑脚本重建。",
     ]
@@ -178,9 +180,10 @@ def strip_appendix_lines(lines: List[str]) -> List[str]:
 # ---------- 重建与打戳 ----------
 
 def load_collection(workdir: str, strip: bool, issues: List[Issue]) -> Dict[str, List[str]]:
-    files = sorted(glob.glob(os.path.join(workdir, "collection", "[0-9][0-9]-*.md")))
+    files = collection_md_files(workdir)
     if not files:
-        add(issues, "P1", "NO_COLLECTION", f"{workdir}/collection/ 下没有 [0-9][0-9]-*.md 采集文件")
+        add(issues, "P1", "NO_COLLECTION",
+            f"{workdir}/ 下没有 [0-9][0-9]-*.md 采集文件（collection/ 与 collection-deprecated/ 均无）")
         return {}
     copies: Dict[str, List[str]] = {}
     for path in files:
@@ -190,6 +193,24 @@ def load_collection(workdir: str, strip: bool, issues: List[Issue]) -> Dict[str,
             lines = strip_appendix_lines(lines)
         copies[os.path.basename(path)] = lines
     return copies
+
+
+def deprecate_collection(workdir: str) -> None:
+    """对账副本落盘后：collection/ 并入 collection-deprecated/（同名覆盖、内容不改）。
+
+    原件被 reconciled-collection/ 取代而弃用；补采轮重派 collector 写 collection/ 单线后，
+    下一次本脚本运行会在此重新归并（collection/ 同名覆盖旧件）。
+    """
+    src = os.path.join(workdir, "collection")
+    dst = os.path.join(workdir, "collection-deprecated")
+    if not os.path.isdir(src):
+        return
+    if not os.path.isdir(dst):
+        os.rename(src, dst)
+        return
+    for name in os.listdir(src):
+        os.replace(os.path.join(src, name), os.path.join(dst, name))
+    os.rmdir(src)
 
 
 def apply_stamps(copies: Dict[str, List[str]], adj: Dict, issues: List[Issue]) -> Tuple[int, int]:
@@ -202,7 +223,7 @@ def apply_stamps(copies: Dict[str, List[str]], adj: Dict, issues: List[Issue]) -
             anchor = fref["anchor"]
             if fname not in copies:
                 add(issues, "P1", "TARGET_FILE_MISSING",
-                    f"{rec['id']} 指向 {fname}，但 collection/ 无此文件", file=fname)
+                    f"{rec['id']} 指向 {fname}，但采集原件（collection/ 或 collection-deprecated/）无此文件", file=fname)
                 fail += 1
                 continue
             lines = copies[fname]
@@ -242,7 +263,10 @@ def run(workdir: str, adj_path: Optional[str] = None, strip: bool = False, stric
         return 1, issues
     sha8 = canonical_sha8(adj)
     header = header_stamp(adj["generated"], sha8)
-    out_dir = os.path.join(workdir, "reconciled")
+    legacy_dir = os.path.join(workdir, "reconciled")
+    if os.path.isdir(legacy_dir):
+        shutil.rmtree(legacy_dir)  # 旧版输出目录，防陈旧副本并存
+    out_dir = os.path.join(workdir, "reconciled-collection")
     if os.path.isdir(out_dir):
         shutil.rmtree(out_dir)
     os.makedirs(out_dir)
@@ -251,7 +275,9 @@ def run(workdir: str, adj_path: Optional[str] = None, strip: bool = False, stric
     for fname, lines in copies.items():
         with open(os.path.join(out_dir, fname), "w", encoding="utf-8", newline="\n") as f:
             f.write("\n".join(header + ["", ""] + lines).rstrip("\n") + "\n")
-    summary = f"reconcile_merge｜副本 {len(copies)} 文件｜裁决 {total_before} 条｜戳 {ok} 成功 / {fail} 失败｜指纹 sha256:{sha8}"
+    deprecate_collection(workdir)
+    summary = (f"reconcile_merge｜副本 {len(copies)} 文件｜裁决 {total_before} 条｜戳 {ok} 成功 / {fail} 失败｜"
+               f"指纹 sha256:{sha8}｜采集原件已移入 collection-deprecated/")
     print(summary)
     for i in issues:
         print(i.line(), file=sys.stderr)
@@ -265,8 +291,8 @@ def main() -> None:
         sys.stderr.reconfigure(encoding="utf-8")
     except Exception:
         pass
-    ap = argparse.ArgumentParser(description="collection → reconciled/ 对账后副本生成（打裁决戳）")
-    ap.add_argument("workdir", help="研究工作目录（含 collection/ 与 forensic/adjudications.json）")
+    ap = argparse.ArgumentParser(description="采集原件 → reconciled-collection/ 对账后副本生成（打裁决戳）")
+    ap.add_argument("workdir", help="研究工作目录（含 collection/ 或 collection-deprecated/，及 forensic/adjudications.json）")
     ap.add_argument("--adjudications", help="adjudications.json 路径（默认 <workdir>/forensic/adjudications.json）")
     ap.add_argument("--strict", action="store_true", help="P2 也返回非零退出码（当前无 P2 产出，预留）")
     ap.add_argument("--strip-appendix", action="store_true", help="副本截掉「## 原文附录」节")

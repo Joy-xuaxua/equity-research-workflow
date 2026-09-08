@@ -116,6 +116,16 @@ class CollisionTests(unittest.TestCase):
         self.assertEqual(1, code)
         self.assertTrue(any(i.code == "COLLISION_VALUE_MISMATCH" and i.severity == "P1" for i in issues))
 
+    def test_reads_collection_deprecated_fallback(self):
+        """对账后 collection/ 已移入 collection-deprecated/：对撞照常读取（补缺路径）。"""
+        e1 = entry("shares_outstanding", "46,562", "万股", "最新", "月报表总股本46,562万股口径核对")
+        e2 = entry("shares_outstanding", "2.41", "亿股", "最新", "富途口径H股总数2.41亿股快照")
+        workdir = make_workdir({"01-disclosure.md": build_file([e1]), "02-market.md": build_file([e2])})
+        os.rename(os.path.join(workdir, "collection"), os.path.join(workdir, "collection-deprecated"))
+        code, issues = CC.run(workdir, out=os.path.join(workdir, "collision-report.txt"))
+        self.assertEqual(1, code)
+        self.assertTrue(any(i.code == "COLLISION_VALUE_MISMATCH" and i.severity == "P1" for i in issues))
+
     def test_equal_value_across_unit_scales_no_collision(self):
         e1 = entry("shares_outstanding", "46,562", "万股", "最新", "月报表总股本46,562万股口径核对")
         e2 = entry("shares_outstanding", "4.6562", "亿股", "最新", "招股书披露总股本约4.6562亿股")

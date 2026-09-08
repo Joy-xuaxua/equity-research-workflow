@@ -84,7 +84,7 @@ def rec(rid, status, metric, files, value=None, note=None):
 
 
 def fread(workdir, fname):
-    with open(os.path.join(workdir, "reconciled", fname), encoding="utf-8") as f:
+    with open(os.path.join(workdir, "reconciled-collection", fname), encoding="utf-8") as f:
         return f.read()
 
 
@@ -150,7 +150,7 @@ class AnchorTests(unittest.TestCase):
         self.assertTrue(any(i.code == "ANCHOR_NOT_FOUND" and i.severity == "P1" for i in issues))
         # 部分成功仍落盘
         self.assertIn("▶ 裁决@ledger C01", fread(wd, F01))
-        self.assertTrue(os.path.isfile(os.path.join(wd, "reconciled", F02)))
+        self.assertTrue(os.path.isfile(os.path.join(wd, "reconciled-collection", F02)))
 
     def test_anchor_ambiguous_is_p1(self):
         body = ["# 采集文件：02", "", "## 发现", "", "- 总市值约100亿港元口径甲", "- 重复一次总市值约100亿港元口径甲的表述"]
@@ -179,7 +179,10 @@ class SchemaTests(unittest.TestCase):
         code, issues = RM.run(wd)
         self.assertEqual(1, code)
         self.assertTrue(any(i.code == "ADJUDICATIONS_SCHEMA" for i in issues))
-        self.assertFalse(os.path.isdir(os.path.join(wd, "reconciled")))
+        self.assertFalse(os.path.isdir(os.path.join(wd, "reconciled-collection")))
+        # schema 失败：不重建也不弃用原件
+        self.assertTrue(os.path.isdir(os.path.join(wd, "collection")))
+        self.assertFalse(os.path.isdir(os.path.join(wd, "collection-deprecated")))
 
     def test_bad_status_and_short_anchor(self):
         wd = make_workdir({F01: BODY_01})
@@ -209,10 +212,12 @@ class IdempotencyTests(unittest.TestCase):
         ])
         code1, _ = RM.run(wd)
         self.assertEqual(0, code1)
-        first = dirhash(wd, "reconciled")
+        first = dirhash(wd, "reconciled-collection")
+        # 首跑已把 collection/ 移入 collection-deprecated/：重跑走补缺路径仍逐字节一致
+        self.assertFalse(os.path.isdir(os.path.join(wd, "collection")))
         code2, _ = RM.run(wd)
         self.assertEqual(0, code2)
-        self.assertEqual(first, dirhash(wd, "reconciled"))
+        self.assertEqual(first, dirhash(wd, "reconciled-collection"))
         # 戳只出现一次（重跑不叠加）
         self.assertEqual(1, fread(wd, F01).count("▶ 裁决@ledger C01"))
 
@@ -231,6 +236,7 @@ class IdempotencyTests(unittest.TestCase):
 
 class ReadOnlyTests(unittest.TestCase):
     def test_collection_untouched(self):
+        """原件内容永不修改：对账后被移入 collection-deprecated/，字节一致；collection/ 不复存在。"""
         wd = make_workdir({F01: BODY_01, F02: BODY_02})
         write_adj(wd, [
             rec("C01", "resolved", "shares_outstanding",
@@ -239,7 +245,43 @@ class ReadOnlyTests(unittest.TestCase):
         ])
         before = dirhash(wd, "collection")
         RM.run(wd)
-        self.assertEqual(before, dirhash(wd, "collection"))
+        self.assertFalse(os.path.isdir(os.path.join(wd, "collection")))
+        self.assertEqual(before, dirhash(wd, "collection-deprecated"))
+
+
+class DeprecationTests(unittest.TestCase):
+    def test_legacy_reconciled_dir_removed(self):
+        """旧版 reconciled/ 输出目录在重建时被清掉，防陈旧副本并存。"""
+        wd = make_workdir({F01: BODY_01})
+        write_adj(wd, [])
+        os.makedirs(os.path.join(wd, "reconciled"))
+        with open(os.path.join(wd, "reconciled", "stale.txt"), "w", encoding="utf-8") as f:
+            f.write("旧版输出遗留\n")
+        code, _ = RM.run(wd)
+        self.assertEqual(0, code)
+        self.assertFalse(os.path.isdir(os.path.join(wd, "reconciled")))
+        self.assertTrue(os.path.isfile(os.path.join(wd, "reconciled-collection", F01)))
+
+    def test_union_read_collection_wins(self):
+        """补采轮：collection/ 只重建单线 02，其余线从 collection-deprecated/ 补齐；同名以 collection/ 为准。"""
+        wd = make_workdir({F02: BODY_02})
+        write_adj(wd, [])
+        dep = os.path.join(wd, "collection-deprecated")
+        os.makedirs(dep)
+        for fname, body in ((F01, BODY_01),
+                            (F02, ["# 采集文件：02", "", "## 旧版 02 线占位", "", "## 冲突", "", "（无）"]),
+                            ("03-consensus.md", ["# 采集文件：03", "", "## 冲突", "", "（无）"])):
+            with open(os.path.join(dep, fname), "w", encoding="utf-8") as f:
+                f.write("\n".join(body) + "\n")
+        code, issues = RM.run(wd)
+        self.assertEqual(0, code, [i.line() for i in issues])
+        out = os.path.join(wd, "reconciled-collection")
+        self.assertEqual(["01-disclosure.md", "02-market.md", "03-consensus.md"], sorted(os.listdir(out)))
+        self.assertIn("富途口径H股总数2.41亿股快照", fread(wd, F02))  # 02 取 collection/ 新件
+        # 归并后 collection/ 消失，新件覆盖弃用目录旧件
+        self.assertFalse(os.path.isdir(os.path.join(wd, "collection")))
+        with open(os.path.join(dep, F02), encoding="utf-8") as f:
+            self.assertNotIn("旧版 02 线占位", f.read())
 
     def test_header_contains_fingerprint(self):
         wd = make_workdir({F01: BODY_01})

@@ -118,7 +118,7 @@ In a single-conversation run, conflicting numbers from different sources get rec
 - A script collides the same metric across the collection lines and recomputes accounting identities (cross-footing) to surface hidden conflicts;
 - Maker–checker separation: one agent reconciles and adjudicates every conflict, recording the reason in a ledger; a second, independent agent audits that output, re-executes the checks, and grades the data quality A–D;
 - The grade is a hard gate: C caps the conclusion at "watch"; D vetoes it and forces the valuation chapter to be rebuilt around the veto;
-- Downstream agents read only stamped, reconciled copies — the original collection files are never modified.
+- Downstream agents read only stamped, reconciled copies (`reconciled-collection/`). Once reconciliation completes, the script moves `collection/` to `collection-deprecated/` — the originals are preserved byte-for-byte for audit, but nothing downstream reads them.
 
 The result: disagreements between sources become visible and adjudicated, instead of being silently averaged away, and every number in the report traces to a source.
 

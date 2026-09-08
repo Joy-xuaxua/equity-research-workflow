@@ -4,7 +4,8 @@
 用法（Windows Git Bash 需 PYTHONUTF8=1）：
     PYTHONUTF8=1 python scripts/collision_check.py <workdir> [--json] [--strict] [--out <path>]
 
-扫描 <workdir>/collection/[0-9][0-9]-*.md 的「## 指标登记」块（行式 YAML 子集，无 PyYAML），
+扫描采集线原件 [0-9][0-9]-*.md 的「## 指标登记」块（行式 YAML 子集，无 PyYAML；定位：collection/
+优先、collection-deprecated/ 补缺——对账完成后 reconcile_merge.py 会把 collection/ 移入弃用目录），
 按 (key, period, scope) 跨线分组对撞 + 按 references/collision-metrics.json 的勾稽规则复算，
 产出 forensic/collision-report.txt（三节 txt，判断不入此文件）。仅使用 Python 标准库。
 
@@ -468,6 +469,21 @@ def build_report(issues: List[Issue], files_total: int, files_with_block: int, d
     return "\n".join(lines) + "\n"
 
 
+def collection_md_files(workdir: str) -> List[str]:
+    """采集线文件定位：collection/ 优先、collection-deprecated/ 补缺（同名以 collection/ 为准）。
+
+    对账完成后 reconcile_merge.py 把 collection/ 移入 collection-deprecated/（弃用），重跑对撞/回写
+    走补缺路径；补采轮只重建 collection/ 单线时，其余线也从弃用目录补齐。
+    """
+    found: Dict[str, str] = {}
+    for sub in ("collection-deprecated", "collection"):  # collection/ 后扫＝同名覆盖＝优先
+        d = os.path.join(workdir, sub)
+        if os.path.isdir(d):
+            for p in glob.glob(os.path.join(d, "[0-9][0-9]-*.md")):
+                found[os.path.basename(p)] = p
+    return [found[k] for k in sorted(found)]
+
+
 def run(workdir: str, out: Optional[str] = None, as_json: bool = False, strict: bool = False) -> Tuple[int, List[Issue]]:
     issues: List[Issue] = []
     try:
@@ -475,9 +491,10 @@ def run(workdir: str, out: Optional[str] = None, as_json: bool = False, strict: 
     except (OSError, ValueError) as exc:
         add(issues, "P1", "REGISTRY_LOAD_FAIL", f"无法加载 collision-metrics.json：{exc}")
         return 1, issues
-    files = sorted(glob.glob(os.path.join(workdir, "collection", "[0-9][0-9]-*.md")))
+    files = collection_md_files(workdir)
     if not files:
-        add(issues, "P1", "NO_COLLECTION", f"{workdir}/collection/ 下没有 [0-9][0-9]-*.md 采集文件")
+        add(issues, "P1", "NO_COLLECTION",
+            f"{workdir}/ 下没有 [0-9][0-9]-*.md 采集文件（collection/ 与 collection-deprecated/ 均无）")
         return 1, issues
     all_entries: List[Dict] = []
     files_with_block = 0
@@ -525,7 +542,7 @@ def main() -> None:
     except Exception:
         pass
     ap = argparse.ArgumentParser(description="跨线指标对撞与勾稽复算")
-    ap.add_argument("workdir", help="研究工作目录（含 collection/）")
+    ap.add_argument("workdir", help="研究工作目录（含 collection/ 或 collection-deprecated/）")
     ap.add_argument("--json", action="store_true", help="以 JSON 输出")
     ap.add_argument("--strict", action="store_true", help="P2 也返回非零退出码")
     ap.add_argument("--out", help="报告输出路径（默认 <workdir>/forensic/collision-report.txt）")
