@@ -84,6 +84,7 @@ description: >-
 - `references/valuation-methods.md` — 全部估值方法 + 终值纪律 + 标定规则 + 仓位思维。**估值章必读。**
 - `references/earnings-mode.md` — 深度财报模式。财报类请求必读。
 - `references/data-sources.md` — 来源分级、降级、对账、scuttlebutt 协议、防注入纪律。**采集前必读。**
+- `references/data-requirements.md` — W1 各线采集 WHAT 清单（下游消费对照、优先级、标记/行业追加）。采集时与 data-sources.md 同读。
 - `references/industry-routing.md` — 20 类行业选择矩阵、混合业务规则、官方数据入口与预测复盘字段。**选择行业附录前必读。**
 - `references/industry-rules.json` — 检查器使用的行业 slug 与必备 KPI 规则；由脚本读取，不必全文加载。
 - `references/markets-cn-hk.md` — A股/港股/A+H/中概 VIE·ADR 差异手册。非美股或中概标的必读。
