@@ -1,0 +1,7 @@
+财务/估值一致性检查发现 3 项：P0=0 P1=0 P2=2 P3=1
+
+[P2] EPS_RECONCILIATION_MISMATCH [fix_M_score_20260909/financials-fixed.csv]: FY2025 的 EPS 与净利润/股本不一致，请确认单位。
+    expected=-0.02957686396290122, provided=-12.03, net_income=-4718167.0, shares=159522220.0
+[P2] FORENSIC_DSO_DIVERGENCE [fix_M_score_20260909/financials-fixed.csv]: 应收增速 233% 超收入增速 132% 逾 15pp，警惕塞货/放宽信用/提前确认。
+[P3] FORENSIC_MSCORE_INFO [fix_M_score_20260909/financials-fixed.csv]: Beneish M-Score = -3.14（阈值 -1.78，未越限）。
+    M=-3.14 | DSRI=1.43 GMI=1.37 AQI=1.14 SGI=2.32 DEPI=0.82 SGAI=0.74 TATA=-0.509 LVGI=1.40
