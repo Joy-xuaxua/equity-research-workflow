@@ -28,9 +28,9 @@ tools: WebSearch, WebFetch, Read, Write, Glob, Grep
 | line | full 模式 | earnings 模式 |
 |---|---|---|
 | 01-disclosure | 一手披露：监管申报、财报、公司材料（data-sources.md §3） | 披露线：监管申报 + 新闻稿 + 演示材料 |
-| 02-market | 行情、股本与估值锚：价格/市值/倍数/52 周等（data-sources.md §2、§8.2，可比倍数必须连同 peer 分母一起采，见 §8.2）＋ WACC 市场输入（§2.4：估值币种 10Y 国债收益率、Damodaran 当月隐含 ERP 与国别溢价、行业无杠杆 beta、报告涉及币种间汇率） | 预期线：财报前一致预期、公司原指引、主要卖方分歧 |
+| 02-market | 行情、股本与估值锚：价格/市值/倍数/52 周等（data-sources.md §2、§8.2，可比倍数必须连同 peer 分母一起采，定义见 data-requirements.md §2.1）＋ WACC 四项输入：无风险利率/ERP/行业无杠杆 beta/币种间即期汇率（定义见 data-requirements.md §2.1，取数见 data-sources.md §2.4） | 预期线：财报前一致预期、公司原指引、主要卖方分歧 |
 | 03-consensus | 一致预期、卖方观点与电话会（data-sources.md §4、§6） | 沟通线：电话会陈述、问答、措辞变化与未回答问题 |
-| 04-industry | 行业、宏观与替代数据（data-sources.md §5、§9） | 市场线：盘前/盘后、首个完整交易日与报告时点价格；同日指数与核心同行对照；WACC 市场输入（data-sources.md §2.4） |
+| 04-industry | 行业、宏观与替代数据（data-sources.md §5、§9） | 市场线：盘前/盘后、首个完整交易日与报告时点价格；同日指数与核心同行对照；WACC 四项输入（定义 data-requirements.md §4.2，取数 data-sources.md §2.4） |
 
 上表只回答 WHERE（各线读 data-sources.md 哪些节）；WHAT（下游 W2–W7 需要什么）以 `references/data-requirements.md` 为准——先过本线 WHAT 清单再动工。
 
