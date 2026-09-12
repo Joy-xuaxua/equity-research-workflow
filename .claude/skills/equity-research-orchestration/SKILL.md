@@ -95,7 +95,7 @@ W8 交付  equity-report-deliverer ×1 → lint → checker → P0/P1 → 附录
 - full 模式：`01-disclosure`（一手披露）/ `02-market`（行情与估值锚）/ `03-consensus`（一致预期与电话会）/ `04-industry`（行业宏观）。
 - earnings 模式：`01-disclosure`（披露线）/ `02-consensus`（预期线）/ `03-communication`（沟通线）/ `04-market`（市场线）。
 单线失败或大量"未获取到"**不阻塞**：采集纪律（降级、未获取到小节）由 agent body 承载；四线全部返回后才进 G1。
-各线 WHAT 需求清单（下游 W2–W7 消费对照、优先级）由 collector 必读清单承载：`references/data-requirements.md`；编排者不读。
+各线 WHAT 需求清单（下游 W2–W7 消费对照）由 collector 必读清单承载：`references/data-requirements.md`；编排者不读。
 
 **G1 分类**：Read `<skill_root>/references/industry-routing.md` §1–2（选择协议+路由矩阵），配合 01 线业务描述节判断主利润池；选**一个主附录**，仅当次业务改变 KPI/模型/估值方法时加**一个次附录**。写 `collection/industry-classification.md`：首行机读 `主附录: <slug>`、次行 `次附录: <slug|none>`，正文含选择理由（≤5 行）。回填 `brief.json` 的 `industry`。写 log。
 

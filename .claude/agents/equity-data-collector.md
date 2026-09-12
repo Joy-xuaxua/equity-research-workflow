@@ -32,7 +32,7 @@ tools: WebSearch, WebFetch, Read, Write, Glob, Grep
 | 03-consensus | 一致预期、卖方观点与电话会（data-sources.md §4、§6） | 沟通线：电话会陈述、问答、措辞变化与未回答问题 |
 | 04-industry | 行业、宏观与替代数据（data-sources.md §5、§9） | 市场线：盘前/盘后、首个完整交易日与报告时点价格；同日指数与核心同行对照；WACC 市场输入（data-sources.md §2.4） |
 
-上表只回答 WHERE（各线读 data-sources.md 哪些节）；WHAT（下游 W2–W7 需要什么、优先级如何）以 `references/data-requirements.md` 为准——先过本线 WHAT 清单再动工。
+上表只回答 WHERE（各线读 data-sources.md 哪些节）；WHAT（下游 W2–W7 需要什么）以 `references/data-requirements.md` 为准——先过本线 WHAT 清单再动工。
 
 ## 必读清单（开工前按序 Read）
 
