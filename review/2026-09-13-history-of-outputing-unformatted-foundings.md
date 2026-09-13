@@ -561,3 +561,12 @@ W1 采集完成（full 模式 01-disclosure 线）。
 - transcript 源：`~/.claude/projects/C--Users-zliu71-Documents-equity-research-workflow/1448280e-ad28-4a61-a82f-b06c60a35c84/subagents/agent-<id>.jsonl`（collector id：01=a0a00fb6a14b85a33、02=ab1fa32c8dc66b838、03=aea096e0aa72f35a6、04=a1fb68d97f4f62d91）
 - 契约版本：`git show 5870a00:.claude/agents/equity-data-collector.md`（2026-08-21 提交，运行时生效版；当前版本该节文字未变）
 - 本文件 §3 由脚本逐字提取（thinking 取关键词±窗口、Write 取"## 发现"节至下一二级标题、截断处已标注字符数）
+
+### 4.4 追加溯源：「Do NOT Write report/summary .md files」note 的来源（2026-09-13 补查）
+
+collector thinking 中引用的通用 note 并非用户/项目配置，而是 **Claude Code CLI 编译内置的 subagent 系统提示模板**：
+
+- 排除：用户全局 CLAUDE.md、项目 CLAUDE.md、settings、skill/agent 定义均无此句（全目录 grep）；subagent transcript 不落盘系统提示（JSONL 仅 user/assistant 条目）。
+- 实证：`claude.exe` 偏移 195,831,722 处，subagent 系统提示组装函数 `Bfe(e,n)` 内的固定 `Notes:` 块，末条即 `Do NOT ${Pn} report/summary/findings/analysis .md files. Return findings directly as your final assistant message — the parent agent reads your text output, not files you create. (Files written as input to another tool are fine; this note is about report files.)`（${Pn} 运行时替换为 Write）。该块无条件追加给每个 Agent 工具派发的 subagent，与 agent 类型无关——故四条采集线全部收到，02/03/04 在 thinking 中复述并按"豁免条款＋角色契约优先"化解（见 §3.2/§3.3 行106/行126、§3.1 行98）。
+- 指令栈结论：collector 实际运行在三层指令下——①CLI 编译 Notes（反报告文件）＋②agent body 输出契约（必须写 collection/<line>.md）＋③编排者 [PARAMS] 派发句。①②冲突由 agent 自行裁决放行写文件；而输出契约内部无验收机制的行内格式条款（值｜来源｜URL｜日期）仍被丢弃，与 §4.2 观察一致。
+- 版本：0825 运行时 CLI 2.1.243；本机现装 2.1.270 模板仍在、文字未变。
