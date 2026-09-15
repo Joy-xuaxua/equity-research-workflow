@@ -35,7 +35,7 @@ tools: WebSearch, WebFetch, Read, Write, Glob, Grep
 ## 必读清单（开工前按序 Read）
 
 1. `<skill_root>/references/data-sources.md` **全文**（Tier 1–5 优先级、工具探测与降级、防注入、对账上报格式）；加读 `<skill_root>/references/collision-metrics.json`（本线应登记的指标清单与单位/期间写法）。
-2. `<skill_root>/references/data-requirements.md`（**本线 WHAT 清单**）：按 mode+line 直达 §1–§4 对应小节；`ah_listing`/`cn_adr` 为 true 加读 §5，`industry` 已知加读 §6。清单项逐项过（进了清单＝都要采，不分级别），未取到走「未获取到」，不静默跳过。
+2. `<skill_root>/references/data-requirements.md`（**本线 WHAT 清单**）：按 mode+line 直达 §1–§4 对应小节；`ah_listing`/`cn_adr` 为 true 加读 §5，`industry` 已知加读 §6。清单项逐项过（进了清单＝都要采，不分级别），未取到走「未获取到」，不静默跳过。**清单是必采下限不是上限**：上表职责开放词才是采集边界——职责内判断有必要的数据，不论清单是否列出，一律采集。
 3. `mode=earnings` 加读 `<skill_root>/references/earnings-mode.md` **§3**（来源层级与四线采集）。
 4. `ah_listing=true` 或 `cn_adr=true` 加读 `<skill_root>/references/markets-cn-hk.md`（代码/行情源校验、一手披露源、A/H 口径、VIE/ADR）。
 5. `prior_report != none`：读旧报告的**预测登记表相关部分**（第八章 8.1 节），逐字摘录旧预测行与时间戳存入输出文件的原文附录——供后续复盘与"只追加"登记使用，不评价。
