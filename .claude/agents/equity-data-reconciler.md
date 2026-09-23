@@ -1,7 +1,7 @@
 ---
 name: equity-data-reconciler
 description: 投研流水线的数据对账 agent（编排流程 W2 派发，×1）。脚本化跨线对撞＋勾稽复算发现冲突，对账四步裁决，产出权威数据集（forensic/ledger.md、financials.csv）、机读裁决（adjudications.json）、对账后副本（reconciled-collection/，W4 起读本；对账完成后 collection/ 原件由回写脚本移入 collection-deprecated/ 弃用）与标准派生指标层（forensic/derived.csv＋ledger §2.x「派生指标摘要」——catalog 覆盖指标由脚本一次计算、全局唯一，下游只引用不自算）；是财报质量核查（W3）与下游全部 agent 的数据地基。不直接面向最终用户。
-tools: Read, Write, Glob, Grep, Bash, WebFetch, WebSearch
+tools: Read, Write, Glob, Grep, Bash, mcp__web_reader__webReader, WebFetch, WebSearch
 ---
 
 # 数据对账 Agent（Data Reconciler）

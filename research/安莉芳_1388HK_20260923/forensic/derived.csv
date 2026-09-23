@@ -1,0 +1,64 @@
+metric,label,period,value,unit,formula,inputs,anchor
+yoy_revenue,营收同比,FY2022,-19.3,%,yoy(revenue),revenue=1334269; revenue[FY2021]=1652408,csv@financials.csv（台账溯源）
+yoy_revenue,营收同比,FY2023,-3.9,%,yoy(revenue),revenue=1281753; revenue[FY2022]=1334269,csv@financials.csv（台账溯源）
+yoy_revenue,营收同比,FY2024,-10.1,%,yoy(revenue),revenue=1152570; revenue[FY2023]=1281753,csv@financials.csv（台账溯源）
+yoy_revenue,营收同比,FY2025,1.5,%,yoy(revenue),revenue=1169982; revenue[FY2024]=1152570,csv@financials.csv（台账溯源）
+gm_pct,毛利率,FY2021,73.0,%,gross_profit/revenue*100,gross_profit=1205702; revenue=1652408,csv@financials.csv（台账溯源）
+gm_pct,毛利率,FY2022,75.0,%,gross_profit/revenue*100,gross_profit=1001249; revenue=1334269,csv@financials.csv（台账溯源）
+gm_pct,毛利率,FY2023,74.6,%,gross_profit/revenue*100,gross_profit=956103; revenue=1281753,csv@financials.csv（台账溯源）
+gm_pct,毛利率,FY2024,73.6,%,gross_profit/revenue*100,gross_profit=848674; revenue=1152570,csv@financials.csv（台账溯源）
+gm_pct,毛利率,FY2025,70.0,%,gross_profit/revenue*100,gross_profit=818449; revenue=1169982,csv@financials.csv（台账溯源）
+net_margin,净利率（年内损益口径）,FY2021,-1.7,%,net_income/revenue*100,net_income=-27485; revenue=1652408,csv@financials.csv（台账溯源）
+net_margin,净利率（年内损益口径）,FY2022,-3.8,%,net_income/revenue*100,net_income=-51239; revenue=1334269,csv@financials.csv（台账溯源）
+net_margin,净利率（年内损益口径）,FY2023,-5.6,%,net_income/revenue*100,net_income=-72168; revenue=1281753,csv@financials.csv（台账溯源）
+net_margin,净利率（年内损益口径）,FY2024,-32.4,%,net_income/revenue*100,net_income=-373435; revenue=1152570,csv@financials.csv（台账溯源）
+net_margin,净利率（年内损益口径）,FY2025,-21.6,%,net_income/revenue*100,net_income=-253178; revenue=1169982,csv@financials.csv（台账溯源）
+om_pct,经营利润率,FY2021,-0.4,%,operating_income/revenue*100,operating_income=-6172; revenue=1652408,csv@financials.csv（台账溯源）
+om_pct,经营利润率,FY2022,-3.0,%,operating_income/revenue*100,operating_income=-39453; revenue=1334269,csv@financials.csv（台账溯源）
+om_pct,经营利润率,FY2023,-5.7,%,operating_income/revenue*100,operating_income=-73296; revenue=1281753,csv@financials.csv（台账溯源）
+om_pct,经营利润率,FY2024,-30.4,%,operating_income/revenue*100,operating_income=-350853; revenue=1152570,csv@financials.csv（台账溯源）
+om_pct,经营利润率,FY2025,-21.2,%,operating_income/revenue*100,operating_income=-247885; revenue=1169982,csv@financials.csv（台账溯源）
+fcf_margin,FCF 率,FY2021,9.7,%,fcf/revenue*100,fcf=160137; revenue=1652408,csv@financials.csv（台账溯源）
+fcf_margin,FCF 率,FY2022,9.3,%,fcf/revenue*100,fcf=123587; revenue=1334269,csv@financials.csv（台账溯源）
+fcf_margin,FCF 率,FY2023,0.8,%,fcf/revenue*100,fcf=10292; revenue=1281753,csv@financials.csv（台账溯源）
+fcf_margin,FCF 率,FY2024,-7.8,%,fcf/revenue*100,fcf=-89947; revenue=1152570,csv@financials.csv（台账溯源）
+fcf_margin,FCF 率,FY2025,-3.2,%,fcf/revenue*100,fcf=-37171; revenue=1169982,csv@financials.csv（台账溯源）
+sbc_revenue,SBC/收入,FY2021,0.1,%,sbc/revenue*100,sbc=2124; revenue=1652408,"csv@financials.csv（台账溯源）; sbc@SBC 股份支付（股权结算购股权开支，千港元，审计数）：FY2021 2,124；FY2022 956；FY2023 413；FY2024 0；FY2025 0"
+sbc_revenue,SBC/收入,FY2022,0.1,%,sbc/revenue*100,sbc=956; revenue=1334269,"csv@financials.csv（台账溯源）; sbc@SBC 股份支付（股权结算购股权开支，千港元，审计数）：FY2021 2,124；FY2022 956；FY2023 413；FY2024 0；FY2025 0"
+sbc_revenue,SBC/收入,FY2023,0.0,%,sbc/revenue*100,sbc=413; revenue=1281753,"csv@financials.csv（台账溯源）; sbc@SBC 股份支付（股权结算购股权开支，千港元，审计数）：FY2021 2,124；FY2022 956；FY2023 413；FY2024 0；FY2025 0"
+sbc_revenue,SBC/收入,FY2024,0.0,%,sbc/revenue*100,sbc=0; revenue=1152570,"csv@financials.csv（台账溯源）; sbc@SBC 股份支付（股权结算购股权开支，千港元，审计数）：FY2021 2,124；FY2022 956；FY2023 413；FY2024 0；FY2025 0"
+sbc_revenue,SBC/收入,FY2025,0.0,%,sbc/revenue*100,sbc=0; revenue=1169982,"csv@financials.csv（台账溯源）; sbc@SBC 股份支付（股权结算购股权开支，千港元，审计数）：FY2021 2,124；FY2022 956；FY2023 413；FY2024 0；FY2025 0"
+rd_revenue,研发费用/收入,FY2021,0.1,%,rd_expense/revenue*100,rd_expense=1751; revenue=1652408,"csv@financials.csv（台账溯源）; rd_expense@研发费用（损益表附注 9，费用化，千港元）：FY2021 1,751；FY2022 1,187；FY2023 2,629；FY2024 1,899；FY2025 2,494"
+rd_revenue,研发费用/收入,FY2022,0.1,%,rd_expense/revenue*100,rd_expense=1187; revenue=1334269,"csv@financials.csv（台账溯源）; rd_expense@研发费用（损益表附注 9，费用化，千港元）：FY2021 1,751；FY2022 1,187；FY2023 2,629；FY2024 1,899；FY2025 2,494"
+rd_revenue,研发费用/收入,FY2023,0.2,%,rd_expense/revenue*100,rd_expense=2629; revenue=1281753,"csv@financials.csv（台账溯源）; rd_expense@研发费用（损益表附注 9，费用化，千港元）：FY2021 1,751；FY2022 1,187；FY2023 2,629；FY2024 1,899；FY2025 2,494"
+rd_revenue,研发费用/收入,FY2024,0.2,%,rd_expense/revenue*100,rd_expense=1899; revenue=1152570,"csv@financials.csv（台账溯源）; rd_expense@研发费用（损益表附注 9，费用化，千港元）：FY2021 1,751；FY2022 1,187；FY2023 2,629；FY2024 1,899；FY2025 2,494"
+rd_revenue,研发费用/收入,FY2025,0.2,%,rd_expense/revenue*100,rd_expense=2494; revenue=1169982,"csv@financials.csv（台账溯源）; rd_expense@研发费用（损益表附注 9，费用化，千港元）：FY2021 1,751；FY2022 1,187；FY2023 2,629；FY2024 1,899；FY2025 2,494"
+sga_revenue,SGA/收入,FY2021,75.6,%,sga/revenue*100,sga=1249813; revenue=1652408,csv@financials.csv（台账溯源）
+sga_revenue,SGA/收入,FY2022,77.6,%,sga/revenue*100,sga=1035366; revenue=1334269,csv@financials.csv（台账溯源）
+sga_revenue,SGA/收入,FY2023,82.4,%,sga/revenue*100,sga=1056698; revenue=1281753,csv@financials.csv（台账溯源）
+sga_revenue,SGA/收入,FY2024,84.5,%,sga/revenue*100,sga=973723; revenue=1152570,csv@financials.csv（台账溯源）
+sga_revenue,SGA/收入,FY2025,83.5,%,sga/revenue*100,sga=977098; revenue=1169982,csv@financials.csv（台账溯源）
+dso_net,应收周转天数（净额）,FY2021,11.5,天,receivables/revenue*365,receivables=51943; revenue=1652408,csv@financials.csv（台账溯源）
+dso_net,应收周转天数（净额）,FY2022,13.0,天,receivables/revenue*365,receivables=47443; revenue=1334269,csv@financials.csv（台账溯源）
+dso_net,应收周转天数（净额）,FY2023,12.9,天,receivables/revenue*365,receivables=45204; revenue=1281753,csv@financials.csv（台账溯源）
+dso_net,应收周转天数（净额）,FY2024,12.0,天,receivables/revenue*365,receivables=38015; revenue=1152570,csv@financials.csv（台账溯源）
+dso_net,应收周转天数（净额）,FY2025,24.2,天,receivables/revenue*365,receivables=77544; revenue=1169982,csv@financials.csv（台账溯源）
+recv_growth_gap_pp,应收增速−收入增速,FY2022,10.6,pp,yoy(receivables)-yoy(revenue),receivables=47443; receivables[FY2021]=51943; revenue=1334269; revenue[FY2021]=1652408,csv@financials.csv（台账溯源）
+recv_growth_gap_pp,应收增速−收入增速,FY2023,-0.8,pp,yoy(receivables)-yoy(revenue),receivables=45204; receivables[FY2022]=47443; revenue=1281753; revenue[FY2022]=1334269,csv@financials.csv（台账溯源）
+recv_growth_gap_pp,应收增速−收入增速,FY2024,-5.8,pp,yoy(receivables)-yoy(revenue),receivables=38015; receivables[FY2023]=45204; revenue=1152570; revenue[FY2023]=1281753,csv@financials.csv（台账溯源）
+recv_growth_gap_pp,应收增速−收入增速,FY2025,102.5,pp,yoy(receivables)-yoy(revenue),receivables=77544; receivables[FY2024]=38015; revenue=1169982; revenue[FY2024]=1152570,csv@financials.csv（台账溯源）
+yoy_deferred,合同负债同比,FY2022,-16.7,%,yoy(deferred_revenue),deferred_revenue=12201; deferred_revenue[FY2021]=14642,csv@financials.csv（台账溯源）
+yoy_deferred,合同负债同比,FY2023,-11.1,%,yoy(deferred_revenue),deferred_revenue=10851; deferred_revenue[FY2022]=12201,csv@financials.csv（台账溯源）
+yoy_deferred,合同负债同比,FY2024,0.9,%,yoy(deferred_revenue),deferred_revenue=10947; deferred_revenue[FY2023]=10851,csv@financials.csv（台账溯源）
+yoy_deferred,合同负债同比,FY2025,20.9,%,yoy(deferred_revenue),deferred_revenue=13234; deferred_revenue[FY2024]=10947,csv@financials.csv（台账溯源）
+accruals_ratio,应计比率,FY2022,-6.2,%,(net_income-cfo)/avg2(total_assets)*100,net_income=-51239; cfo=144521; total_assets=2976805; total_assets[FY2021]=3304777,csv@financials.csv（台账溯源）
+accruals_ratio,应计比率,FY2023,-3.8,%,(net_income-cfo)/avg2(total_assets)*100,net_income=-72168; cfo=37952; total_assets=2862467; total_assets[FY2022]=2976805,csv@financials.csv（台账溯源）
+accruals_ratio,应计比率,FY2024,-11.2,%,(net_income-cfo)/avg2(total_assets)*100,net_income=-373435; cfo=-81622; total_assets=2365211; total_assets[FY2023]=2862467,csv@financials.csv（台账溯源）
+accruals_ratio,应计比率,FY2025,-9.7,%,(net_income-cfo)/avg2(total_assets)*100,net_income=-253178; cfo=-26608; total_assets=2324080; total_assets[FY2024]=2365211,csv@financials.csv（台账溯源）
+rev_per_capita,人均创收,FY2021,32.1,万元,revenue/employees/10,revenue=1652408; employees=5154,"csv@financials.csv（台账溯源）; employees@员工数（期末正式雇员，Tier 1）：FY2021 5,154／FY2022 4,568／FY2023 4,390／FY2024 3,949／FY2025 3,719"
+rev_per_capita,人均创收,FY2022,29.2,万元,revenue/employees/10,revenue=1334269; employees=4568,"csv@financials.csv（台账溯源）; employees@员工数（期末正式雇员，Tier 1）：FY2021 5,154／FY2022 4,568／FY2023 4,390／FY2024 3,949／FY2025 3,719"
+rev_per_capita,人均创收,FY2023,29.2,万元,revenue/employees/10,revenue=1281753; employees=4390,"csv@financials.csv（台账溯源）; employees@员工数（期末正式雇员，Tier 1）：FY2021 5,154／FY2022 4,568／FY2023 4,390／FY2024 3,949／FY2025 3,719"
+rev_per_capita,人均创收,FY2024,29.2,万元,revenue/employees/10,revenue=1152570; employees=3949,"csv@financials.csv（台账溯源）; employees@员工数（期末正式雇员，Tier 1）：FY2021 5,154／FY2022 4,568／FY2023 4,390／FY2024 3,949／FY2025 3,719"
+rev_per_capita,人均创收,FY2025,31.5,万元,revenue/employees/10,revenue=1169982; employees=3719,"csv@financials.csv（台账溯源）; employees@员工数（期末正式雇员，Tier 1）：FY2021 5,154／FY2022 4,568／FY2023 4,390／FY2024 3,949／FY2025 3,719"
+cagr_revenue_full,收入全周期 CAGR,FY2021→FY2025,-8.3,%/年,cagr(revenue),revenue[FY2021]=1652408; revenue[FY2025]=1169982,csv@financials.csv（台账溯源）
+ps_fy,P/S（最新收盘×总股本/最新财年收入）,最新,0.1,倍,price_close*shares_outstanding*fx_hkd_cny/1000/last(revenue),price_close=0.243; shares_outstanding=422416638; fx_hkd_cny=1; revenue[FY2025]=1169982,"csv@financials.csv（台账溯源）; price_close@收盘价（合并前口径）：0.243 港元/股，2026-09-23 收盘; shares_outstanding@总股本（不含库存股，HKEX 官网，2026-08-31）：422,416,638 股; fx_hkd_cny@ps_fy 币种折算系数：行情价与总股本均为港元、CSV 收入同为千港元，无跨币折算，fx=1.0"

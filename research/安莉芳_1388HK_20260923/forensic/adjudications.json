@@ -1,0 +1,291 @@
+{
+  "version": 1,
+  "generated": "2026-09-23 02:10",
+  "adjudications": [
+    {
+      "id": "C01",
+      "status": "resolved",
+      "metric": "company_secretary_appointee",
+      "value": "梁佳颖（公司秘书及授权代表）",
+      "note": "Tier 1 公告逐字（D8）压过 03 线转述；公告未见其即 CFO（CFO 为张家辉）。不影响估值",
+      "ledger_ref": "§3.1 C01",
+      "files": [
+        {"file": "01-disclosure.md", "anchor": "2026-07-15：苏嘉敏辞任公司秘书及授权代表", "side": "A"},
+        {"file": "03-consensus.md", "anchor": "| 2026-07-15 | 变更公司秘书及授权代表（CFO 兼任接任） | 治理/人事 |", "side": "B"}
+      ]
+    },
+    {
+      "id": "C02",
+      "status": "resolved",
+      "metric": "receivables",
+      "value": "51,943 千港元（FY2021）",
+      "note": "回源更正：公告原文亦 51,943（57,552−5,609），前轮「51,942」证伪；裁决值维持，两源现一致",
+      "ledger_ref": "§3.1 C02",
+      "files": [
+        {"file": "01-disclosure.md", "anchor": "| FY2021 | 50,103 | 1,840 | 1,891 | 3,718 | 57,552 | (5,609) | 51,943 |", "side": "A"},
+        {"file": "01-disclosure.md", "anchor": "| 应收贸易账款（净额） | 51,943 | 47,443 | 45,204 | 38,015 | 77,544 | 101,370 |", "side": "B"}
+      ]
+    },
+    {
+      "id": "C03",
+      "status": "resolved",
+      "metric": "non_current_assets",
+      "value": "2,260,336 千港元（FY2021）",
+      "note": "回源更正：公告 BS 与年报对照列均为 2,260,336，前轮「2,260,338」证伪；裁决值维持，不入 CSV",
+      "ledger_ref": "§3.1 C03",
+      "files": [
+        {"file": "01-disclosure.md", "anchor": "| 非流动资产总额 | 2,260,336 | 2,030,074 | 2,002,960 | 1,634,025 | 1,571,291 | 1,612,917 |", "side": "A"}
+      ]
+    },
+    {
+      "id": "C04",
+      "status": "resolved",
+      "metric": "total_assets",
+      "value": "3,304,777 千港元（FY2021）",
+      "note": "回源更正：公告 BS 2,260,336+1,044,441＝3,304,777＝五年概要，前轮「3,304,775」证伪；裁决值维持",
+      "ledger_ref": "§3.1 C04",
+      "files": [
+        {"file": "01-disclosure.md", "anchor": "| 总资产 total_assets | 3,304,777 | 2,976,805 | 2,862,467 | 2,365,211 | 2,324,080 |", "side": "A"}
+      ]
+    },
+    {
+      "id": "C05",
+      "status": "resolved",
+      "metric": "market_cap",
+      "value": "102,647,243 港元",
+      "note": "B 无法由官方股本×任一近期价复现，判旧缓存驳回；错采将低估市值 41%",
+      "ledger_ref": "§3.1 C05",
+      "files": [
+        {"file": "02-market.md", "anchor": "| 裁决后总市值 | 102,647,243 港元（=0.243×422,416,638） | 2026-09-23 收盘 | 本线计算（Tier 2 股本×Tier 4 价格） |", "side": "A"},
+        {"file": "02-market.md", "anchor": "60.28M 港元 | StockAnalysis 缓存快照（约 2025-05 旧缓存）", "side": "B"}
+      ]
+    },
+    {
+      "id": "C06",
+      "status": "resolved",
+      "metric": "market_cap",
+      "value": "102,647,243 港元",
+      "note": "B 股数为官方 2.67 倍、价异常，疑 9-30 合股管道口径混杂，不采",
+      "ledger_ref": "§3.1 C06",
+      "files": [
+        {"file": "02-market.md", "anchor": "| 裁决后总市值 | 102,647,243 港元（=0.243×422,416,638） | 2026-09-23 收盘 | 本线计算（Tier 2 股本×Tier 4 价格） |", "side": "A"},
+        {"file": "02-market.md", "anchor": "114.48M 港元（0.1015×1,127,552,000）", "side": "B"}
+      ]
+    },
+    {
+      "id": "C07",
+      "status": "resolved",
+      "metric": "market_cap",
+      "value": "102,647,243 港元（0.243 基准）",
+      "note": "B 为 0.250 价格基准（+2.9%），作区间上沿并列，非实质冲突",
+      "ledger_ref": "§3.1 C07",
+      "files": [
+        {"file": "02-market.md", "anchor": "| 裁决后总市值 | 102,647,243 港元（=0.243×422,416,638） | 2026-09-23 收盘 | 本线计算（Tier 2 股本×Tier 4 价格） |", "side": "A"},
+        {"file": "02-market.md", "anchor": "105.60M 港元（约 0.250×422,417,920）", "side": "B"}
+      ]
+    },
+    {
+      "id": "C08",
+      "status": "resolved",
+      "metric": "shares_outstanding",
+      "value": "422,416,638 股（合并前口径）",
+      "note": "交易所官方口径＋与 Tier 1 月报表一致；B 疑合股口径混杂。2026-09-30 后÷10",
+      "ledger_ref": "§3.1 C08",
+      "files": [
+        {"file": "02-market.md", "anchor": "| 已发行股份（不含库存股） | 422,416,638 股 | 2026-08-31 | HKEX 官网（Tier 2） |", "side": "A"},
+        {"file": "02-market.md", "anchor": "1,127,552,000 股 | Yahoo 异常快照（2026-09-23）", "side": "B"}
+      ]
+    },
+    {
+      "id": "C09",
+      "status": "resolved",
+      "metric": "price_close",
+      "value": "0.243 港元/股（2026-09-23 收盘）",
+      "note": "不同交易日＋缓存时点差（0.275→0.265→0.249→0.243 自洽），采最新",
+      "ledger_ref": "§3.1 C09",
+      "files": [
+        {"file": "02-market.md", "anchor": "| 最新收盘价 | 0.243 港元 | 2026-09-23 收盘 | Simply Wall St 转述 HK 收盘（Tier 4） |", "side": "A"},
+        {"file": "02-market.md", "anchor": "| HKEX 官方快照 | 上日收市 0.275／开市 0.270／单日成交额 2.95 千港元 | 约 2026-09（缓存日未标注） | HKEX 官网报价页（Tier 2） |", "side": "B"}
+      ]
+    },
+    {
+      "id": "C10",
+      "status": "resolved",
+      "metric": "high_52w",
+      "value": "0.240–0.440 港元（52 周区间）",
+      "note": "窗口滚动与合股口径差异；采 Yahoo 最新窗口，现价贴下沿",
+      "ledger_ref": "§3.1 C10",
+      "files": [
+        {"file": "02-market.md", "anchor": "| 52 周最高 | 0.440 港元 | 截至 2026-09-22 | Yahoo Finance（Tier 4） |", "side": "A"},
+        {"file": "02-market.md", "anchor": "0.244–0.485（2025-05 旧窗口）/0.098–0.265（异常口径）", "side": "B"}
+      ]
+    },
+    {
+      "id": "C11",
+      "status": "resolved",
+      "metric": "pe_ttm_peer_2298",
+      "value": "4.02（同业参照，2026-09-22）",
+      "note": "B 为 2025-02 旧缓存（TTM 窗口已移动）；peer 值注意 2298 市值港元/报表人民币混币",
+      "ledger_ref": "§3.1 C11",
+      "files": [
+        {"file": "02-market.md", "anchor": "| PE TTM | -0.42（净亏损，n/m） | 4.02 | 22.37（旧） | 19.08 | 134.16（并购费用失真；Fwd 8.95） |", "side": "A"},
+        {"file": "02-market.md", "anchor": "5.41（收入 TTM 3.12B CNY）", "side": "B"}
+      ]
+    },
+    {
+      "id": "C13",
+      "status": "dual",
+      "metric": "industry_market_size_2020",
+      "value": "1,559 亿元（欧睿转引）‖ 1,239 亿元（艾瑞转引）",
+      "note": "口径差 26%（品类边界/零售额 vs 消费额），均转引无原文定义；禁止换算混用与推增速，仅定性参照",
+      "ledger_ref": "§3.1 C13",
+      "files": [
+        {"file": "04-industry.md", "anchor": "欧睿 2019 年 1,663 亿元、2020 年 1,559 亿元（经媒体转引）", "side": "A"},
+        {"file": "04-industry.md", "anchor": "艾瑞/东方财富研报口径 2020 年 1,239 亿元、2026E 1,746 亿元", "side": "B"}
+      ]
+    },
+    {
+      "id": "C14",
+      "status": "dual",
+      "metric": "industry_market_size_2024_25",
+      "value": "1,728.9 亿元（华经 2024）‖ 突破 2,000 亿元（搜狐 2025E）",
+      "note": "相邻年份不同机构口径，隐含 +15%+ 不可作行业增速引用；仅作约 1,700–2,000 亿元量级区间",
+      "ledger_ref": "§3.1 C14",
+      "files": [
+        {"file": "04-industry.md", "anchor": "华经产业研究院 2024 年 1,728.9 亿元（2025-05 发布）", "side": "A"},
+        {"file": "04-industry.md", "anchor": "搜狐《2025 女性内衣市场消费趋势研究》2025E「突破 2,000 亿元」", "side": "B"}
+      ]
+    },
+    {
+      "id": "C15",
+      "status": "dual",
+      "metric": "zhengzhou_cotton_futures",
+      "value": "15,485 元/吨（近期合约）‖ 15,810 元/吨（主力连续）",
+      "note": "不同合约口径并存，非同指标冲突；引用须注明合约",
+      "ledger_ref": "§3.1 C15",
+      "files": [
+        {"file": "04-industry.md", "anchor": "| 郑州棉花期货近期合约 | 15,485 元/吨 | 2026-09-21 | 同上 |", "side": "A"},
+        {"file": "04-industry.md", "anchor": "| 郑棉主力连续 | 15,810 元/吨（-0.47%） | 2026-09-21 | 东方财富期货行情 |", "side": "B"}
+      ]
+    },
+    {
+      "id": "C16",
+      "status": "resolved",
+      "metric": "peer_store_count_2298",
+      "value": "约 4,000 家（FY2025 实绩）",
+      "note": "实绩压过历史指引（未兑现）；B 仅作渠道收缩佐证",
+      "ledger_ref": "§3.1 C16",
+      "files": [
+        {"file": "04-industry.md", "anchor": "门店约 4,000 家（2024 末超 4,500 家，收缩）", "side": "A"},
+        {"file": "04-industry.md", "anchor": "管理层此前门店目标（经媒体转述）", "side": "B"}
+      ]
+    },
+    {
+      "id": "C17",
+      "status": "resolved",
+      "metric": "reporting_currency",
+      "value": "港元",
+      "note": "Tier 1 三表均千港元列示；误用人民币参数将致约 14–17% 汇率级错位。W5 估值币种＝港元",
+      "ledger_ref": "§3.1 C17",
+      "files": [
+        {"file": "01-disclosure.md", "anchor": "下游估值币种应设港元", "side": "A"},
+        {"file": "03-consensus.md", "anchor": "下游估值币种设定须以 01 线核实的报表币种为准", "side": "B"}
+      ]
+    },
+    {
+      "id": "C18",
+      "status": "dual",
+      "metric": "fx_hkd_cny",
+      "value": "0.85324（Wise 即期 2026-09-23）‖ 0.85974（CFETS 中间价 2026-09-22）",
+      "note": "即期市场价 vs 官方定盘价（差 0.76%）；W5 折算任选其一并注明。USD/CNY 相应 6.69‖6.7459",
+      "ledger_ref": "§3.1 C18",
+      "files": [
+        {"file": "04-industry.md", "anchor": "1港元对人民币0.85974元", "side": "A"},
+        {"file": "02-market.md", "anchor": "| ④ 汇率 HKD→CNY | 0.85324（交叉：currency.wiki 0.8534@09-21；Yahoo 反推 1 CNY=1.1713 HKD@09-22） | 2026-09-23 | Wise（Tier 4）＋交叉 |", "side": "B"}
+      ]
+    },
+    {
+      "id": "C19",
+      "status": "resolved",
+      "metric": "gross_profit_and_pl_lines_fy2021",
+      "value": "审计数：销售成本 446,706／毛利 1,205,702／其他收入 75,797／其他开支 11,102／融资成本 10,211（千港元）",
+      "note": "回源证伪 B：公告原文＝审计数、摘要载毛利率 72.97%；B 行项加总+17,595 不勾稽。GM 75.9%→73.0%",
+      "ledger_ref": "§3.1 C19",
+      "files": [
+        {"file": "01-disclosure.md", "anchor": "| 毛利 gross_profit | 1,205,702 | 1,001,249 | 956,103 | 848,674 | 818,449 |", "side": "A"},
+        {"file": "01-disclosure.md", "anchor": "1,253,656（销售成本 398,752）", "side": "B"}
+      ]
+    },
+    {
+      "id": "C20",
+      "status": "resolved",
+      "metric": "capex",
+      "value": "11,230 千港元（FY2021）",
+      "note": "回源公告分部附注 11,230（10,754+476）＝MD&A＝年报三处一致；FY2020 对照 36,986，B 值公告无",
+      "ledger_ref": "§3.1 C20",
+      "files": [
+        {"file": "01-disclosure.md", "anchor": "| 购买物业、厂房及设备 capex | (11,230) | (20,934) | (27,660) | (8,325) | (10,563) |", "side": "A"},
+        {"file": "01-disclosure.md", "anchor": "22,143 | FY2021 业绩公告分部附注摘录（本线前期笔记）", "side": "B"}
+      ]
+    },
+    {
+      "id": "C21",
+      "status": "resolved",
+      "metric": "balance_sheet_lines_fy2021",
+      "value": "审计数：PP&E 1,034,948／现金 378,636／流动资产 1,044,441 等 9 项（千港元，见 ledger §3.1 C21）",
+      "note": "回源公告 BS 与 2022 年报对照列逐项一致，B 组系采集误差；总资产/负债/权益两源恒定不受影响",
+      "ledger_ref": "§3.1 C21",
+      "files": [
+        {"file": "01-disclosure.md", "anchor": "PP&E 1,034,948/投资物业 520,563/使用权 174,863", "side": "A"},
+        {"file": "01-disclosure.md", "anchor": "PP&E 1,028,300/投资物业 529,436/使用权 192,712", "side": "B"}
+      ]
+    },
+    {
+      "id": "C22",
+      "status": "resolved",
+      "metric": "sbc",
+      "value": "2,124 千港元（FY2021，审计数）",
+      "note": "公告附注 8 确列 1,533（回源），年报审计终值 2,124（公告后审计调整+591）；SBC/收入 0.13%，敏感度≈0",
+      "ledger_ref": "§3.1 C22",
+      "files": [
+        {"file": "01-disclosure.md", "anchor": "FY2021 2,124／FY2022 956／FY2023 413 千港元", "side": "A"},
+        {"file": "01-disclosure.md", "anchor": "1,533 | FY2021 业绩公告附注 8 摘录（本线前期笔记）", "side": "B"}
+      ]
+    },
+    {
+      "id": "C23",
+      "status": "resolved",
+      "metric": "sbc",
+      "value": "956 千港元（FY2022，审计数）",
+      "note": "公告附注 8 系统性低于年报审计数（与 C22 同型），采审计数；差 285、占比<0.1%，W3 判不实质（E3 结案）",
+      "ledger_ref": "§3.1 C23",
+      "files": [
+        {"file": "01-disclosure.md", "anchor": "956 | 2023 年报附注 9＋权益变动表（Tier 1 审计数）", "side": "A"},
+        {"file": "01-disclosure.md", "anchor": "671 | FY2023 业绩公告附注 8（Tier 1）", "side": "B"}
+      ]
+    },
+    {
+      "id": "C24",
+      "status": "resolved",
+      "metric": "store_count_2023ye_split",
+      "value": "总数 1,007 一致；结构采年报 840 专柜＋167 专门店",
+      "note": "专柜/专门店归类差 2 个、总数一致，非实质冲突；年报为准。敏感度＝0",
+      "ledger_ref": "§3.1 C24",
+      "files": [
+        {"file": "01-disclosure.md", "anchor": "840 专柜＋167 专门店＝1,007", "side": "A"},
+        {"file": "01-disclosure.md", "anchor": "842 专柜＋165 专门店＝1,007", "side": "B"}
+      ]
+    },
+    {
+      "id": "C25",
+      "status": "resolved",
+      "metric": "administrative_expenses_fy2021",
+      "value": "188,481 千港元（审计列报口径）",
+      "note": "公告 189,460 与审计差 979 恰＝金融资产减值：公告含于行政、年报单列——纯列报重分类，两版均勾稽至 −16,383",
+      "ledger_ref": "§3.1 C25",
+      "files": [
+        {"file": "01-disclosure.md", "anchor": "| 行政开支 | (188,481) | (176,096) | (175,268) | (159,813) | (154,252) |", "side": "A"}
+      ]
+    }
+  ]
+}

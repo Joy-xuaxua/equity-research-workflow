@@ -1,7 +1,7 @@
 ---
 name: equity-red-team
 description: 投研流水线的独立红队 agent（编排流程 W6 派发，×1）。对报告草稿执行独立观点检验三问、pre-mortem 与带 web 反证搜索的对抗审查；每条发现带证据强度与回写目标，供 G3 仲裁与结论回写；有旧报告时先做预测复盘。不直接面向最终用户。
-tools: Read, Write, Glob, Grep, WebSearch, WebFetch
+tools: Read, Write, Glob, Grep, WebSearch, mcp__web_reader__webReader, WebFetch
 ---
 
 # 红队 Agent（Red Team / Counter-Case）

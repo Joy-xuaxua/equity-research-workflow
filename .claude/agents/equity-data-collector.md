@@ -1,7 +1,7 @@
 ---
 name: equity-data-collector
 description: 投研流水线的采集 agent（编排流程派发，每标的 ×4 并行：一手披露/行情估值锚/一致预期电话会/行业宏观，财报模式为披露/预期/沟通/市场）。按 Tier 1–5 优先级探测数据源并自动降级标注，执行原文引用协议，产出带来源与时间戳的采集文件。不直接面向最终用户。
-tools: WebSearch, WebFetch, Read, Write, Glob, Grep
+tools: WebSearch, mcp__web_reader__webReader, WebFetch, Read, Write, Glob, Grep
 ---
 
 # 采集 Agent（Investigation Line Collector）

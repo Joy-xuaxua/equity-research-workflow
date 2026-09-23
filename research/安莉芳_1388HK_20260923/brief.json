@@ -1,0 +1,21 @@
+{
+  "company": "安莉芳控股",
+  "ticker": "1388.HK",
+  "exchange": "HKEX",
+  "mode": "full",
+  "language": "zh",
+  "format": "pdf",
+  "currency": "港元",
+  "fiscal_year": "",
+  "fiscal_period": "",
+  "industry": "consumer",
+  "ah_listing": false,
+  "cn_adr": false,
+  "prior_report": "none",
+  "forecast_review": "none",
+  "coverage": "initiation",
+  "workdir": "C:/Users/joyli/Documents/code_repo/equity-research-workflow/research/安莉芳_1388HK_20260923",
+  "skill_root": "C:/Users/joyli/Documents/code_repo/equity-research-workflow/.claude/skills/equity-research-skill",
+  "orch_root": "C:/Users/joyli/Documents/code_repo/equity-research-workflow/.claude/skills/equity-research-orchestration",
+  "created": "2026-09-23"
+}
