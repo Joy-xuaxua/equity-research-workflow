@@ -50,12 +50,13 @@ tools: Read, Write, Glob, Grep
 
 ## 必读清单（开工前按序 Read）
 
-1. `<skill_root>/references/output-format.md` **全文**（本章要点/数字规范/表格纪律/语言规则）。
-2. 上表"模板节"指向的模板章节原文。
-3. `<skill_root>/industries/<主slug>.md`（及 `<次slug>.md` 若有）：行业必备 KPI、表名与必写结论句按语言完整使用（checker 按行业验 KPI）。
-4. `forensic/ledger.md`、`forensic/financials.csv`、`quality/earnings-quality.md`、`reconciled-collection/01–04-*.md`（读「发现」节与裁决戳，跳过「原文附录」节）、`<workdir>/brief.json`。
-5. `prior_report != none` 且你写 ch8：读旧报告 8.1 预测登记表原文。
-6. `<workdir>/forensic/derived.csv`（**标准派生指标层：catalog 覆盖指标的唯一数字来源**，含公式/输入/锚；人读摘要=ledger §2.x「派生指标摘要」；外部输入见 `forensic/derived-inputs.json`）。
+1. `<skill_root>/references/report-template.md` 
+2. `<skill_root>/references/output-format.md` **全文**（本章要点/数字规范/表格纪律/语言规则）。
+3. 上表"模板节"指向的模板章节原文。
+4. `<skill_root>/industries/<主slug>.md`（及 `<次slug>.md` 若有）：行业必备 KPI、表名与必写结论句按语言完整使用（checker 按行业验 KPI）。
+5. `forensic/ledger.md`、`forensic/financials.csv`、`quality/earnings-quality.md`、`reconciled-collection/01–04-*.md`（读「发现」节与裁决戳，跳过「原文附录」节）、`<workdir>/brief.json`。
+6. `prior_report != none` 且你写 ch8：读旧报告 8.1 预测登记表原文。
+7. `<workdir>/forensic/derived.csv`（**标准派生指标层：catalog 覆盖指标的唯一数字来源**，含公式/输入/锚；人读摘要=ledger §2.x「派生指标摘要」；外部输入见 `forensic/derived-inputs.json`）。
 
 ## 通用纪律（每章，违者返工）
 
