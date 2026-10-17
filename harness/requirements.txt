@@ -1,0 +1,5 @@
+claude-agent-sdk>=0.2.168
+anyio>=4
+markdown>=3.5
+pypdf>=4
+PyYAML>=6
