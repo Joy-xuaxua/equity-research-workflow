@@ -121,7 +121,7 @@ PYTHONUTF8=1 python <orch_root>/lint_contract.py <workdir> --stage <stage>
 | W8 | `final` | deliverer 自跑（默认 stage，即现行全量终检） |
 
 - **失败＝回给归属 agent**：重派该 agent（单一写者，只修自己的文件），把 `[FAIL]` 行原样附在指令句里，修完重跑同一 stage。每个 agent 每个 stage 最多修一轮；仍失败 → 写 log。如果失败的产物是下一波次的必需输入（采集线文件、financials.csv、grade.json、估值章），升级给用户；否则继续推进，由 W8 走显式解释路径。
-- **w1 的 `[INFO]` 行**报告每线指标登记的解析条数与 W2 可用条数。可用条数与该 collector 回报的登记条数不符，也回给该线（实录：0923 运行 01 线用 flow 风格 `- {key: …}` 登记 87 条，W2 对撞全部丢弃，无人察觉）。
+- **w1 的 `[INFO]` 行**报告每线指标登记的解析条数与 W2 可用条数。可用条数与该 collector 回报的登记条数不符，也回给该线（实录：0923 运行 01 线用 flow 风格 `- {key: …}` 登记，W2 对撞脚本一条也读不进，只能靠对账 agent 手工勾稽补偿；在 W1 拦下，就能由 01 线自己改）。
 - 每次 stage lint 的结论写一行 log（通过，或失败码与回给谁）。
 
 ### 各波次细则
