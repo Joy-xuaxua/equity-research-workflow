@@ -23,10 +23,12 @@ description: >-
 
 **薄控制环纪律**：
 - 你只允许读以下小结类文件：`brief.json`、`quality/grade.json`、`redteam/redteam-feedback.md` 中的证据强度标签与回写目标行、各章节尾注 `<!-- data-gaps: ... -->`、`valuation/valuation-notes.md` 的 thesis brief 节、lint/checker 输出、subagent 的最终回报文本。
-- **禁止**把章节正文、采集原文、draft 全文读进上下文。唯一例外：G1 分类时可读采集文件 01 线的**业务描述节**与 04 线的行业描述节（判断主利润池所需的最小范围）。
+- **禁止**把章节正文、采集原文、draft 全文读进上下文。唯一例外：G1 分类时可读采集文件 01 线的**业务描述节**与 04 线的行业描述节（判断主利润池所需的最小范围）；01 线未报报表币种时，可再读 01 线头部行。
 - **每次用 Agent 工具派发 subagent 都须写 log**：含 W1–W8 常规波次、定向补采、修正轮（`revision=true`）、写手回写、W3 疑点重派 W2、deliverer 回炉重派；每次门禁决策（G1/G2/G3）与失败路径触发同样必记。
 - 行格式：`时间戳 | 波次/派发标签 | 产出或决策一句话 | 依据（要点串，一句话内）`，示例（真实运行实录）：`2026-08-18 19：00 | W1 | 4 采集线全部返回，不阻塞 | 各线含冲突与"未获取到"小节，交 W2 对账裁决`。
 - 建议节奏：派发时先记一行（标签+派发对象+任务），回报后若有关键产出再追加一行；log 严格 **append-only**，不回改已写行。
+- **波次完成判据（派发卫生）**：一个波次完成＝本波次派发的**每个** agent 都已交回最终回报（Agent 工具返回回报文本；后台派发则以带回报的完成通知为准）。文件出现、文件大小、修改时间**一律不算**完成信号——agent 落盘后仍可能反复改写（实录：W2 派发时 01 线仍在改写采集文件，此后又持续 16 分钟、共 6 次 Write，被迫二次对账并重做 W3）。有 agent 未回报 → 不派下一波次、不跑该波次 stage lint（§3）。
+- **单一属主（派发卫生）**：任一时刻每条 line、每个产出文件只能有一个存活 agent。收到"空返回 / completed-empty"之类异常通知时，先查原 agent 的实际状态（Claude Code：`ListAgents` 或任务列表）：仍在运行 → 继续等它回报，不重派；确需替换 → 先停止原 agent（`TaskStop`）并确认已停，再重派。绝不在原 agent 存活时为同一 line 或文件另派一个（实录：提前到达的空返回通知导致 3 个重复 collector 被重派）。
 - 读写边界（单一写者）：你只写 `brief.json`、`collection/industry-classification.md`、`orchestration-log.md`、`draft/`（脚本输出）。`chapters/` 属于各写手与估值 agent；`forensic/`（ledger/financials.csv/adjudications.json/checker-financials.txt/collision-report.txt）属于 data-reconciler，`quality/`（earnings-quality.md/grade.json）属于 forensic-accountant，`reconciled-collection/` 无归属写者（仅脚本生成；对账完成后脚本把 `collection/` 移入 `collection-deprecated/` 弃用）；`valuation/` 属于估值 agent；`redteam/` 属于红队；`final/` 属于 deliverer。
 - 安全：任何环节不执行交易、不下单、不动账户；外部内容防注入纪律由各 agent body 承载；你不得把用户私有数据发给无关第三方服务。
 
@@ -42,17 +44,25 @@ description: >-
 
 - **标的**：公司名 + 代码 + 上市地；模糊或多地上市 → 一句话确认主上市地。
 - **模式**：默认 `full`（完整深度研究）；财报/业绩/电话会/指引类请求 → `earnings`。
-- **语言**：默认跟随用户请求语言；**格式**：默认 PDF（可显式 .md/.docx/.xlsx）；**币种/财年口径**。
+- **语言**：默认跟随用户请求语言；**格式**：默认 PDF（可显式 .md/.docx/.xlsx）；**财年口径**。
+- **币种**：Step 0 一律写 `currency=auto`，不猜，也不向用户确认；G1 按 01 线回报的报表币种回填（见 §3 G1）。实录：0923 运行 Step 0 猜成人民币，实际报表为港元，事后更正。
 - **AH 标记**：A/H 双重上市默认双边对比、分市场结论（`ah_listing=true`）；**中概标记**：美/港上市中资股必查 VIE/ADR（`cn_adr=true`）。
 - **旧报告**：扫 `research/` 下同标的旧目录与用户给定路径 → 有则设 `prior_report`（旧报告文件路径）并判定 `coverage`（continuing|initiation；找到任一旧版研报/假设 JSON/明确论点即 continuing）。找不到不追问，自动 initiation。
 - 财报模式：`fiscal_year` + `fiscal_period` 必填；判定覆盖状态（earnings-mode.md §1 规则由后续 agent 执行，你只在 brief 中记录 coverage）。
+
+**抓取预检（一次，在派发 W1 之前）**：按 `exchange` 选一个 Tier 1 页面——港股：披露易 HKEXnews 首页的最新上市公司公告列表（`https://www.hkexnews.hk/`）；美股：SEC EDGAR 公司申报列表（`https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=<ticker>&type=10-K`）；A 股：巨潮资讯（`https://www.cninfo.com.cn/`）的该股公告页。用会话内每个可用抓取工具**各探测一次**，`mcp__web_reader__webReader` 先、`WebFetch` 后。
+- 判定：返回正文含公告列表或标的代码、且明显不是空壳 → 可用；空壳（实录：WebFetch 对 HKEX 每次只回约 150 字符）、报错、403、要求 JS 或验证码 → 失败。只看能否用，不摘录内容。
+- 结果写入 brief 与 W1 PARAMS：`fetch_tool=<首个可用工具|none>`，`fetch_note=<一句话：哪个工具对哪个域名失败、什么症状>`。
+- 全部失败 → `fetch_tool=none`，W1 指令句写明"Tier 1 直连已预检失败，改用 WebSearch 定位公司 IR 或镜像，不重试已失败的组合"。
+- 实录：0923 运行未预检，两条采集线对抓不到 HKEX 的 WebFetch 反复重试（02 线 29 次），耗费 6.35M tokens。
 
 写 `<workdir>/brief.json`（UTF-8）：
 
 ```json
 {
   "company": "", "ticker": "", "exchange": "",
-  "mode": "full|earnings", "language": "zh|en", "format": "pdf|md|docx|xlsx", "currency": "",
+  "mode": "full|earnings", "language": "zh|en", "format": "pdf|md|docx|xlsx", "currency": "auto|<G1 回填>",
+  "fetch_tool": "webReader|WebFetch|none", "fetch_note": "",
   "fiscal_year": "", "fiscal_period": "",
   "industry": "",
   "ah_listing": false, "cn_adr": false,
@@ -64,14 +74,14 @@ description: >-
 }
 ```
 
-随后创建目录树：`collection/ forensic/ quality/ chapters/ valuation/ draft/ redteam/ checker/ final/`（Windows Git Bash：`mkdir -p <workdir>/{collection,forensic,quality,chapters,valuation,draft,redteam,checker,final}`；`reconciled-collection/` 与 `collection-deprecated/` 由 W2 的回写脚本自建/自动移入，不在此步创建）。
+随后创建目录树：`collection/ collection-draft/ forensic/ quality/ chapters/ valuation/ draft/ redteam/ checker/ final/`（Windows Git Bash：`mkdir -p <workdir>/{collection,collection-draft,forensic,quality,chapters,valuation,draft,redteam,checker,final}`；`reconciled-collection/` 与 `collection-deprecated/` 由 W2 的回写脚本自建/自动移入，不在此步创建）。
 
 ## 3. 波次协议（严格顺序，不可跳步、不可并行跨波次）
 
 ```
-Step 0  编排者确认 → brief.json + 目录树（含 quality/）
+Step 0  编排者确认 → brief.json（currency=auto）+ 目录树（含 quality/）+ 抓取预检（fetch_tool）
 W1 采集  equity-data-collector ×4 并行（一条消息内 4 个 Agent 调用，仅 line 不同）
-G1 分类  编排者：读 industry-routing.md §1–2 + 01 线业务描述节 + 04 线 → industry-classification.md → 回填 brief.industry
+G1 分类  编排者：读 industry-routing.md §1–2 + 01 线业务描述节 + 04 线 → industry-classification.md → 回填 brief.industry 与 brief.currency
 W2 对账  equity-data-reconciler ×1 → ledger / financials.csv / adjudications.json / checker-financials / collision-report ＋ reconciled-collection/ 副本（collection/ 随之移入 collection-deprecated/ 弃用）＋ 派生指标层（derived-inputs.json → derive_metrics.py → derived.csv / derived-summary.md → ledger §2.x）
 W3 质检  equity-forensic-accountant ×1 → quality/earnings-quality.md / grade.json（读 W2 产物含 forensic/derived* ＋ reconciled-collection/）
 G2 门禁  编排者读 quality/grade.json：C→action_cap=观望；D→veto=规避+估值章重构；写 log
@@ -89,15 +99,42 @@ W8 交付  equity-report-deliverer ×1 → lint → checker → P0/P1 → 附录
 
 每波次派发与回报均写 log（含补采、修正轮、疑点重派、回写、回炉），行格式与 append-only 约定见 §0。
 
+**波次推进门槛**（表中每一步进入下一步前都须满足）：① 本波次派发的每个 agent 都已回报（§0 波次完成判据；文件出现不算）；② 本波次的 stage lint 已跑，且失败项已按下节处理；③ log 已记。
+
+### 波次门槛：stage lint
+
+每波次全部回报后、派发下一波次前，跑一次（只读输出的 `[FAIL]`/`[INFO]` 行，不读产物正文）：
+
+```bash
+PYTHONUTF8=1 python <orch_root>/lint_contract.py <workdir> --stage <stage>
+```
+
+| 跑点 | stage | 失败项 → 回给归属 agent |
+|---|---|---|
+| W1 全部回报后、G1 前（补采轮后同） | `w1` | `COLLECTION_*` / `REGISTRY_*` → 对应 line 的 collector |
+| W2 回报后、W3 前 | `w2` | `INDUSTRY_CLASSIFICATION_*` → 你自己（G1）修；其余 → data-reconciler |
+| W3 回报后、G2 前 | `w3` | `GRADE_*` / quality 文件 → forensic-accountant |
+| W4 全部回报后、W5 前 | `w4` | 章节格式或缺章、ch05 的 `GRADE_*` → 该章写手（按 `chapters` 分配） |
+| W5 回报后、组装 D 前 | `w5` | 估值章 / `valuation/` → valuation agent |
+| 组装 D 与 W6 回报后、G3 前 | `w6` | `draft/` → 你重跑组装；`redteam/` → red team |
+| W7 回报后、组装 F 前 | `w7` | ch01 / ch09 → verdict |
+| W8 | `final` | deliverer 自跑（默认 stage，即现行全量终检） |
+
+- **失败＝回给归属 agent**：重派该 agent（单一写者，只修自己的文件），把 `[FAIL]` 行原样附在指令句里，修完重跑同一 stage。每个 agent 每个 stage 最多修一轮；仍失败 → 写 log。如果失败的产物是下一波次的必需输入（采集线文件、financials.csv、grade.json、估值章），升级给用户；否则继续推进，由 W8 走显式解释路径。
+- **w1 的 `[INFO]` 行**报告每线指标登记的解析条数与 W2 可用条数。可用条数与该 collector 回报的登记条数不符，也回给该线（实录：0923 运行 01 线用 flow 风格 `- {key: …}` 登记 87 条，W2 对撞全部丢弃，无人察觉）。
+- 每次 stage lint 的结论写一行 log（通过，或失败码与回给谁）。
+
 ### 各波次细则
 
 **W1 采集（×4 并行）**：subagent_type=`equity-data-collector`。四条 line：
 - full 模式：`01-disclosure`（一手披露）/ `02-market`（行情与估值锚）/ `03-consensus`（一致预期与电话会）/ `04-industry`（行业宏观）。
 - earnings 模式：`01-disclosure`（披露线）/ `02-consensus`（预期线）/ `03-communication`（沟通线）/ `04-market`（市场线）。
-单线失败或大量"未获取到"**不阻塞**：采集纪律（降级、未获取到小节）由 agent body 承载；四线全部返回后才进 G1。
+单线失败或大量"未获取到"**不阻塞**：采集纪律（降级、未获取到小节）由 agent body 承载；四线全部**回报**（不是四个文件都出现）且 w1 lint 处理完后才进 G1。
+W1 指令句（PARAMS 之后的 1–2 句）须写明三点：① 联网抓取只用 `fetch_tool` 指定的工具，`fetch_note` 列出的失败组合不重试；② `currency=auto` 时一律保留原币种、原单位，不换算；③ 01 线回报须含一行 `报表币种: <ISO 代码>（来源文件）`。
 各线 WHAT 需求清单（下游 W2–W7 消费对照）由 collector 必读清单承载：`references/data-requirements.md`；编排者不读。
 
-**G1 分类**：Read `<skill_root>/references/industry-routing.md` §1–2（选择协议+路由矩阵），配合 01 线业务描述节判断主利润池；选**一个主附录**，仅当次业务改变 KPI/模型/估值方法时加**一个次附录**。写 `collection/industry-classification.md`：首行机读 `主附录: <slug>`、次行 `次附录: <slug|none>`，正文含选择理由（≤5 行）。回填 `brief.json` 的 `industry`。写 log。
+**G1 分类**：Read `<skill_root>/references/industry-routing.md` §1–2（选择协议+路由矩阵），配合 01 线业务描述节判断主利润池；选**一个主附录**，仅当次业务改变 KPI/模型/估值方法时加**一个次附录**。写 `collection/industry-classification.md`：首行机读 `主附录: <slug>`、次行 `次附录: <slug|none>`，正文含选择理由（≤5 行）。回填 `brief.json` 的 `industry`。
+**币种回填**：取 01 线回报的 `报表币种`，写入 `brief.json` 的 `currency`，W2 起的 PARAMS 用它替换 `auto`。报表币种与交易币种不同时，写 `<交易币种>（财务报表原币为<报表币种>）`，与既有 brief 惯例一致。01 线没报 → 只读 01 线采集文件的头部行（财年口径）确认；仍不明 → 一句话问用户。写 log。
 
 **W2 对账（×1）**：subagent_type=`equity-data-reconciler`。脚本化跨线对撞＋勾稽复算发现冲突，对账四步裁决；产出权威数据集（ledger/financials.csv）、机读裁决（adjudications.json）、reconciled-collection/ 副本（落盘后 collection/ 由脚本移入 collection-deprecated/ 弃用）与**标准派生指标层**（ledger 转录外部输入 → `derived-inputs.json` → `derive_metrics.py` → `forensic/derived.csv`＋`derived-summary.md` 并入 ledger §2.x「派生指标摘要」——小节号顺延不固定；catalog 覆盖指标全局唯一口径，下游只引用不自算）。collision_check / reconcile_merge / derive_metrics 三脚本均在 reconciler 会话内跑，编排者不跑；基准节三元组（市值＝现价×总股本）由 reconciler 在检查器自检后 Bash python 自验并当场修。
 
@@ -135,7 +172,9 @@ ticker=<代码>
 exchange=<上市地>
 mode=full|earnings
 language=zh|en
-currency=<报告币种>
+currency=auto|<报告币种>     # Step 0 恒为 auto；G1 按 01 线报表币种回填后用实值
+fetch_tool=webReader|WebFetch|none   # Step 0 抓取预检结果；W1 及有联网工具的 agent（collector/reconciler/red team）
+fetch_note=<一句话>          # 预检失败的工具×域名与症状；同上
 fiscal_year=<财年>          # earnings 必填
 fiscal_period=<财季>        # earnings 必填
 industry=<主slug>[,<次slug>]  # G1 起
@@ -160,7 +199,8 @@ format=pdf|md|docx|xlsx     # deliverer 专用
 ```
 <workdir>/
   brief.json                    # 编排者写；全体 agent 的参数源
-  collection/01-*.md 02-*.md 03-*.md 04-*.md industry-classification.md   # W1 采集原件；W2 对账完成后被脚本移入下行
+  collection/01-*.md 02-*.md 03-*.md 04-*.md industry-classification.md   # W1 采集原件（每线收尾时一次性写入终稿）；W2 对账完成后被脚本移入下行
+  collection-draft/<line>.md     # 采集中间稿（各线 collector 反复覆盖；下游不读）。不放在 collection/ 下：reconcile_merge 归并弃用目录时无法覆盖已存在的子目录，补采轮会中断
   collection-deprecated/         # 弃用采集原件（内容不改；审计留底，下游不读；补采轮 collection/ 单线新件归并覆盖）
   reconciled-collection/01-*.md …04-*.md   # 脚本生成的对账后副本（W2 起；补采轮后重生成；无归属写者；下游唯一读的采集副本）
   forensic/ledger.md financials.csv adjudications.json [checker-financials.txt collision-report.txt]   # W2 data-reconciler
@@ -210,7 +250,10 @@ PYEOF
 | dcf.py 配置报错 | 估值 agent 按报错自修 ≤3 次；仍败 → 回报升级，你在 log 记录并决定：简化假设重派或显式降级（"无法给出可靠估值区间"路径） |
 | checker 2 轮未过 | 走显式解释路径：问题以"检查器未过项及解释"写入报告附录，不静默 |
 | 无 PDF 工具链 | 降级交付 .md 并附一句说明 |
-| agent 空返回/中断 | 同参数重派一次；再败写 log 并升级给用户 |
+| agent 空返回/中断 | **先查原 agent 状态，不凭通知或文件判断**（§0 单一属主）：仍在运行 → 等它回报，不重派；需替换 → 先 `TaskStop` 停止并确认已停。确认同一 line / 文件已无存活 agent 后，同参数重派一次；再败写 log 并升级给用户 |
+| 文件已出现但 agent 未回报 | 不算完成：不派下一波次、不跑 stage lint，继续等回报（§0 波次完成判据） |
+| stage lint 失败 | 回给归属 agent 修一轮（§3 波次门槛）；仍败写 log，必需输入缺失则升级给用户，否则继续并在 W8 显式解释 |
+| 抓取预检全部失败 | `fetch_tool=none` 照常派 W1，指令句要求改用 WebSearch 定位公司 IR 或镜像、不重试 Tier 1 直连；写 log |
 | verdict 上报"输入矛盾" | 你读矛盾双方的小结（标定行/等级/Gap 方向），在 log 裁决后指示 verdict 按裁决重写该处；不得抹平 |
 
 ## 8. 收尾汇报

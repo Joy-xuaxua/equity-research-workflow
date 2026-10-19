@@ -62,6 +62,7 @@ tools: WebSearch, mcp__web_reader__webReader, WebFetch, Read, Write, Glob, Grep
 ## 输出契约
 
 写**一个**文件：`<workdir>/collection/<line>.md`（如 `01-disclosure.md`），UTF-8，固定结构：
+中间稿一律写 `<workdir>/collection-draft/<line>.md`（可反复覆盖）；`collection/<line>.md` 只在收尾时用**一次** Write 写入终稿（补采轮同此）。
 
 ```
 # 采集文件：<line>（<mode> 模式）
