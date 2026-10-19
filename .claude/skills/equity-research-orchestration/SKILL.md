@@ -45,16 +45,10 @@ description: >-
 - **标的**：公司名 + 代码 + 上市地；模糊或多地上市 → 一句话确认主上市地。
 - **模式**：默认 `full`（完整深度研究）；财报/业绩/电话会/指引类请求 → `earnings`。
 - **语言**：默认跟随用户请求语言；**格式**：默认 PDF（可显式 .md/.docx/.xlsx）；**财年口径**。
-- **币种**：报告币种＝主上市地交易币种，按 `exchange` 直接定：港股 HKD、美股（含 ADR）USD、A 股 CNY。目标价要和现价比，所以只能用交易币种；不按公司注册地或经营地猜。有多个交易柜台（如港股港币/人民币双柜台）时，随「标的」一并一句话确认。公司财报用什么币种列报（如港股中资股按人民币列报）是数据事实，由采集线按原文记录、对账与估值 agent 换算，不写进 brief。实录：0923 运行 Step 0 把 1388.HK 写成人民币，W1 中由 03 线发现后改为港元。
+- **币种**：报告币种＝主上市地交易币种，按 `exchange` 直接定：港股 HKD、美股（含 ADR）USD、A 股 CNY。目标价要和现价比，所以只能用交易币种；不按公司注册地或经营地猜。有多个交易柜台（如港股港币/人民币双柜台）时，随「标的」一并一句话确认。公司财报用什么币种列报（如港股中资股按人民币列报）是数据事实，由采集线按原文记录、对账与估值 agent 换算，不写进 brief。
 - **AH 标记**：A/H 双重上市默认双边对比、分市场结论（`ah_listing=true`）；**中概标记**：美/港上市中资股必查 VIE/ADR（`cn_adr=true`）。
 - **旧报告**：扫 `research/` 下同标的旧目录与用户给定路径 → 有则设 `prior_report`（旧报告文件路径）并判定 `coverage`（continuing|initiation；找到任一旧版研报/假设 JSON/明确论点即 continuing）。找不到不追问，自动 initiation。
 - 财报模式：`fiscal_year` + `fiscal_period` 必填；判定覆盖状态（earnings-mode.md §1 规则由后续 agent 执行，你只在 brief 中记录 coverage）。
-
-**抓取预检（一次，在派发 W1 之前）**：按 `exchange` 选一个 Tier 1 页面——港股：披露易 HKEXnews 首页的最新上市公司公告列表（`https://www.hkexnews.hk/`）；美股：SEC EDGAR 公司申报列表（`https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=<ticker>&type=10-K`）；A 股：巨潮资讯（`https://www.cninfo.com.cn/`）的该股公告页。用会话内每个可用抓取工具**各探测一次**，`mcp__web_reader__webReader` 先、`WebFetch` 后。
-- 判定：返回正文含公告列表或标的代码、且明显不是空壳 → 可用；空壳（实录：WebFetch 对 HKEX 每次只回约 150 字符）、报错、403、要求 JS 或验证码 → 失败。只看能否用，不摘录内容。
-- 结果写入 brief 与 W1 PARAMS：`fetch_tool=<首个可用工具|none>`，`fetch_note=<一句话：哪个工具对哪个域名失败、什么症状>`。
-- 全部失败 → `fetch_tool=none`，W1 指令句写明"Tier 1 直连已预检失败，改用 WebSearch 定位公司 IR 或镜像，不重试已失败的组合"。
-- 实录：0923 运行未预检，两条采集线对抓不到 HKEX 的 WebFetch 反复重试（02 线 29 次），耗费 6.35M tokens。
 
 写 `<workdir>/brief.json`（UTF-8）：
 
@@ -62,7 +56,6 @@ description: >-
 {
   "company": "", "ticker": "", "exchange": "",
   "mode": "full|earnings", "language": "zh|en", "format": "pdf|md|docx|xlsx", "currency": "<主上市地交易币种，如 HKD>",
-  "fetch_tool": "webReader|WebFetch|none", "fetch_note": "",
   "fiscal_year": "", "fiscal_period": "",
   "industry": "",
   "ah_listing": false, "cn_adr": false,
@@ -79,7 +72,7 @@ description: >-
 ## 3. 波次协议（严格顺序，不可跳步、不可并行跨波次）
 
 ```
-Step 0  编排者确认 → brief.json + 目录树（含 quality/）+ 抓取预检（fetch_tool）
+Step 0  编排者确认 → brief.json + 目录树（含 quality/）
 W1 采集  equity-data-collector ×4 并行（一条消息内 4 个 Agent 调用，仅 line 不同）
 G1 分类  编排者：读 industry-routing.md §1–2 + 01 线业务描述节 + 04 线 → industry-classification.md → 回填 brief.industry
 W2 对账  equity-data-reconciler ×1 → ledger / financials.csv / adjudications.json / checker-financials / collision-report ＋ reconciled-collection/ 副本（collection/ 随之移入 collection-deprecated/ 弃用）＋ 派生指标层（derived-inputs.json → derive_metrics.py → derived.csv / derived-summary.md → ledger §2.x）
@@ -130,7 +123,7 @@ PYTHONUTF8=1 python <orch_root>/lint_contract.py <workdir> --stage <stage>
 - full 模式：`01-disclosure`（一手披露）/ `02-market`（行情与估值锚）/ `03-consensus`（一致预期与电话会）/ `04-industry`（行业宏观）。
 - earnings 模式：`01-disclosure`（披露线）/ `02-consensus`（预期线）/ `03-communication`（沟通线）/ `04-market`（市场线）。
 单线失败或大量"未获取到"**不阻塞**：采集纪律（降级、未获取到小节）由 agent body 承载；四线全部**回报**（不是四个文件都出现）且 w1 lint 处理完后才进 G1。
-W1 指令句（PARAMS 之后的 1–2 句）须写明两点：① 联网抓取只用 `fetch_tool` 指定的工具，`fetch_note` 列出的失败组合不重试；② 采集一律保留原币种、原单位，不按 `currency` 换算（`currency` 是报告币种，不是财报列报币种）。
+W1 指令句（PARAMS 之后的 1–2 句）须写明：采集一律保留原币种、原单位，不按 `currency` 换算（`currency` 是报告币种，不是财报列报币种）。
 各线 WHAT 需求清单（下游 W2–W7 消费对照）由 collector 必读清单承载：`references/data-requirements.md`；编排者不读。
 
 **G1 分类**：Read `<skill_root>/references/industry-routing.md` §1–2（选择协议+路由矩阵），配合 01 线业务描述节判断主利润池；选**一个主附录**，仅当次业务改变 KPI/模型/估值方法时加**一个次附录**。写 `collection/industry-classification.md`：首行机读 `主附录: <slug>`、次行 `次附录: <slug|none>`，正文含选择理由（≤5 行）。回填 `brief.json` 的 `industry`。写 log。
@@ -172,8 +165,6 @@ exchange=<上市地>
 mode=full|earnings
 language=zh|en
 currency=<报告币种>          # 主上市地交易币种，Step 0 按 exchange 定
-fetch_tool=webReader|WebFetch|none   # Step 0 抓取预检结果；W1 及有联网工具的 agent（collector/reconciler/red team）
-fetch_note=<一句话>          # 预检失败的工具×域名与症状；同上
 fiscal_year=<财年>          # earnings 必填
 fiscal_period=<财季>        # earnings 必填
 industry=<主slug>[,<次slug>]  # G1 起
@@ -252,7 +243,6 @@ PYEOF
 | agent 空返回/中断 | **先查原 agent 状态，不凭通知或文件判断**（§0 单一属主）：仍在运行 → 等它回报，不重派；需替换 → 先 `TaskStop` 停止并确认已停。确认同一 line / 文件已无存活 agent 后，同参数重派一次；再败写 log 并升级给用户 |
 | 文件已出现但 agent 未回报 | 不算完成：不派下一波次、不跑 stage lint，继续等回报（§0 波次完成判据） |
 | stage lint 失败 | 回给归属 agent 修一轮（§3 波次门槛）；仍败写 log，必需输入缺失则升级给用户，否则继续并在 W8 显式解释 |
-| 抓取预检全部失败 | `fetch_tool=none` 照常派 W1，指令句要求改用 WebSearch 定位公司 IR 或镜像、不重试 Tier 1 直连；写 log |
 | verdict 上报"输入矛盾" | 你读矛盾双方的小结（标定行/等级/Gap 方向），在 log 裁决后指示 verdict 按裁决重写该处；不得抹平 |
 
 ## 8. 收尾汇报
