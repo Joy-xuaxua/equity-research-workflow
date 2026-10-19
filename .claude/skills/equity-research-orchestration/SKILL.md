@@ -23,7 +23,7 @@ description: >-
 
 **薄控制环纪律**：
 - 你只允许读以下小结类文件：`brief.json`、`quality/grade.json`、`redteam/redteam-feedback.md` 中的证据强度标签与回写目标行、各章节尾注 `<!-- data-gaps: ... -->`、`valuation/valuation-notes.md` 的 thesis brief 节、lint/checker 输出、subagent 的最终回报文本。
-- **禁止**把章节正文、采集原文、draft 全文读进上下文。唯一例外：G1 分类时可读采集文件 01 线的**业务描述节**与 04 线的行业描述节（判断主利润池所需的最小范围）；01 线未报报表币种时，可再读 01 线头部行。
+- **禁止**把章节正文、采集原文、draft 全文读进上下文。唯一例外：G1 分类时可读采集文件 01 线的**业务描述节**与 04 线的行业描述节（判断主利润池所需的最小范围）。
 - **每次用 Agent 工具派发 subagent 都须写 log**：含 W1–W8 常规波次、定向补采、修正轮（`revision=true`）、写手回写、W3 疑点重派 W2、deliverer 回炉重派；每次门禁决策（G1/G2/G3）与失败路径触发同样必记。
 - 行格式：`时间戳 | 波次/派发标签 | 产出或决策一句话 | 依据（要点串，一句话内）`，示例（真实运行实录）：`2026-08-18 19：00 | W1 | 4 采集线全部返回，不阻塞 | 各线含冲突与"未获取到"小节，交 W2 对账裁决`。
 - 建议节奏：派发时先记一行（标签+派发对象+任务），回报后若有关键产出再追加一行；log 严格 **append-only**，不回改已写行。
@@ -45,7 +45,7 @@ description: >-
 - **标的**：公司名 + 代码 + 上市地；模糊或多地上市 → 一句话确认主上市地。
 - **模式**：默认 `full`（完整深度研究）；财报/业绩/电话会/指引类请求 → `earnings`。
 - **语言**：默认跟随用户请求语言；**格式**：默认 PDF（可显式 .md/.docx/.xlsx）；**财年口径**。
-- **币种**：Step 0 一律写 `currency=auto`，不猜，也不向用户确认；G1 按 01 线回报的报表币种回填（见 §3 G1）。实录：0923 运行 Step 0 猜成人民币，实际报表为港元，事后更正。
+- **币种**：报告币种＝主上市地交易币种，按 `exchange` 直接定：港股 HKD、美股（含 ADR）USD、A 股 CNY。目标价要和现价比，所以只能用交易币种；不按公司注册地或经营地猜。有多个交易柜台（如港股港币/人民币双柜台）时，随「标的」一并一句话确认。公司财报用什么币种列报（如港股中资股按人民币列报）是数据事实，由采集线按原文记录、对账与估值 agent 换算，不写进 brief。实录：0923 运行 Step 0 把 1388.HK 写成人民币，W1 中由 03 线发现后改为港元。
 - **AH 标记**：A/H 双重上市默认双边对比、分市场结论（`ah_listing=true`）；**中概标记**：美/港上市中资股必查 VIE/ADR（`cn_adr=true`）。
 - **旧报告**：扫 `research/` 下同标的旧目录与用户给定路径 → 有则设 `prior_report`（旧报告文件路径）并判定 `coverage`（continuing|initiation；找到任一旧版研报/假设 JSON/明确论点即 continuing）。找不到不追问，自动 initiation。
 - 财报模式：`fiscal_year` + `fiscal_period` 必填；判定覆盖状态（earnings-mode.md §1 规则由后续 agent 执行，你只在 brief 中记录 coverage）。
@@ -61,7 +61,7 @@ description: >-
 ```json
 {
   "company": "", "ticker": "", "exchange": "",
-  "mode": "full|earnings", "language": "zh|en", "format": "pdf|md|docx|xlsx", "currency": "auto|<G1 回填>",
+  "mode": "full|earnings", "language": "zh|en", "format": "pdf|md|docx|xlsx", "currency": "<主上市地交易币种，如 HKD>",
   "fetch_tool": "webReader|WebFetch|none", "fetch_note": "",
   "fiscal_year": "", "fiscal_period": "",
   "industry": "",
@@ -79,9 +79,9 @@ description: >-
 ## 3. 波次协议（严格顺序，不可跳步、不可并行跨波次）
 
 ```
-Step 0  编排者确认 → brief.json（currency=auto）+ 目录树（含 quality/）+ 抓取预检（fetch_tool）
+Step 0  编排者确认 → brief.json + 目录树（含 quality/）+ 抓取预检（fetch_tool）
 W1 采集  equity-data-collector ×4 并行（一条消息内 4 个 Agent 调用，仅 line 不同）
-G1 分类  编排者：读 industry-routing.md §1–2 + 01 线业务描述节 + 04 线 → industry-classification.md → 回填 brief.industry 与 brief.currency
+G1 分类  编排者：读 industry-routing.md §1–2 + 01 线业务描述节 + 04 线 → industry-classification.md → 回填 brief.industry
 W2 对账  equity-data-reconciler ×1 → ledger / financials.csv / adjudications.json / checker-financials / collision-report ＋ reconciled-collection/ 副本（collection/ 随之移入 collection-deprecated/ 弃用）＋ 派生指标层（derived-inputs.json → derive_metrics.py → derived.csv / derived-summary.md → ledger §2.x）
 W3 质检  equity-forensic-accountant ×1 → quality/earnings-quality.md / grade.json（读 W2 产物含 forensic/derived* ＋ reconciled-collection/）
 G2 门禁  编排者读 quality/grade.json：C→action_cap=观望；D→veto=规避+估值章重构；写 log
@@ -130,11 +130,10 @@ PYTHONUTF8=1 python <orch_root>/lint_contract.py <workdir> --stage <stage>
 - full 模式：`01-disclosure`（一手披露）/ `02-market`（行情与估值锚）/ `03-consensus`（一致预期与电话会）/ `04-industry`（行业宏观）。
 - earnings 模式：`01-disclosure`（披露线）/ `02-consensus`（预期线）/ `03-communication`（沟通线）/ `04-market`（市场线）。
 单线失败或大量"未获取到"**不阻塞**：采集纪律（降级、未获取到小节）由 agent body 承载；四线全部**回报**（不是四个文件都出现）且 w1 lint 处理完后才进 G1。
-W1 指令句（PARAMS 之后的 1–2 句）须写明三点：① 联网抓取只用 `fetch_tool` 指定的工具，`fetch_note` 列出的失败组合不重试；② `currency=auto` 时一律保留原币种、原单位，不换算；③ 01 线回报须含一行 `报表币种: <ISO 代码>（来源文件）`。
+W1 指令句（PARAMS 之后的 1–2 句）须写明两点：① 联网抓取只用 `fetch_tool` 指定的工具，`fetch_note` 列出的失败组合不重试；② 采集一律保留原币种、原单位，不按 `currency` 换算（`currency` 是报告币种，不是财报列报币种）。
 各线 WHAT 需求清单（下游 W2–W7 消费对照）由 collector 必读清单承载：`references/data-requirements.md`；编排者不读。
 
-**G1 分类**：Read `<skill_root>/references/industry-routing.md` §1–2（选择协议+路由矩阵），配合 01 线业务描述节判断主利润池；选**一个主附录**，仅当次业务改变 KPI/模型/估值方法时加**一个次附录**。写 `collection/industry-classification.md`：首行机读 `主附录: <slug>`、次行 `次附录: <slug|none>`，正文含选择理由（≤5 行）。回填 `brief.json` 的 `industry`。
-**币种回填**：取 01 线回报的 `报表币种`，写入 `brief.json` 的 `currency`，W2 起的 PARAMS 用它替换 `auto`。报表币种与交易币种不同时，写 `<交易币种>（财务报表原币为<报表币种>）`，与既有 brief 惯例一致。01 线没报 → 只读 01 线采集文件的头部行（财年口径）确认；仍不明 → 一句话问用户。写 log。
+**G1 分类**：Read `<skill_root>/references/industry-routing.md` §1–2（选择协议+路由矩阵），配合 01 线业务描述节判断主利润池；选**一个主附录**，仅当次业务改变 KPI/模型/估值方法时加**一个次附录**。写 `collection/industry-classification.md`：首行机读 `主附录: <slug>`、次行 `次附录: <slug|none>`，正文含选择理由（≤5 行）。回填 `brief.json` 的 `industry`。写 log。
 
 **W2 对账（×1）**：subagent_type=`equity-data-reconciler`。脚本化跨线对撞＋勾稽复算发现冲突，对账四步裁决；产出权威数据集（ledger/financials.csv）、机读裁决（adjudications.json）、reconciled-collection/ 副本（落盘后 collection/ 由脚本移入 collection-deprecated/ 弃用）与**标准派生指标层**（ledger 转录外部输入 → `derived-inputs.json` → `derive_metrics.py` → `forensic/derived.csv`＋`derived-summary.md` 并入 ledger §2.x「派生指标摘要」——小节号顺延不固定；catalog 覆盖指标全局唯一口径，下游只引用不自算）。collision_check / reconcile_merge / derive_metrics 三脚本均在 reconciler 会话内跑，编排者不跑；基准节三元组（市值＝现价×总股本）由 reconciler 在检查器自检后 Bash python 自验并当场修。
 
@@ -172,7 +171,7 @@ ticker=<代码>
 exchange=<上市地>
 mode=full|earnings
 language=zh|en
-currency=auto|<报告币种>     # Step 0 恒为 auto；G1 按 01 线报表币种回填后用实值
+currency=<报告币种>          # 主上市地交易币种，Step 0 按 exchange 定
 fetch_tool=webReader|WebFetch|none   # Step 0 抓取预检结果；W1 及有联网工具的 agent（collector/reconciler/red team）
 fetch_note=<一句话>          # 预检失败的工具×域名与症状；同上
 fiscal_year=<财年>          # earnings 必填
