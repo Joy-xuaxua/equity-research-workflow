@@ -80,7 +80,7 @@ W3 质检  equity-forensic-accountant ×1 → quality/earnings-quality.md / grad
 G2 门禁  编排者读 quality/grade.json：C→action_cap=观望；D→veto=规避+估值章重构；写 log
 W4 章节  equity-chapter-writer ×5 并行（只读 forensic/ + quality/ + reconciled-collection/，不读 collection-deprecated/ 原件；catalog 覆盖指标只引用 derived.csv / ledger §2.x 禁自算，残余自算必须带算式）
 W5 估值  equity-valuation-analyst ×1（读 ch3/ch4 草稿 + forensic + 行情价）
-        → assumptions.json / dcf-output.txt / valuation-notes.md / chapters/ch06（财报 ch08）
+        → inputs.json（valuation_inputs.py）/ assumptions.json / [calc/] / dcf-output.txt / valuation-notes.md / chapters/ch06（财报 ch08）
 组装D   编排者脚本拼接 ch2–ch8 + 头部 → draft/report-draft.md（内容不进上下文）
 W6 红队  equity-red-team ×1 → redteam-feedback.md（+forecast-review.md 若有旧报告）
 G3 仲裁  编排者读强度标签：中强/强且回写目标含情景概率/标定 → 修正轮（估值 agent revision=true）；决策写 log
@@ -197,7 +197,8 @@ format=pdf|md|docx|xlsx     # deliverer 专用
   forensic/derived-inputs.json derived.csv derived-summary.md   # W2 派生指标层（脚本产出；summary 并入 ledger §2.x；下游只引用不自算）
   quality/earnings-quality.md grade.json   # W3 forensic-accountant
   chapters/ch01…ch09-<slug>.md   # 各写手；ch2+3 写手产两个文件；估值 agent 产 ch06/ch08
-  valuation/assumptions.json [assumptions.v2.json] dcf-output.txt [dcf-output.v2.txt] valuation-notes.md
+  valuation/inputs.json assumptions.json [assumptions.v2.json] dcf-output.txt [dcf-output.v2.txt] valuation-notes.md   # W5；inputs.json 由 valuation_inputs.py 生成（事实层，schema 3 必需）
+  valuation/calc/<name>.py <name>.txt   # 可选：dcf.py 覆盖不到的计算（唯一计算出口，以 custom 方法登记）
   draft/_header.md report-draft.md report-final.md
   redteam/redteam-feedback.md [forecast-review.md]
   final/<命名规范>.md/.pdf
@@ -237,6 +238,7 @@ PYEOF
 | 关键缺口（W4 写手 data-gaps 显示核心输入缺失） | 定向补采**一轮**：重派对应 line 的 collector（直接写 `collection/` 单线），prompt 指明缺口条目；补采落档后由 W2 重跑对账与 reconcile_merge（collection/ 新件优先、collection-deprecated/ 补缺联合读取，幂等重建 reconciled-collection/ 后再次归并弃用），再进下一步 |
 | reconcile_merge P1（锚缺失/重复） | W2 内部改 adjudications.json 锚点重跑 ≤2 轮；仍败该条降级 ledger-only（不打戳）并回报，不阻塞波次（无戳＝以 ledger 为准） |
 | W3 上报数据不足以评级/裁决疑点 | 重派 W2 一轮（PARAMS 附疑点清单）；再不足 → W3 按可得数据评级并在 grade.summary 注明缺口，写 log |
+| inputs 生成失败（valuation_inputs.py exit 1：CSV 卫生/缺锚） | 估值 agent 不修数、回报升级；你写 log 并重派 W2 修数（PARAMS 附脚本报错原文），W2 落档后重派 W5 |
 | dcf.py 配置报错 | 估值 agent 按报错自修 ≤3 次；仍败 → 回报升级，你在 log 记录并决定：简化假设重派或显式降级（"无法给出可靠估值区间"路径） |
 | checker 2 轮未过 | 走显式解释路径：问题以"检查器未过项及解释"写入报告附录，不静默 |
 | 无 PDF 工具链 | 降级交付 .md 并附一句说明 |
