@@ -1,4 +1,6 @@
+import copy
 import importlib.util
+import json
 import os
 import tempfile
 import unittest
@@ -57,6 +59,95 @@ class IntegratedCheckerTests(unittest.TestCase):
             issues = []
             CHECKER.check_report(report, None, issues, ["saas"], "zh")
             self.assertEqual([], issues)
+
+
+def load_dcf():
+    spec = importlib.util.spec_from_file_location("dcf", os.path.join(ROOT, "scripts", "dcf.py"))
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    return mod
+
+
+class Schema3CheckerTests(unittest.TestCase):
+    """schema 3：checker 读同目录 inputs.json、import dcf 重算标签；规则违规分级。"""
+
+    def setUp(self):
+        self.dcf = load_dcf()
+        self.tmp = tempfile.TemporaryDirectory()
+        self.vdir = os.path.join(self.tmp.name, "valuation")
+        os.makedirs(self.vdir)
+        self.write("inputs.json", self.dcf.DEMO3_INPUTS)
+
+    def tearDown(self):
+        self.tmp.cleanup()
+
+    def write(self, name, obj):
+        path = os.path.join(self.vdir, name)
+        with open(path, "w", encoding="utf-8") as f:
+            json.dump(obj, f, ensure_ascii=False)
+        return path
+
+    def report(self, text):
+        path = os.path.join(self.tmp.name, "r.md")
+        with open(path, "w", encoding="utf-8") as f:
+            f.write(text)
+        return path
+
+    def run_checks(self, cfg, report_text):
+        issues = []
+        a = CHECKER.check_assumptions(self.write("assumptions.json", cfg), issues)
+        CHECKER.check_report(self.report(report_text), a, issues, ["saas"], "zh")
+        return {i.code: i.severity for i in issues}
+
+    def test_recomputed_label_matches(self):
+        codes = self.run_checks(copy.deepcopy(self.dcf.DEMO3), "结论：合理")
+        self.assertNotIn("REPORT_VALUATION_LABEL_MISMATCH", codes)
+        self.assertNotIn("SCHEMA3_EVALUATION_FAILED", codes)
+
+    def test_tampered_label_detected(self):
+        codes = self.run_checks(copy.deepcopy(self.dcf.DEMO3), "结论：低估")
+        self.assertEqual(codes.get("REPORT_VALUATION_LABEL_MISMATCH"), "P1")
+
+    def test_unreliable_line_required(self):
+        cfg = copy.deepcopy(self.dcf.DEMO3)
+        for s in cfg["scenarios"]:
+            s["margin_target"] = -0.05
+        cfg["drivers"]["m1"] = -0.05
+        cfg["methods"] = {"epv": False}
+        self.assertEqual(self.run_checks(cfg, "结论：合理").get("REPORT_VALUATION_LABEL_MISMATCH"), "P1")
+        self.assertNotIn("REPORT_VALUATION_LABEL_MISMATCH", self.run_checks(cfg, "结论：无法给出可靠估值区间"))
+
+    def test_rule_violations_graded(self):
+        cfg = copy.deepcopy(self.dcf.DEMO3)
+        cfg["weights"] = {"adjust": {"epv": 0.2}, "reasons": {"epv": "x"}}
+        cfg["terminal"]["g"] = 0.05
+        cfg["scenarios"][0]["prob"] = 0.10
+        cfg["scenarios"][1]["prob"] = 0.65
+        cfg["scenarios"][1]["revenue"] = [1, 2]
+        with open(os.path.join(self.vdir, "verify_calc.py"), "w") as f:
+            f.write("print(1)\n")
+        codes = self.run_checks(cfg, "结论：合理")
+        self.assertEqual(codes.get("WEIGHT_ADJUST_OVER_LIMIT"), "P0")
+        self.assertEqual(codes.get("TERMINAL_G_ABOVE_RF"), "P0")
+        self.assertEqual(codes.get("DCF_PROB_BELOW_FLOOR"), "P1")
+        self.assertEqual(codes.get("DCF_LEGACY_HANDFILLED_PATH"), "P2")
+        self.assertEqual(codes.get("CALC_OUTSIDE_CALC_DIR"), "P2")
+        self.assertEqual(codes.get("SCHEMA3_EVALUATION_FAILED"), "P0")
+
+    def test_basis_flag_unhandled(self):
+        cfg = copy.deepcopy(self.dcf.DEMO3)
+        del cfg["basis_confirmed"]
+        self.assertEqual(self.run_checks(cfg, "结论：合理").get("BASIS_FLAG_UNHANDLED"), "P1")
+
+    def test_financials_hygiene(self):
+        path = os.path.join(self.tmp.name, "f.csv")
+        with open(path, "w", encoding="utf-8") as f:
+            f.write("period,revenue,total_assets,total_liabilities,cash\nFY2024,10,100,50,20,99\nFY2025,10,100,50,200\n")
+        issues = []
+        CHECKER.check_financials(path, issues)
+        codes = {i.code for i in issues}
+        self.assertIn("CSV_ROW_LENGTH", codes)
+        self.assertIn("CSV_CASH_GT_ASSETS", codes)
 
 
 if __name__ == "__main__":

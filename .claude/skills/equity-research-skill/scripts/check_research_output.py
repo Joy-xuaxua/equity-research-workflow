@@ -4,6 +4,7 @@
 用法：
     python scripts/check_research_output.py --report report.md --assumptions valuation.json
     python scripts/check_research_output.py --financials financials.csv
+    python scripts/check_research_output.py --report report.md --assumptions valuation/assumptions.json  # schema 3：自动读同目录 inputs.json 重算区间
     python scripts/check_research_output.py --demo
 
 输入都是可选的；脚本会检查已提供文件中可复算的内容。仅使用 Python 标准库。
@@ -11,6 +12,8 @@
 
 import argparse
 import csv
+import glob
+import importlib.util
 import json
 import math
 import os
@@ -35,6 +38,8 @@ JUDGMENT_MARKERS = ["我的判断", "my view", "my judgment", "my assessment", "
 SOURCE_MARKERS = ["数据来源", "来源", "sources and timestamps", "data sources", "sources", "source:"]
 INDUSTRY_RULES_PATH = os.path.join(os.path.dirname(__file__), "..", "references", "industry-rules.json")
 ZH_TEMPLATE_MARKERS = ["本章要点", "我的判断", "未获取到", "数据来源与时间戳", "必写结论句", "估值假设表"]
+SCRIPTS_DIR = os.path.dirname(os.path.abspath(__file__))
+UNRELIABLE = "无法给出可靠估值区间"
 EN_TEMPLATE_MARKERS = ["key takeaways:", "my view:", "not obtained", "sources and timestamps", "disclaimer: not investment advice"]
 
 
@@ -239,6 +244,13 @@ def calibrate(price: float, lo: float, hi: float) -> str:
     return "显著高估"
 
 
+def load_sibling(name: str):
+    spec = importlib.util.spec_from_file_location(name, os.path.join(SCRIPTS_DIR, f"{name}.py"))
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    return mod
+
+
 def load_csv(path: str) -> Tuple[List[Dict[str, str]], Dict[str, str]]:
     with open(path, "r", encoding="utf-8-sig", newline="") as f:
         reader = csv.DictReader(f)
@@ -350,6 +362,20 @@ def check_report(
             file=path,
         )
 
+    if assumptions and assumptions.get("schema") == 3:
+        res = assumptions.get("_schema3")
+        if res is None:
+            return
+        if res["label"] is None:
+            if UNRELIABLE not in text:
+                add(issues, "P1", "REPORT_VALUATION_LABEL_MISMATCH",
+                    f"脚本重算为「{UNRELIABLE}」，报告未出现该标定。", f"reason={res['reason']}", path)
+        elif res["label"] not in detect_labels(text):
+            add(issues, "P1", "REPORT_VALUATION_LABEL_MISMATCH",
+                f"报告结论未发现脚本重算应出现的估值标签：{res['label']}。",
+                f"price={res['price']}, range=[{res['L']:.4g}, {res['H']:.4g}]（dcf.evaluate 重算）, "
+                f"report_labels={detect_labels(text) or 'none'}", path)
+        return
     if assumptions:
         price = parse_number(assumptions.get("price"))
         lo = parse_number(assumptions.get("range_low"))
@@ -368,8 +394,57 @@ def check_report(
                 )
 
 
-def check_assumptions(path: str, issues: List[Issue]) -> Dict:
+def check_assumptions_v3(path: str, cfg: Dict, issues: List[Issue], inputs_path: Optional[str] = None) -> Dict:
+    """schema 3：静态规则检查＋读同目录 inputs.json、import dcf 重算区间与标签（手改 dcf-output 会被发现）。"""
+    vdir = os.path.dirname(os.path.abspath(path))
+    for idx, sc in enumerate(cfg.get("scenarios") or []):
+        name = str(sc.get("name") or f"scenario_{idx}")
+        if any(k in sc for k in ("revenue", "fcf_margin", "fcf")):
+            add(issues, "P2", "DCF_LEGACY_HANDFILLED_PATH", "schema 3 情景仍含旧式手填 revenue/fcf_margin/fcf 路径（只允许驱动参数）。", name, path)
+        prob = parse_number(sc.get("prob"))
+        if prob is not None and prob < 0.15 - 1e-9:
+            add(issues, "P1", "DCF_PROB_BELOW_FLOOR", "情景概率低于下限 0.15（valuation-assumptions.md §3）。", f"{name}: prob={prob}", path)
+    for k, v in ((cfg.get("weights") or {}).get("adjust") or {}).items():
+        dv = parse_number(v)
+        if dv is not None and abs(dv) > 0.1 + 1e-9:
+            add(issues, "P0", "WEIGHT_ADJUST_OVER_LIMIT", "方法权重调整超过 ±0.1。", f"{k}: {dv:+.2f}", path)
+    w = cfg.get("wacc")
+    rf = parse_number(w.get("rf")) if isinstance(w, dict) else parse_number(cfg.get("rf"))
+    g = parse_number((cfg.get("terminal") or {}).get("g"))
+    if rf is not None and g is not None and g > rf + 1e-12:
+        add(issues, "P0", "TERMINAL_G_ABOVE_RF", "永续 g 高于 rf（硬错）。", f"g={pct(g)}, rf={pct(rf)}", path)
+    stray = [os.path.relpath(f, vdir) for f in glob.glob(os.path.join(vdir, "**", "*.py"), recursive=True)
+             if not os.path.relpath(f, vdir).replace("\\", "/").startswith("calc/")]
+    if stray:
+        add(issues, "P2", "CALC_OUTSIDE_CALC_DIR", "valuation/ 下存在 calc/ 以外的计算文件（计算出口只允许 valuation/calc/）。", ", ".join(sorted(stray)), path)
+    inputs_path = inputs_path or os.path.join(vdir, "inputs.json")
+    if not os.path.isfile(inputs_path):
+        add(issues, "P1", "VALUATION_INPUTS_MISSING", "schema 3 缺少 valuation/inputs.json（先跑 scripts/valuation_inputs.py）。", inputs_path, path)
+        return cfg
+    inputs = load_json(inputs_path)
+    if (inputs.get("basis") or {}).get("basis_flag") and not (cfg.get("pro_forma") or cfg.get("basis_confirmed")):
+        add(issues, "P1", "BASIS_FLAG_UNHANDLED", "基准日期核对 basis_flag 未处理（须写 pro_forma 或 basis_confirmed）。",
+            str((inputs.get("basis") or {}).get("reason")), path)
+    try:
+        dcf = load_sibling("dcf")
+        ev = dcf.evaluate(inputs, cfg, workdir=os.path.dirname(vdir))
+    except ValueError as e:
+        add(issues, "P0", "SCHEMA3_EVALUATION_FAILED", "dcf.evaluate 重算失败（与 dcf.py 硬错同源）。", str(e), path)
+        return cfg
+    syn = ev["syn"]
+    cfg["_schema3"] = {"label": syn["label"], "L": syn["L"], "H": syn["H"], "reason": syn["reason"], "price": ev["F"]["price"]}
+    for wmsg in ev["warnings"]:
+        if wmsg.startswith("PROB_EVIDENCE") or wmsg.startswith("PROB_FLOOR"):
+            add(issues, "P1", "DCF_PROB_EVIDENCE_RULE", "情景概率违反证据强度规则（valuation-assumptions.md §3）。", wmsg, path)
+        else:
+            add(issues, "P2", "DCF_DRIVER_RULE", "驱动参数规则提示（dcf.py 警告）。", wmsg, path)
+    return cfg
+
+
+def check_assumptions(path: str, issues: List[Issue], inputs_path: Optional[str] = None) -> Dict:
     cfg = load_json(path)
+    if cfg.get("schema") == 3:
+        return check_assumptions_v3(path, cfg, issues, inputs_path)
     price = parse_number(cfg.get("price"))
     shares = parse_number(cfg.get("shares"))
     wacc = parse_number(cfg.get("wacc"))
@@ -619,7 +694,15 @@ def check_forensics(rows, aliases, path, issues) -> None:
             add(issues, "P3", "FORENSIC_MSCORE_SKIPPED", "M-Score 所需列存在但含缺失/零值，跳过计算。", "", path)
 
 
+def check_csv_hygiene(path: str, issues: List[Issue]) -> None:
+    """W2 用：行长度、cash≤总资产、负债/资产、有息负债≤总负债（与 valuation_inputs.py 同一实现）。"""
+    for code, msg in load_sibling("valuation_inputs").csv_hygiene(path):
+        if code != "CSV_PERIOD_FORMAT":
+            add(issues, "P1", code, msg, file=path)
+
+
 def check_financials(path: str, issues: List[Issue]) -> None:
+    check_csv_hygiene(path, issues)
     rows, aliases = load_csv(path)
     if not rows:
         add(issues, "P1", "FINANCIALS_EMPTY", "财务 CSV 没有数据行。", file=path)
@@ -716,7 +799,7 @@ def run(args) -> int:
     issues: List[Issue] = []
     assumptions = None
     if args.assumptions:
-        assumptions = check_assumptions(args.assumptions, issues)
+        assumptions = check_assumptions(args.assumptions, issues, getattr(args, "inputs", None))
     if args.report:
         check_report(args.report, assumptions, issues, args.industry, args.language)
     if args.financials:
@@ -785,6 +868,7 @@ def main() -> None:
     ap.add_argument("--report", help="Markdown 报告路径")
     ap.add_argument("--assumptions", help="估值假设 JSON 路径，建议使用 dcf.py 的 config")
     ap.add_argument("--financials", help="历史/预测财务 CSV 路径")
+    ap.add_argument("--inputs", help="schema 3：valuation/inputs.json 路径（默认取 --assumptions 同目录）")
     ap.add_argument("--industry", action="append", help="行业规则 slug，可重复或逗号分隔；传 auto 读取报告中的行业附录声明")
     ap.add_argument("--language", choices=["auto", "zh", "en"], default="auto", help="报告语言；auto 从标准标题判定")
     ap.add_argument("--list-industries", action="store_true", help="列出可用行业 slug 后退出")

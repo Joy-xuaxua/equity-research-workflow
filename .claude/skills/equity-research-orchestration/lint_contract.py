@@ -14,7 +14,8 @@
   5. forensic/grade.json 可解析，grade∈{A,B,C,D}，且 veto_action 与等级一致（C→观望，D→规避）。
   6. ch05 章与 forensic/earnings-quality.md 中的可信度等级均与 grade.json 一致。
   7. 结构存在：brief.json、ledger、earnings-quality、grade.json、估值四件套（assumptions/dcf-output/valuation-notes/估值章）、
-     redteam-feedback、ch01/ch09、draft/_header.md、report-draft.md、report-final.md。
+     redteam-feedback、ch01/ch09、draft/_header.md、report-draft.md、report-final.md；
+     assumptions 为 schema 3 时另须 valuation/inputs.json（旧配置零影响）。
   8. 新流水线标记（forensic/adjudications.json 存在或 quality/ 目录存在）时：质量产物在 quality/（grade.json、
      earnings-quality.md）；reconciled-collection/ 含与采集原件 01–04 同名 4 文件、首 10 行含【对账后副本】头部章、
      adjudications 非空时每副本 ≥1 个 ▶ 裁决戳（兼容旧版 reconciled/ 目录名）。标记不存在（旧 workdir）按旧布局检查，零影响。
@@ -231,6 +232,22 @@ def check_structure(workdir, mode, issues, new_pipeline=False):
     ]:
         if not glob.glob(os.path.join(workdir, pat)):
             add(issues, "FILE_MISSING", f"缺少 {label}（{pat}）")
+    check_valuation_schema3(workdir, issues)
+
+
+def check_valuation_schema3(workdir, issues):
+    """schema 3 估值件（任一 assumptions*.json 含 "schema": 3）须有事实层 valuation/inputs.json；
+    旧配置（无 schema 字段）零影响。"""
+    for path in sorted(glob.glob(os.path.join(workdir, "valuation", "assumptions*.json"))):
+        try:
+            with io.open(path, encoding="utf-8") as f:
+                schema = json.load(f).get("schema")
+        except (ValueError, OSError):
+            continue
+        if schema == 3:
+            if not os.path.isfile(os.path.join(workdir, "valuation", "inputs.json")):
+                add(issues, "FILE_MISSING", "schema 3 估值缺少事实层 valuation/inputs.json（scripts/valuation_inputs.py 产出）")
+            return
 
 
 def has_new_pipeline(workdir):
