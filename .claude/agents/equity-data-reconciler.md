@@ -42,16 +42,16 @@ tools: Read, Write, Glob, Grep, Bash, mcp__web_reader__webReader, WebFetch, WebS
 7. **写 `forensic/adjudications.json`**：
    
    每条裁决记录（schema 见 data-sources.md §7.1）：
-   - **id**：冲突编号，格式 C\d{1,3}，与 ledger §3 一一对应
-   - **status**：裁决状态
+   - id：冲突编号，格式 C\d{1,3}，与 ledger §3 一一对应
+   - status：裁决状态
      - `resolved` 打戳为"裁决"，含 value（采信的值）
      - `dual` 打戳为"双值"，value 中用 ‖ 分隔两值
      - `pending` 打戳为"悬置"，不含 value，含理由说明
-   - **metric**：指标名（勿空）
-   - **value**：采信值（resolved/dual 必填；pending 省略）
-   - **note**：理由，≤120字
-   - **ledger_ref**：ledger 中的定位（如"§3 C01"）
-   - **files**：冲突来源，数组，每项：
+   - metric：指标名（勿空）
+   - value：采信值（resolved/dual 必填；pending 省略）
+   - note：理由，≤120字
+   - ledger_ref：ledger 中的定位（如"§3 C01"）
+   - files：冲突来源，数组，每项：
      - `file`：采集文件名（0[1-4]-*.md）
      - `anchor`：锚点字符串，≥8字符，在文件正文中唯一出现
      - `side`：A|B|neutral，表示冲突哪一侧还是中立
