@@ -38,7 +38,8 @@ def _backend_factory(args, cfg: RuntimeConfig):
 
         def on_retry(label, kind, wait, attempt):
             p.log.add(f"{label}-重试", f"API {kind}（第 {attempt} 次）→ 退避 {wait:.0f}s 后在同一会话续跑（不重派）", "API 级重试")
-        return SDKBackend(cfg, p.workdir, p.state.set_session, p.state.log_run, on_retry)
+        return SDKBackend(cfg, p.workdir, p.state.set_session, 
+                          on_run_log=p.state.log_run,on_retry= on_retry)
     return make
 
 

@@ -139,9 +139,9 @@ class SDKBackend:
     name = "sdk"
 
     def __init__(self, cfg: RuntimeConfig, workdir: Path, on_session: Callable[[str, str], None],
-                 on_run: Callable[[dict], None], on_retry: Callable[[str, str, float, int], None]):
+                 on_run_log: Callable[[dict], None], on_retry: Callable[[str, str, float, int], None]):
         self.cfg, self.workdir = cfg, workdir
-        self.on_session, self.on_run, self.on_retry = on_session, on_run, on_retry
+        self.on_session, self.on_run_log, self.on_retry = on_session, on_run_log, on_retry
         self.logdir = workdir / ".harness" / "logs"
         self.logdir.mkdir(parents=True, exist_ok=True)
 
@@ -228,7 +228,7 @@ class SDKBackend:
             turns += r["num_turns"] or 0
             dur += r["duration_ms"] or int((time.time() - t0) * 1000)
             tcalls += r["tool_calls"]
-            self.on_run({"ts": now(), "label": call.label, "agent": call.agent, "kind": call.kind if attempt == 1 else "retry",
+            self.on_run_log({"ts": now(), "label": call.label, "agent": call.agent, "kind": call.kind if attempt == 1 else "retry",
                          "attempt": attempt, "session_id": r["session_id"], "num_turns": r["num_turns"],
                          "usage": r["usage"], "duration_ms": r["duration_ms"], "is_error": r["is_error"],
                          "api_error_status": r["status"], "exc": r["exc"], "tool_calls": r["tool_calls"]})
@@ -270,8 +270,8 @@ class ReplayBackend:
         "W7": ["chapters/ch01-*.md", "chapters/ch09-*.md"],
     }
 
-    def __init__(self, source: Path, workdir: Path, on_run: Callable[[dict], None]):
-        self.source, self.workdir, self.on_run = source, workdir, on_run
+    def __init__(self, source: Path, workdir: Path, on_run_log: Callable[[dict], None]):
+        self.source, self.workdir, self.on_run_log = source, workdir, on_run_log
 
     def _copy(self, pattern: str) -> List[str]:
         done = []
@@ -300,7 +300,7 @@ class ReplayBackend:
                           "acceptance": "pass", "escalations": []}
             if base == "W7":
                 report = {"status": "ok"}
-        self.on_run({"ts": now(), "label": call.label, "agent": call.agent, "kind": call.kind, "attempt": 1,
+        self.on_run_log({"ts": now(), "label": call.label, "agent": call.agent, "kind": call.kind, "attempt": 1,
                      "session_id": f"replay-{call.label}", "num_turns": 0, "usage": {}, "duration_ms": 0,
                      "is_error": False, "api_error_status": None, "exc": None, "tool_calls": len(copied)})
         text = f"replay: {', '.join(copied) or '无改动（回放后端不执行修正指令）'}\n```json\n{json.dumps(report, ensure_ascii=False)}\n```"

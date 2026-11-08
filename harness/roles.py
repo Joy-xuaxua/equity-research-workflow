@@ -153,7 +153,7 @@ def collector(workdir: Path, brief: Dict, gates: Dict, line: str) -> Spec:
         docs.append(ref("earnings-mode.md", ["3"]))
     if brief.get("ah_listing") or brief.get("cn_adr"):
         docs.append(ref("markets-cn-hk.md"))
-    task = f"执行 W1 采集：本线 line={line}。落盘 `collection/{line}.md`（含「## 指标登记」行式 YAML 块：每条 `- key: …` 起、字段逐行缩进，不用 flow-style `{{…}}`）。"
+    task = f"执行 W1 采集：本线 line={line}。产出文件 `collection/{line}.md`（含「## 指标登记」行式 YAML 块：每条 `- key: …` 起、字段逐行缩进，不用 flow-style `{{…}}`）。"
     add = addendum(workdir,
                    "登记块格式与锚唯一性由 harness 校验器检查（同时检查 key/单位/期间是否符合 collision-metrics.json）。",
                    "登记块可被 collision_check 行式解析、key 在清单内且归属本线、单位可解析、anchor 在正文唯一",
