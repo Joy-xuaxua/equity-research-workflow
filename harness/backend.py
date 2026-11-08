@@ -16,9 +16,9 @@ import json
 import re
 import shutil
 import time
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from pathlib import Path
-from typing import Callable, Dict, List, Optional
+from typing import Callable, List, Optional
 
 import anyio
 
@@ -48,17 +48,12 @@ class AgentCall:
 
 @dataclass
 class AgentResult:
+    """What the pipeline consumes from a call. How the call *went* — usage, turns, attempts, error
+    kinds — is accounting and lives in the run log (`harness.runlog`), not on this object."""
     label: str
     agent: str
     session_id: Optional[str]
     text: str
-    ok: bool
-    num_turns: int = 0
-    usage: Dict[str, int] = field(default_factory=dict)
-    duration_ms: int = 0
-    attempts: int = 1
-    errors: List[str] = field(default_factory=list)
-    tool_calls: int = 0
 
     def report(self) -> Optional[dict]:
         """The HARNESS_REPORT trailer: the last ```json fenced block of the final message."""
@@ -140,6 +135,7 @@ class SDKBackend:
 
     def __init__(self, cfg: RuntimeConfig, workdir: Path, on_session: Callable[[str, str], None],
                  on_run_log: Callable[[dict], None], on_retry: Callable[[str, str, float, int], None]):
+        # on_run_log takes an arbitrary dict (see harness.runlog.RunLog.log): no schema, no required keys.
         self.cfg, self.workdir = cfg, workdir
         self.on_session, self.on_run_log, self.on_retry = on_session, on_run_log, on_retry
         self.logdir = workdir / ".harness" / "logs"
@@ -214,36 +210,30 @@ class SDKBackend:
         tools = call.tools if call.tools is not None else fm_tools
         system_prompt = (body + "\n\n" + call.addendum).strip()
         prompt, resume = call.prompt, call.resume
-        total: Dict[str, int] = {}
-        errors: List[str] = []
-        turns = dur = tcalls = 0
         attempt = 0
+        last_error = ""
         while True:
             attempt += 1
             t0 = time.time()
             r = await self._once(call, prompt, resume, system_prompt, tools)
-            for k, v in (r["usage"] or {}).items():
-                if isinstance(v, int):
-                    total[k] = total.get(k, 0) + v
-            turns += r["num_turns"] or 0
-            dur += r["duration_ms"] or int((time.time() - t0) * 1000)
-            tcalls += r["tool_calls"]
-            self.on_run_log({"ts": now(), "label": call.label, "agent": call.agent, "kind": call.kind if attempt == 1 else "retry",
-                         "attempt": attempt, "session_id": r["session_id"], "num_turns": r["num_turns"],
-                         "usage": r["usage"], "duration_ms": r["duration_ms"], "is_error": r["is_error"],
-                         "api_error_status": r["status"], "exc": r["exc"], "tool_calls": r["tool_calls"]})
             failed = r["is_error"] or r["exc"] is not None
             empty = not failed and not (r["text"] or "").strip() and r["tool_calls"] == 0
-            if not failed and not empty:
-                return AgentResult(call.label, call.agent, r["session_id"], r["text"] or "", True, turns, total,
-                                   dur, attempt, errors, tcalls)
-            msg = " ".join(x for x in [r["result"] or "", r["exc"] or ""] if x)
-            kind = "empty" if empty else classify(r["status"], msg)
-            errors.append(f"{kind}: {msg[:300]}")
+            msg = " ".join(x for x in [r["result"] or "", r["exc"] or ""] if x) if (failed or empty) else ""
+            kind = "ok" if not (failed or empty) else ("empty" if empty else classify(r["status"], msg))
+            # One accounting row per API attempt. Any key can be added here without touching the logger.
+            self.on_run_log({"label": call.label, "agent": call.agent, "kind": kind,
+                             "call_kind": call.kind if attempt == 1 else "retry", "attempt": attempt,
+                             "session_id": r["session_id"], "num_turns": r["num_turns"], "usage": r["usage"],
+                             "duration_ms": r["duration_ms"] or int((time.time() - t0) * 1000),
+                             "is_error": r["is_error"], "api_error_status": r["status"], "exc": r["exc"],
+                             "tool_calls": r["tool_calls"], **({"msg": msg[:300]} if msg else {})})
+            if kind == "ok":
+                return AgentResult(call.label, call.agent, r["session_id"], r["text"] or "")
+            last_error = f"{kind}: {msg[:300]}"
             if kind == "auth":
                 raise AuthError(msg.strip()[:300])
             if attempt >= self.cfg.max_attempts:
-                raise AgentFailed(f"{call.label}: {attempt} 次尝试后仍失败：{errors[-1]}")
+                raise AgentFailed(f"{call.label}: {attempt} 次尝试后仍失败：{last_error}")
             if kind == "rate_limit":
                 wait = reset_wait(msg, self.cfg.rate_limit_cap) or min(self.cfg.backoff_base * 4 * 2 ** (attempt - 1), self.cfg.rate_limit_cap)
             else:
@@ -300,11 +290,12 @@ class ReplayBackend:
                           "acceptance": "pass", "escalations": []}
             if base == "W7":
                 report = {"status": "ok"}
-        self.on_run_log({"ts": now(), "label": call.label, "agent": call.agent, "kind": call.kind, "attempt": 1,
-                     "session_id": f"replay-{call.label}", "num_turns": 0, "usage": {}, "duration_ms": 0,
-                     "is_error": False, "api_error_status": None, "exc": None, "tool_calls": len(copied)})
+        self.on_run_log({"label": call.label, "agent": call.agent, "kind": "ok", "call_kind": call.kind,
+                         "attempt": 1, "session_id": f"replay-{call.label}", "num_turns": 0, "usage": {},
+                         "duration_ms": 0, "is_error": False, "api_error_status": None, "exc": None,
+                         "tool_calls": len(copied)})
         text = f"replay: {', '.join(copied) or '无改动（回放后端不执行修正指令）'}\n```json\n{json.dumps(report, ensure_ascii=False)}\n```"
-        return AgentResult(call.label, call.agent, f"replay-{call.label}", text, True)
+        return AgentResult(call.label, call.agent, f"replay-{call.label}", text)
 
     def _sidecar(self) -> str:
         """Build redteam-findings.json from the replayed markdown table (the replayed run predates the sidecar)."""

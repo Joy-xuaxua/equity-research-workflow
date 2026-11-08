@@ -3,12 +3,11 @@
 `<workdir>/.harness/state.json` records which steps finished, gate decisions and the agent
 session ids, so `run_pipeline resume` restarts at the first unfinished step and an agent that
 died mid-task is *resumed in its own session* instead of being re-launched from scratch.
-`<workdir>/.harness/runs.jsonl` gets one row per SDK query invocation (usage, turns, retries).
+Run accounting (usage, turns, retries, error kinds) is *not* here: it is append-only and
+schema-less, and lives in `<workdir>/.harness/runs.jsonl` via `harness.runlog`.
 """
 from __future__ import annotations
 
-import io
-import json
 import threading
 from pathlib import Path
 from typing import Any, Dict, Optional
@@ -26,7 +25,6 @@ class State:
         self.dir = Path(workdir) / ".harness"
         self.dir.mkdir(parents=True, exist_ok=True)
         self.path = self.dir / "state.json"
-        self.runs_path = self.dir / "runs.jsonl"
         if self.path.exists():
             self.data: Dict[str, Any] = read_json(self.path)
         else:
@@ -37,10 +35,6 @@ class State:
     def save(self) -> None:
         with _LOCK:
             write_json(self.path, self.data)
-
-    def log_run(self, record: Dict[str, Any]) -> None:
-        with _LOCK, io.open(self.runs_path, "a", encoding="utf-8", newline="\n") as f:
-            f.write(json.dumps(record, ensure_ascii=False) + "\n")
 
     # ---- steps ----
     def done(self, step: str) -> bool:

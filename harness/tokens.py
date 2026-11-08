@@ -6,7 +6,13 @@ Baseline: `~/.claude/projects/<proj>/<session>/subagents/*.jsonl` grouped by `me
 Harness: the SDK sessions recorded in `<workdir>/.harness/runs.jsonl`, located by session id under
 `~/.claude/projects/*/<session_id>.jsonl`.
 
+`run_summary()` is the other, independent reader of that same log: it aggregates the rows themselves
+(no transcripts, no in-memory objects) into the per-label table the pipeline prints when it ends, so
+the numbers survive a crash and a resume. Every key is read with `.get`: rows written by an older
+harness have no `run_id` / `kind` / `msg`, and callers may add keys this module has never heard of.
+
     python -m harness.tokens --baseline-session 182f7618-9cf8-457c-bf0b-ab730c0e9653 --workdir <harness workdir>
+    python -m harness.tokens --runs --workdir <harness workdir> [--latest-run]
 """
 from __future__ import annotations
 
@@ -18,7 +24,9 @@ import re
 import sys
 from collections import OrderedDict
 from pathlib import Path
-from typing import Dict, Iterable, List, Optional, Tuple
+from typing import Any, Dict, Iterable, List, Mapping, Optional, Tuple
+
+from .runlog import read_runs, run_ids
 
 PROJECTS = Path.home() / ".claude" / "projects"
 FIELDS = ("input_tokens", "cache_read_input_tokens", "cache_creation_input_tokens", "output_tokens")
@@ -110,7 +118,7 @@ def find_transcript(session_id: str) -> Optional[Path]:
 
 def harness(workdir: Path) -> Tuple[Dict[str, Dict], Dict[str, Dict], Dict[str, Dict]]:
     """(per-wave totals from transcripts, per-label totals, per-wave totals from ResultMessage.usage)."""
-    runs = [json.loads(l) for l in (workdir / ".harness" / "runs.jsonl").read_text(encoding="utf-8").splitlines() if l.strip()]
+    runs = [r for r in read_runs(workdir) if r.get("label")]
     sessions: Dict[str, str] = OrderedDict()
     sdk: Dict[str, Dict] = OrderedDict()
     for r in runs:
@@ -135,6 +143,70 @@ def harness(workdir: Path) -> Tuple[Dict[str, Dict], Dict[str, Dict], Dict[str, 
     return waves, by_label, sdk
 
 
+def row_tokens(record: Mapping[str, Any]) -> int:
+    u = record.get("usage") or {}
+    return sum(int(u.get(k) or 0) for k in FIELDS) if isinstance(u, dict) else 0
+
+
+def dur(ms: int) -> str:
+    s = (ms or 0) / 1000.0
+    if s < 90:
+        return f"{s:.1f}s"
+    if s < 3600:
+        return f"{int(s // 60)}m{int(s % 60):02d}s"
+    return f"{int(s // 3600)}h{int(s % 3600 // 60):02d}m"
+
+
+def run_rows(workdir: Path, latest_only: bool = False) -> List[Dict[str, Any]]:
+    """Per-label accounting, aggregated from `.harness/runs.jsonl` alone (never from live objects)."""
+    agg: Dict[str, Dict[str, Any]] = OrderedDict()
+    for r in read_runs(workdir, latest_only=latest_only):
+        label = r.get("label")
+        if not label:            # pipeline_start and other non-call rows
+            continue
+        a = agg.setdefault(label, {"label": label, "agent": r.get("agent") or "—", "attempts": 0,
+                                   "tokens": 0, "duration_ms": 0, "retries": 0, "kinds": []})
+        if r.get("agent"):
+            a["agent"] = r["agent"]
+        a["attempts"] += 1
+        a["tokens"] += row_tokens(r)
+        try:
+            a["duration_ms"] += int(r.get("duration_ms") or 0)
+        except (TypeError, ValueError):
+            pass
+        try:
+            if int(r.get("attempt") or 1) > 1:
+                a["retries"] += 1
+        except (TypeError, ValueError):
+            pass
+        kind = r.get("kind")
+        if kind and kind not in a["kinds"]:
+            a["kinds"].append(str(kind))
+    return list(agg.values())
+
+
+def run_summary(workdir: Path, latest_only: bool = False) -> str:
+    """The short table printed when the pipeline ends (also on a failed exit)."""
+    all_rows = read_runs(workdir)
+    if not all_rows:
+        return f"运行记账：{Path(workdir) / '.harness' / 'runs.jsonl'} 无记录。"
+    ids = run_ids(all_rows)
+    rows = run_rows(workdir, latest_only=latest_only)
+    scope = f"仅最近一次启动 run_id={ids[-1]}" if latest_only else f"{len(ids)} 次启动累计"
+    out = [f"运行记账汇总（.harness/runs.jsonl · {scope}）",
+           "| 标签 | agent | 尝试 | 总 token | 总耗时 | 重试 | kind |",
+           "|---|---|---|---:|---:|---:|---|"]
+    tot = {"attempts": 0, "tokens": 0, "duration_ms": 0, "retries": 0}
+    for a in rows:
+        for k in tot:
+            tot[k] += a[k]
+        out.append(f"| {a['label']} | {a['agent']} | {a['attempts']} | {fmt(a['tokens'])} | "
+                   f"{dur(a['duration_ms'])} | {a['retries']} | {'/'.join(a['kinds']) or '—'} |")
+    out.append(f"| **合计** | {len(rows)} 个标签 | {tot['attempts']} | **{fmt(tot['tokens'])}** | "
+               f"**{dur(tot['duration_ms'])}** | {tot['retries']} | |")
+    return "\n".join(out)
+
+
 def fmt(n: Optional[int]) -> str:
     return "—" if n is None else f"{n:,}"
 
@@ -157,13 +229,26 @@ def table(base_w: Dict[str, Dict], orch: Dict[str, Dict], h_w: Dict[str, Dict]) 
 
 
 def main(argv=None) -> int:
-    if hasattr(sys.stdout, "reconfigure"):
-        sys.stdout.reconfigure(encoding="utf-8")
+    for stream in (sys.stdout, sys.stderr):      # argparse errors are Chinese too
+        if hasattr(stream, "reconfigure"):
+            stream.reconfigure(encoding="utf-8")
     ap = argparse.ArgumentParser()
-    ap.add_argument("--baseline-session", required=True)
+    ap.add_argument("--baseline-session", help="required unless --runs")
     ap.add_argument("--workdir")
     ap.add_argument("--json", action="store_true")
+    ap.add_argument("--runs", action="store_true", help="only the run-log accounting summary (no transcripts)")
+    ap.add_argument("--latest-run", action="store_true", help="with --runs: only the last pipeline start")
     a = ap.parse_args(argv)
+    if a.runs:
+        if not a.workdir:
+            ap.error("--runs 需要 --workdir")
+        if a.json:
+            print(json.dumps(run_rows(Path(a.workdir), a.latest_run), ensure_ascii=False, indent=2, default=str))
+        else:
+            print(run_summary(Path(a.workdir), a.latest_run))
+        return 0
+    if not a.baseline_session:
+        ap.error("--baseline-session 必填（或用 --runs 只看运行记账汇总）")
     bw, orch = baseline(a.baseline_session)
     hw, hl, sdk = harness(Path(a.workdir)) if a.workdir else ({}, {}, {})
     if a.json:

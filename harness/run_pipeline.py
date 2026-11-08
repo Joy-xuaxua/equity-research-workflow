@@ -28,18 +28,19 @@ from .config import RuntimeConfig
 from .pipeline import Pipeline
 from .state import STEPS, State
 from .steps import make_tree, prepare_fixture, write_brief
+from .tokens import run_summary
 
 
 def _backend_factory(args, cfg: RuntimeConfig):
     def make(p: Pipeline):
         if args.backend == "replay":
             src = Path(args.replay_source or p.brief.get("fixture_source", ""))
-            return ReplayBackend(src.resolve(), p.workdir, p.state.log_run)
+            return ReplayBackend(src.resolve(), p.workdir, p.runs.log)
 
         def on_retry(label, kind, wait, attempt):
             p.log.add(f"{label}-重试", f"API {kind}（第 {attempt} 次）→ 退避 {wait:.0f}s 后在同一会话续跑（不重派）", "API 级重试")
-        return SDKBackend(cfg, p.workdir, p.state.set_session, 
-                          on_run_log=p.state.log_run,on_retry= on_retry)
+        return SDKBackend(cfg, p.workdir, p.state.set_session,
+                          on_run_log=p.runs.log, on_retry=on_retry)
     return make
 
 
@@ -59,7 +60,17 @@ async def _run(args, workdir: Path, fixture: bool) -> int:
         pipe.log.add("Harness-中止", "Claude Code CLI 未认证，无法派发 agent", str(exc)[:160])
         print("\n[harness] 认证失败：请在终端运行 `claude` 完成 /login，或设置 CLAUDE_CODE_OAUTH_TOKEN / ANTHROPIC_API_KEY 后用 run 续跑。", file=sys.stderr)
         return 3
+    finally:
+        # Read back from the log file, so the table is right after a crash, a failure or a resume too.
+        _print_run_summary(workdir)
     return 0
+
+
+def _print_run_summary(workdir: Path) -> None:
+    try:
+        print("\n" + run_summary(workdir), flush=True)
+    except Exception as exc:  # noqa: BLE001 — a summary is never worth failing a finished run
+        print(f"[harness] run accounting summary unavailable: {type(exc).__name__}: {exc}", file=sys.stderr)
 
 
 def main(argv=None) -> int:

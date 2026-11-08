@@ -4,14 +4,19 @@
 """
 from __future__ import annotations
 
+import io
 import json
 import shutil
 import tempfile
 import unittest
 from pathlib import Path
 
-from harness import docs, steps, validators as V
-from harness.backend import AgentResult, classify, reset_wait
+import anyio
+
+from harness import docs, steps, tokens, validators as V
+from harness.backend import AgentCall, AgentFailed, AgentResult, SDKBackend, classify, reset_wait
+from harness.config import RuntimeConfig
+from harness.runlog import RunLog, read_runs
 from harness.util import read, write
 
 FIXTURE = Path(__file__).resolve().parents[2] / "research" / "安莉芳_1388HK_20260923"
@@ -138,8 +143,115 @@ class BackendTest(unittest.TestCase):
         self.assertIsNone(reset_wait("no reset info", 100))
 
     def test_report_trailer(self):
-        r = AgentResult("W3", "x", "s", "小结\n```json\n{\"grade\": \"C\"}\n```", True)
+        r = AgentResult("W3", "x", "s", "小结\n```json\n{\"grade\": \"C\"}\n```")
         self.assertEqual(r.report(), {"grade": "C"})
+
+
+def _result(**over):
+    """A `_once` return value: the untyped dict the SDK backend builds per attempt."""
+    out = {"session_id": "sid", "result": "done", "is_error": False, "status": None, "text": "done",
+           "usage": {"input_tokens": 100, "output_tokens": 20}, "num_turns": 3, "duration_ms": 1500,
+           "tool_calls": 2, "exc": None}
+    out.update(over)
+    return out
+
+
+class _FakeBackend(SDKBackend):
+    """SDKBackend with the SDK call replaced: everything else (retry loop, accounting) is the real code."""
+
+    def __init__(self, workdir, attempts, **cfg):
+        self.rows = []
+        super().__init__(RuntimeConfig(backoff_base=0.0, rate_limit_cap=0.0, **cfg), Path(workdir),
+                         on_session=lambda *a: None, on_run_log=self.rows.append, on_retry=lambda *a: None)
+        self._attempts = list(attempts)
+
+    async def _once(self, call, prompt, resume, system_prompt, tools):
+        return self._attempts.pop(0)
+
+
+class BackendAccountingTest(unittest.TestCase):
+    def setUp(self):
+        self.tmp = Path(tempfile.mkdtemp())
+
+    def tearDown(self):
+        shutil.rmtree(self.tmp, ignore_errors=True)
+
+    def _call(self):
+        return AgentCall("W2", "__inline__", "p", max_turns=1)
+
+    def test_retry_then_success_is_logged_per_attempt(self):
+        b = _FakeBackend(self.tmp, [_result(is_error=True, status=429, result="rate limit · resets 5am"),
+                                    _result(result="", text="", tool_calls=0),   # empty reply
+                                    _result()])
+        res = anyio.run(b.run, self._call())
+        self.assertEqual((res.label, res.session_id, res.text), ("W2", "sid", "done"))
+        self.assertEqual([r["kind"] for r in b.rows], ["rate_limit", "empty", "ok"])
+        self.assertEqual([r["call_kind"] for r in b.rows], ["dispatch", "retry", "retry"])
+        self.assertEqual([r["attempt"] for r in b.rows], [1, 2, 3])
+        self.assertIn("rate limit", b.rows[0]["msg"])
+        self.assertNotIn("msg", b.rows[2])                      # nothing to report on success
+        self.assertEqual(b.rows[2]["usage"], {"input_tokens": 100, "output_tokens": 20})
+
+    def test_wall_clock_fallback_when_sdk_reports_no_duration(self):
+        b = _FakeBackend(self.tmp, [_result(duration_ms=0)])
+        anyio.run(b.run, self._call())
+        self.assertGreaterEqual(b.rows[0]["duration_ms"], 0)
+        self.assertIsInstance(b.rows[0]["duration_ms"], int)
+
+    def test_failure_message_keeps_last_kind_and_text(self):
+        b = _FakeBackend(self.tmp, [_result(is_error=True, status=503, result="overloaded")] * 2, max_attempts=2)
+        with self.assertRaises(AgentFailed) as ctx:
+            anyio.run(b.run, self._call())
+        self.assertIn("server: overloaded", str(ctx.exception))
+        self.assertEqual(len(b.rows), 2)
+
+
+class RunLogTest(unittest.TestCase):
+    def setUp(self):
+        self.tmp = Path(tempfile.mkdtemp())
+
+    def tearDown(self):
+        shutil.rmtree(self.tmp, ignore_errors=True)
+
+    def test_open_ended_fields_and_defaults(self):
+        log = RunLog(self.tmp)
+        log.log(label="W2", foo="bar", obj=Path("x"))          # unknown keys and a non-JSON value
+        log.log({"label": "W2", "ts": "fixed", "run_id": "mine"})  # caller wins over the defaults
+        rows = read_runs(self.tmp)
+        self.assertEqual(rows[0]["foo"], "bar")
+        self.assertEqual(rows[0]["run_id"], log.run_id)
+        self.assertTrue(rows[0]["ts"])
+        self.assertEqual(rows[0]["obj"], str(Path("x")))        # default=str, not an exception
+        self.assertEqual((rows[1]["ts"], rows[1]["run_id"]), ("fixed", "mine"))
+
+    def test_write_failure_is_swallowed(self):
+        log = RunLog(self.tmp, path=self.tmp / "nodir")
+        log.path = self.tmp                                      # a directory: open() for append fails
+        log.log(label="W2")                                      # must not raise
+
+    def test_summary_sums_across_runs_and_latest_only(self):
+        for rid, dur in (("r1", 1000), ("r2", 3000)):
+            log = RunLog(self.tmp, run_id=rid)
+            log.log(event="pipeline_start")                      # no label: not an agent row
+            log.log(label="W2", agent="equity-data-reconciler", kind="server", attempt=1,
+                    usage={"input_tokens": 10, "output_tokens": 5}, duration_ms=dur)
+            log.log(label="W2", agent="equity-data-reconciler", kind="ok", attempt=2,
+                    usage={"input_tokens": 10, "output_tokens": 5}, duration_ms=dur)
+        # an old row, written before run_id / kind / msg existed
+        with io.open(self.tmp / ".harness" / "runs.jsonl", "a", encoding="utf-8") as f:
+            f.write(json.dumps({"label": "W3", "agent": "a", "usage": {"input_tokens": 7}}) + "\n")
+        total = {r["label"]: r for r in tokens.run_rows(self.tmp)}
+        self.assertEqual(total["W2"]["attempts"], 4)
+        self.assertEqual(total["W2"]["tokens"], 60)
+        self.assertEqual(total["W2"]["retries"], 2)
+        self.assertEqual(total["W2"]["duration_ms"], 8000)
+        self.assertEqual(total["W2"]["kinds"], ["server", "ok"])
+        self.assertEqual(total["W3"]["attempts"], 1)             # missing keys tolerated
+        self.assertEqual(total["W3"]["retries"], 0)
+        latest = {r["label"]: r for r in tokens.run_rows(self.tmp, latest_only=True)}
+        self.assertEqual(latest["W3"]["attempts"], 1)            # the old row has no run_id of its own
+        self.assertNotIn("W2", latest)                           # the last run_id is the old row's (None)
+        self.assertIn("合计", tokens.run_summary(self.tmp))
 
 
 if __name__ == "__main__":

@@ -20,6 +20,7 @@ from .backend import AgentCall, AgentResult, RESUME_PROMPTS
 from .config import INDUSTRIES, RuntimeConfig
 from .orchlog import OrchLog
 from .pdf import convert
+from .runlog import RunLog
 from .state import STEPS, State
 from .util import read, read_json, sha256, write, write_json
 
@@ -41,6 +42,9 @@ class Pipeline:
         self.cfg = cfg
         self.brief = read_json(self.workdir / "brief.json")
         self.state = State(self.workdir)
+        # One run_id per pipeline start: a resumed workdir keeps appending to the same runs.jsonl,
+        # so the accounting summary can still be split by launch.
+        self.runs = RunLog(self.workdir)
         self.log = OrchLog(self.workdir, f"{self.brief['company']}（{self.brief['ticker']}）{self.brief.get('mode')} 模式 · Python harness")
         self.fixture = fixture or bool(self.brief.get("fixture_source"))
         self.recollect = recollect and not self.fixture
@@ -49,6 +53,8 @@ class Pipeline:
 
     # ------------------------------------------------------------------ driver
     async def run(self, stop_after: Optional[str] = None) -> None:
+        self.runs.log(event="pipeline_start", backend=getattr(self.backend, "name", "?"),
+                      next_step=self.state.next_step(), banner=self.cfg.banner())
         if not self.state.note("started"):
             self.state.note("started", True)
             self.log.add("Harness", f"启动（backend={getattr(self.backend, 'name', '?')}）", self.cfg.banner())

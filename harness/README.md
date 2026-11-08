@@ -39,6 +39,9 @@ harness/.venv/Scripts/python -m harness.run_pipeline fixture --source research/�
 # Tokens per wave versus the recorded baseline (same method: usage per message id from transcripts)
 harness/.venv/Scripts/python -m harness.tokens --baseline-session 182f7618-9cf8-457c-bf0b-ab730c0e9653 --workdir <harness workdir>
 
+# Run accounting only, read back from .harness/runs.jsonl (the table the pipeline prints when it ends)
+harness/.venv/Scripts/python -m harness.tokens --runs --workdir <harness workdir> [--latest-run] [--json]
+
 # Unit tests
 harness/.venv/Scripts/python -m unittest discover -s harness/tests -t .
 ```
@@ -70,8 +73,21 @@ stops with exit code 3. After fixing auth, `run` resumes from the same step.
 | `steps.py` | Deterministic steps: scripts, ledger merge, header/assembly, lint, checker, appendix, naming |
 | `pdf.py` | md→HTML→PDF (headless Edge/Chrome, then pandoc/wkhtmltopdf), checked with pypdf |
 | `docs.py` | Markdown section extraction (`§7`, `7.1`, `二、`), ignoring headings inside code fences |
-| `tokens.py` | Token measurement for the baseline and harness runs |
+| `tokens.py` | Token measurement for the baseline and harness runs; `run_summary()` aggregates the run log |
+| `runlog.py` | Schema-less `.harness/runs.jsonl`: `log(**fields)` writes any keys, `ts`/`run_id` added |
 | `state.py` / `orchlog.py` | Checkpoints and resume / append-only orchestration log |
+
+### Two logs, on purpose
+
+`orchestration-log.md` is the human-readable orchestration semantics (one row per dispatch, gate
+decision and failure path) and carries no LLM usage. `.harness/runs.jsonl` is the machine-readable
+run accounting: one row per API attempt, with whatever keys the call site wants to record — only
+`ts` and `run_id` are filled in automatically, and `run_id` is minted per pipeline start, so a
+resumed workdir can still be split by launch. `AgentResult` therefore carries delivery fields only
+(`label`, `agent`, `session_id`, `text`, `report()`); usage, turns, attempts and error kinds are
+read back from the log, never from memory, which is why the end-of-run summary is still correct
+after a crash and a resume. A write failure there is swallowed (one warning on stderr): accounting
+must never be able to fail a run.
 
 ## Phase 2 (not in this phase)
 
