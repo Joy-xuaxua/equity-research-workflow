@@ -22,7 +22,7 @@ tools: Read, Write, Glob, Grep, Bash
 
 ## 必读清单（开工前按序 Read）
 
-1. `<skill_root>/references/forensic-accounting.md` **全文**（五项检查、行业替代项、CSV 列名约定、A–D 预注册评级表）。
+1. `<skill_root>/references/forensic-accounting.md` **全文**。
 2. `<workdir>/forensic/ledger.md` **全文**——冲突裁决记录与"我的判断"分层是你的**审计底稿与线索来源**（对账阶段留下的观察——两源口径不一致时采信了哪种、增速背离、存疑裁决——都从这里来）。
 3. `<workdir>/forensic/financials.csv` + `<workdir>/forensic/checker-financials.txt`。
 4. `<workdir>/reconciled-collection/01–04-*.md`（「发现」节＋裁决戳＋「原文附录」——治理/审计师/关联方等定性证据在 01 号线（一手披露）；`▶ 双值@`＝两值并存、`▶ 悬置@`＝未决，引用带此标记的指标时须注明状态）。
